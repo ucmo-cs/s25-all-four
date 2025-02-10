@@ -20,20 +20,15 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       );
 
       if (userInf) {
-        // Save to localStorage
         localStorage.setItem('UserAC', userInf.securityCode ?? '');
         localStorage.setItem('UserId', userInf.id ?? '');
 
-        // Update user in state, if you need to use it later
-        setUser(userInf);
-
-        // Update the server
+        setUser(userInf);        
         await ActivateUserStatus(userInf);
 
-        // Go to the application
         navigate('/application');
       } else {
-        // Show "user not found" error
+
         if (errorSpan.current) {
           errorSpan.current.style.display = 'block';
           setTimeout(() => {
@@ -58,7 +53,7 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
         },
         body: JSON.stringify({
           ...userData,
-          loggedIn: true, // Force loggedIn to true
+          loggedIn: true, 
         }),
       });
 
