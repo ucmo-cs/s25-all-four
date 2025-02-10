@@ -1,0 +1,70 @@
+.NavbarWM{
+    position: fixed;
+    height: 15vh;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.NavbarUpperDiv{    
+    height: 50%;
+    width: 95%;
+    /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+#NavbarLowerDiv{
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* background-color: red; */
+}
+#FoxLogo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 13vh;
+}
+.searchNavbar{
+    background-color: white;
+    width: 20%;
+    height: 50%;
+    border: 2px solid black;
+    border-radius: 2em;
+    display: flex;        
+    margin-left: auto;
+}
+#NavbarLowerDiv ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    /* background-color: blue; */
+    width: 30%;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+#NavbarLowerDiv ul li{    
+    cursor: pointer;
+}
+.searchNavbar input{
+    width: 85%;
+    height: 96%;
+    border: none;
+    border-radius: 2em;
+    padding-left: 1em;
+    border-right: 2px solid black;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.searchNavbar img{
+    border-radius: 5em;
+}
+.NavbarWM:last-child{
+    
+}

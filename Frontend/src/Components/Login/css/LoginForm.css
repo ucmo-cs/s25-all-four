@@ -1,0 +1,67 @@
+.LoginForm{
+    background-color: white;
+    height: 100%;
+    width: 70%;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 800ms;
+    
+    transform: translateY(100%);
+}
+.LoginForm h1{
+    text-align: center;
+    font-size: 3.2rem;
+    color: black;
+    margin: 0;
+}
+.sociaMedia img{
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 1.5rem;
+    cursor: pointer;
+}
+.Horizontalline{
+    width: 70%;
+    height: 5%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.Line{
+    width: 45%;
+    height: 0.1rem;
+    background-color: rgb(128, 128, 128);
+}
+.LForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50%;
+    width: 70%;
+}
+.LForm input{
+    width: 50%;
+    border: 1px solid gray;
+    border-radius: 1em;
+    height: 15%;
+}
+.LForm input::placeholder{
+    width: 100%;
+    margin-left: 1em;
+    
+}
+.LForm button{
+    width: 30%;
+    height: 12%;
+    margin-top: 2vh;
+    background-color: #D9001B;
+    border: none;
+    color: white;
+    border-radius: 1em;
+    font-size: 1rem;
+}

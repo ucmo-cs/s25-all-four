@@ -1,0 +1,25 @@
+.WhatWeOffer{
+    height: 100vh;
+    width: 100%;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.WhatWeOffer h1{
+    color: white;
+}
+.Triangle{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    background-color: #800000; /* Dark red color */
+    clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+
+    z-index: -1;
+    position: absolute;
+}
+.OfferItems{
+    height: 80%;
+    width: 100%;
+}

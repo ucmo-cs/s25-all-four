@@ -1,0 +1,35 @@
+.SwitchLogin{
+    height: 100%;
+    width: 30%; 
+    background-color: white;
+    background-size: cover;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    transition: 800ms;
+    transform: translateY(100%);
+}
+.SwitchLogin h1{
+    text-align: center;
+    font-size: 2.2rem;
+    color: black;
+    margin: 0;    
+}
+.SwitchLogin h4{
+    color: #333333;
+    margin-inline: 3vh;
+}
+.SwitchLogin button{
+    width: 30%;
+    height: 5%;
+    background-color: red;
+    border: none;
+    border-radius: 1em;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}

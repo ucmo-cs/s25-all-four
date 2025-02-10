@@ -1,0 +1,104 @@
+.Updates_Team{
+    height: 100%;
+    width: 90%;    
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.RecentUpdatesContainer{
+    height: 50%;
+    width: 90%;
+    background-color: #E8E8E8;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    border: 1px solid #797979;
+    border-radius: 0.25em;
+}
+.RecentUpdatesHeader{
+    margin-block: 1vh;
+    background-color: black;
+    color: white;
+    width: 90%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ButtonsUpdate{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 40%;
+    height: 8%;
+}
+.ButtonsUpdate button{
+    width: 40%;
+    height: 70%;
+    cursor: pointer;
+    border-radius: 1.2em;
+    border: 2px solid #7F7F7F;
+    color: white;
+    font-size: large;
+    text-align: center;
+}
+.DisplayTeamInformation{
+    height: 39%;
+    width: 90%;
+    display: flex; 
+    align-items: center;   
+    justify-content: space-between;
+}
+.TeamMembers{
+    height: 90%;   
+    width: 48%;
+    border: 1px solid #797979;
+    border-radius: 0.25em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.TeamMembersHeader{
+    color: white;
+    background-color: black;
+    height: 10%;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block: 1vh;
+}
+.TeamMemebersContainer{
+    height: 85%;
+    width: 100%;
+    display: flex;
+    align-items: center;    
+    flex-direction: column;
+    overflow-y: auto;
+}
+.Member{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block: 1.5vh;
+    min-height: 20%;
+    height: 20%;
+    width: 90%;
+    background-color: #E8E8E8;
+}
+.MemeberContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 50%;
+}
+.Member img{
+    width: 19%;
+    cursor: pointer;
+}
+
+.teamImg img{
+    width: 35%;
+}

@@ -1,0 +1,41 @@
+.NavBar{
+    position: fixed;
+    height: 100vh;
+    width: 5%;
+    background-color: #910012;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 8px;
+}
+.NavBar ul{
+    list-style: none;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.NavBar ul li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+.NavBar p{
+    margin: 1vh;
+}
+.NavBar ul li img{
+    width: 40%;
+}
+.listNavbar{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
