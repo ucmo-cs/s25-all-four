@@ -1,0 +1,124 @@
+.TimeSheetMenu{
+    height: 110vh;
+    width: 100%;       
+    display: flex; 
+    align-items: flex-end;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+.Time{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    background-color: white;
+    height: 95%;
+    width: 90%;
+    border-top-left-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.TSContainer{
+    height: 78%;
+    width: 95%;
+    background-color: #7F7F7F;
+    border-radius: 0.75em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.TSContainer h1{
+    margin: 0;
+    color: white;
+    height: 5%;
+    width: inherit;
+    text-align: center;
+}
+.TSMenu{
+    height: 80%;
+    width: 93%;
+    background-color: white;
+    border-radius: 0.3em;
+}
+.AdminTSOptions{
+    height: 10%;
+    width: 100%;
+    display: flex;
+}
+.SelectTS{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+}
+.SelectTS select{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.2em;
+    width: 75%;
+    height: 45%;
+}
+.SelectTS h4{
+    margin: 0.2em;    
+    width: 75%;
+}
+.ExportEditSave{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 35%;
+    
+    margin-left: auto;
+}
+.ExportEditSave button{
+    height: 65%;
+    width: 25%;
+    border-radius: 2em;
+    cursor: pointer;
+    background-color: #E3A94E;
+    color: white;
+    border: 2px solid #A36717;
+}
+.CalendarTSContainer{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+.CalendarTSContainer h1{
+    color: black;   
+    height: 10%; 
+    width: 95%;
+    display: flex;
+    align-items: center;    
+}
+.CalendarTS{
+    height: 80%;
+    width: 95%;
+    border: 1px solid gray;
+}
+.DaysofMonthContainer{
+    width: 100%;
+    height: 15%;
+    background-color: black;
+    color: white;
+    display: flex;
+
+}
+.DaysofMonth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    height: 100%;
+    max-width: 10%;
+    width: 10%;
+    border-inline: 2px solid white;
+}

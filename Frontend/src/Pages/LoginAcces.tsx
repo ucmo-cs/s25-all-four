@@ -16,12 +16,10 @@ const LoginAccess: React.FC<IAccess> = ({ Dashboard: DashboardComponent }) => {
         
         const response = await fetch(`https://localhost:7010/api/UserInformation/${localStorage.getItem('UserId')}`)
         const data: UserInformaion = await response.json()
-
         return data.loggedIn === true && code === data.securityCode;
     }
 
     useEffect(() =>{
-
         const verification = async() =>{           
             const access: boolean = await GetAccessCode(); 
             if(access === true){                

@@ -1,7 +1,17 @@
 import React from 'react';
 import './css/AllInformation.css'
+import GetUserHook from '../../Shared/GetUserHook';
 
-const AllInformation: React.FC = () => {
+interface IModifyMore{
+  modify: boolean
+  birthday: string;
+  nickName: string;
+  setBirthday: (value: string) => void;
+  setNickName: (value: string) => void;
+}
+
+const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setBirthday, setNickName}) => {
+  const {userInfo, loading, error} = GetUserHook()
   return (
     <section className='AllInformation'>
          <div className='AllInformationContainer'>
@@ -13,15 +23,24 @@ const AllInformation: React.FC = () => {
                         <div className='InformationItemContainer'>
                           <div className='InformationItem'>
                               <p style={{backgroundColor: '#D9001B', color: 'white', height: '70%', width: '35%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.5em'}}>
-                                Birthday
+                              modify
                               </p>
-                              <p style={{marginLeft: '2vw'}}>Not provided</p>
+                              <p style={{marginLeft: '2vw'}}>
+                                {
+                                  modify === true ? <input type="text" /> 
+                                  : <p>Not provided</p>
+                                }
+                              </p>
                           </div>
                           <div className='InformationItem'>
                           <p style={{backgroundColor: '#D9001B', color: 'white', height: '70%', width: '35%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.5em'}}>
                             Position
                           </p>
-                              <p style={{marginLeft: '2vw'}}>Not provided</p>
+                              <p style={{marginLeft: '2vw'}}>
+                              {
+                                loading === true ? <p>Loading...</p> : userInfo?.position
+                              }
+                              </p>
                           </div>
                           <div className='InformationItem'>
                           <p style={{backgroundColor: '#D9001B', color: 'white', height: '70%', width: '35%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.5em'}}>

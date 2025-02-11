@@ -1,7 +1,11 @@
 import React from 'react';
 import './css/FindUsers.css'
+import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 
 const FindUsers: React.FC = () => {
+
+  const {usersInfo, load, er} = GetAllUsersHook();
+
   return (
     <section className='FindUsers'>
         <div className='FindUsersContainer'>
@@ -13,27 +17,31 @@ const FindUsers: React.FC = () => {
               alt="search img" />
             </div>
           </div>
-            <div className='User_Friends'>
-              <div className='UserItem'>
-                <img src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
-                      alt="" />
-                <h1>Username</h1>
-                <p>Team: no team</p>
-                <button>Add user</button>
-              </div>              
-              <div className='UserItem'>
-                <img src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
-                      alt="" />
-                <h1>Username</h1>
-                <p>Team: no team</p>
-                <button>Add user</button>
-              </div>              
+          <div className='User_Friends'>
+          {
+              (usersInfo || []).length <= 1 && (
               <div className='UserItem'>
                 <h1>Sorry</h1>
                 <p>But it looks like no more users has created a account yes</p>
-              </div>              
-
-            </div>
+              </div>     
+            )
+          }
+          {
+            (usersInfo || []).length > 1 && (
+              usersInfo?.map((user, index) => (                  
+                  <div className='UserItem'>
+                    <img 
+                      src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
+                      alt="" 
+                    />
+                    <h1>{user.username}</h1>
+                    <p>Team: no team</p>
+                    <button>Add user</button>
+                  </div>
+              ))
+            )
+          } 
+          </div>
         </div>
         <div className='CopyRights'>
           <p>© 2025 Pablo Panchig. All Rights Reserved.</p>

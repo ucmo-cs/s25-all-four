@@ -1,15 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Css/Profile.css'
 import NavBar from '../Shared/NavBar';
 import BasicInformation from '../Components/Profile/BasicInformation';
 import AllInformation from '../Components/Profile/AllInformation';
+import GetUserHook from '../Shared/GetUserHook'
 
 const Profile: React.FC = () => {
+
+  const {userInfo, loading, error} = GetUserHook()
+  const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`;
+  const [phone, setPhone] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [modify, setModify] = useState<boolean>(false)
+  const [birthday, setBirthday] = useState<string>('')
+  const [nickName, setNickName] = useState<string>('');
+
+  async function SendChangesToDB(): Promise<void> {
+    try{
+        await fetch(`https://localhost:7010/api/UserInformation/${userInfo?.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...userInfo,
+                phone: phone,
+                address: address.trimEnd()
+            })
+        });
+    }catch(e){
+        alert(e);
+    } finally{
+        console.log('User information updated')
+    }
+}
+
+  
   return (
     <main className='Profile'>
          <NavBar/>
-         <BasicInformation/>
-         <AllInformation/>
+         <BasicInformation SendChangesToDB={SendChangesToDB} url={url} phone={phone} address={address} modify={modify} setPhone={setPhone} setAddres={setAddress} setModify={setModify}/>
+         <AllInformation modify={modify} nickName={nickName} birthday={birthday} setNickName={setNickName} setBirthday={setBirthday}/>
     </main>
   );
 }

@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { UserInformaion } from "../Components/Login/RegisterForm"; 
 
-const GetUserHook = () => {
+const GetAllUsersHook = () => {
 
   const storedUserId = localStorage.getItem('UserId') ?? "";  
-  const [userInfo, setUserInfo] = useState<UserInformaion | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [usersInfo, setUserInfo] = useState<UserInformaion[] | null>(null);
+  const [load, setLoading] = useState<boolean>(true);
+  const [er, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!storedUserId) {
       setLoading(false);
       return;
     }
-    const url = `https://localhost:7010/api/UserInformation/${storedUserId}`;
+    const url = `https://localhost:7010/api/UserInformation/`;
 
     const fetchUser = async () => {
       try {
@@ -24,7 +24,7 @@ const GetUserHook = () => {
           console.warn("Empty response received from the server.");
           setUserInfo(null);
         } else {          
-          const data: UserInformaion = JSON.parse(text);
+          const data: UserInformaion[] = JSON.parse(text);
           setUserInfo(data);
         }        
 
@@ -40,7 +40,7 @@ const GetUserHook = () => {
 
     fetchUser();
   }, [storedUserId]);
-  return { userInfo, loading, error };
+  return { usersInfo, load, er };
 };
 
-export default GetUserHook;
+export default GetAllUsersHook;

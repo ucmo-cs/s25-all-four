@@ -2,8 +2,8 @@
     position: fixed;
     height: 100vh;
     width: 5%;
-    background-color: #910012;
     display: flex;
+    background-color: #910012;
     align-items: center;
     justify-content: center;
     box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 8px;

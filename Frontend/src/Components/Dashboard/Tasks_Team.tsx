@@ -1,13 +1,18 @@
 import React from 'react';
 import './css/Tasks_Team.css'
+import GetUserHook from '../../Shared/GetUserHook'
 
 const Tasks_Team: React.FC = () => {
+const {userInfo, loading, error} = GetUserHook()
   return (
     <section className='Tasks_Team'>
         <div className='TaskButtons'>
             <button>Find people</button>
             <button>Open Chats</button>
-            <button>Assign task</button>
+            {
+                userInfo?.position === 'admin' && <button>Assign task</button>
+            }
+            
         </div>
         <div className='DisplayTasks'>
             <div className='DisplayTasksHeader'>
