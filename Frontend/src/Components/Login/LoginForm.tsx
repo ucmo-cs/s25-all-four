@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/LoginForm.css';
 import { forwardRef, useRef, useState } from 'react';
 import { Url, UserInformaion } from './RegisterForm';
+import GetUserHook from '../../Shared/GetUserHook'
 
 const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
   const navigate = useNavigate();
@@ -9,34 +10,31 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
   const [password, setPassword] = useState<string>('');
   const [user, setUser] = useState<UserInformaion | null>(null);
   const errorSpan = useRef<HTMLSpanElement>(null);
+  const {userInfo, loading, error} = GetUserHook();
 
   async function Login(): Promise<void> {
     try {
       const response = await fetch(props.url);
       const data: UserInformaion[] = await response.json();
-
-      const userInf = data.find(
-        (u) => u.username === username && u.password === password
+      
+      const userInf = data.find((u) => (
+        u.username === username.toLowerCase().trim() && u.password === password) || 
+        (u.email.toLowerCase().trim() === username && u.password === password)
       );
 
-      if (userInf) {
+      if(userInf) {
         localStorage.setItem('UserAC', userInf.securityCode ?? '');
         localStorage.setItem('UserId', userInf.id ?? '');
 
         setUser(userInf);        
         await ActivateUserStatus(userInf);
+      }else {
 
-        navigate('/application');
-      } else {
-
-        if (errorSpan.current) {
-          errorSpan.current.style.display = 'block';
-          setTimeout(() => {
-            if (errorSpan.current) {
-              errorSpan.current.style.display = 'none';
-            }
-          }, 2000);
-        }
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';            
+      }, 2000);
+        
       }
     } catch (e) {
       alert(e + ' Login part');
@@ -65,6 +63,9 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       }
     } catch (e) {
       alert(e + ' put part');
+    } finally{
+      console.log(userInfo?.username + ' Working')
+      navigate('/application');
     }
   }
 
@@ -84,7 +85,21 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
           <div className='Line'></div>
           <p>or</p>
           <div className='Line'></div>
-        <span ref={errorSpan} style={{color:'red', marginBlockStart:'1%', display: 'none', position: 'absolute', top: '65%'}}>user not found</span>
+        <span ref={errorSpan} style={{
+          color:'red', 
+          marginBlockStart:'0%', 
+          display: 'none', 
+          position: 'absolute', 
+          top: '25%',
+          backgroundColor: 'white',
+          height: 'fit-content',
+          width: 'fit-content',
+          border: '1px solid gray',
+          padding: '0.3em',
+          borderRadius: '0.25em'
+          }}>
+            user not found
+        </span>
         </div>
         <article className='LForm'>          
           <input type='text' placeholder='Email' value={username} onChange={(e) => setUsername(e.target.value)}/>

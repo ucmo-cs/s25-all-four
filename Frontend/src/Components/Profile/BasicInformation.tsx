@@ -1,7 +1,11 @@
 import React from 'react';
 import './css/BasicInformation.css'
+import GetUserHook from '../../Shared/GetUserHook'
 
 const BasicInformation: React.FC = () => {
+
+    const {userInfo, loading, error} = GetUserHook()
+
   return (
     <section className='BasicInformation'>
         <article className='BasicInformationContainer'>
@@ -10,9 +14,16 @@ const BasicInformation: React.FC = () => {
                     alt="prfile img" />
             </div>
             <div className='Name_Email_Phone'>
-                <h2>Current name</h2>
+                {
+                    loading === true && <h2>Loading...</h2>
+                }
+                {
+                    loading === false && <h2>{userInfo?.username.toUpperCase()}</h2>
+                }
                 <div className='informationItem'>
-                    <p>No email provided</p>
+                {
+                    loading === false ? <p>{userInfo?.email}</p> : <p>Loading...</p>
+                }
                     <div className='InformationItemConfig'>
                         <img src="https://www.svgrepo.com/show/509920/eye.svg" 
                             alt="visible" />                        

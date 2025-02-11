@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserInformaion } from '../Components/Login/RegisterForm';
 
 interface IAccess{
     Dashboard: React.ComponentType;
@@ -7,24 +8,23 @@ interface IAccess{
 
 const LoginAccess: React.FC<IAccess> = ({ Dashboard: DashboardComponent }) => {
 
+
     const [code] = useState<string>(localStorage.getItem('UserAC') ?? "")
-    const [id] = useState<string>(localStorage.getItem('UserId') ?? "")
+    const navigate = useNavigate();
 
-    async function GetAccessCode(): Promise<boolean>{
+    async function GetAccessCode(): Promise<boolean>{        
+        
         const response = await fetch(`https://localhost:7010/api/UserInformation/${localStorage.getItem('UserId')}`)
-        const data = await response.json()
+        const data: UserInformaion = await response.json()
 
-        console.log(code)
-        console.log(id)
-        return localStorage.getItem('UserAC') === data.securityCode && data.loggedIn === true;
+        return data.loggedIn === true && code === data.securityCode;
     }
 
-    const navigate = useNavigate();
     useEffect(() =>{
 
-        const verification = async() =>{
-            const access: boolean = await GetAccessCode();
-            if(access){                
+        const verification = async() =>{           
+            const access: boolean = await GetAccessCode(); 
+            if(access === true){                
             } else{
                 navigate('/')
             }

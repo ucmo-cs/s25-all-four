@@ -29,6 +29,8 @@ const NavBar: React.FC = () => {
     } catch(e){
       alert('We couldnt let you go please try again')
     } finally{
+      // localStorage.setItem('UserAC', 'null');
+      // localStorage.setItem('UserId', 'null');
       navigate('/')
     }
     
@@ -41,7 +43,7 @@ const NavBar: React.FC = () => {
             <div className='listNavbar'>
               <li onClick={() => navigate('/application/profile')}><img src={Img} alt="user img" /><p>Profile</p></li>
               <li onClick={() => navigate('/application/')}><img src={Dashboard} alt="fox img" /><p>Home</p></li>
-              <li><img src={calendar} alt="calendar img" /><p>Timesheet</p></li>
+              <li onClick={() => navigate('/application/timesheet')}><img src={calendar} alt="calendar img" /><p>Timesheet</p></li>
               <li><img src={chat} alt="chat img" /><p>Chats</p></li>
               <li ><img src={cloud} alt="cloud img" /><p>Wheater</p></li>
             </div>

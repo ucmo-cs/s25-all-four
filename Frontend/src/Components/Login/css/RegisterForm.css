@@ -43,6 +43,7 @@
     background-color: rgb(206, 206, 206);
 }
 .Horizontalline{
+    position: relative;
     width: 70%;
     height: 5%;
     display: flex;

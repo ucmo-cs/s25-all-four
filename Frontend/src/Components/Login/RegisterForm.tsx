@@ -33,18 +33,56 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
   const [admin, setAdmin] = useState<string>('user');
   const [adminCode, setAdminCode] = useState<number>(0)
   const isAdmin = useRef<HTMLInputElement>(null);
-
+  const errorSpan = useRef<HTMLSpanElement>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('error')
   async function CheckInputs(): Promise<void>{    
 
     const users: UserInformaion[] = await GetAllUsers();
     
-    if(password !== r_password) return
-    if(users.find(user => user.email === email)) return
-    if(users.find(user => user.username === username)) return
-    if(isAdmin.current?.value === 'admin'){
-      if(adminCode !== 12451){
-        return
-      }
+    if(password === '' || username === '' || email === '' || r_password === ''){
+      setErrorMessage('Please fill all inputs')
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';     
+          setErrorMessage('error')       
+      }, 2000);
+      return
+    }
+    if(password !== r_password) {
+      setErrorMessage('Both passwords must match')
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';     
+          setErrorMessage('error')       
+      }, 2000);
+      return
+    }
+    if(users.find(user => user.email === email)) {
+      setErrorMessage('Provided email is already in use')
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';     
+          setErrorMessage('error')       
+      }, 2000);
+      return
+    }
+    if(users.find(user => user.username === username)) {
+      setErrorMessage('Provided username is already in use')
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';            
+          setErrorMessage('error')       
+      }, 2000);
+      return
+    }
+    if(isAdmin.current?.value === 'admin' && adminCode !== 12451){
+      setErrorMessage('Provided correct administrator code')
+      errorSpan.current!.style.display = 'block';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';            
+          setErrorMessage('error')       
+      }, 2000);
+      return      
     }
     await SendUsernDB()
   }
@@ -79,14 +117,23 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       setEmail('')
       setPassword('')
       setR_password('');
+
+      setErrorMessage('User successfully created!')       
+      errorSpan.current!.style.display = 'block';
+      errorSpan.current!.style.color = 'green';
+      setTimeout(() => {            
+          errorSpan.current!.style.display = 'none';            
+          errorSpan.current!.style.color = 'red';
+          setErrorMessage('error')       
+      }, 5000);
     }
   }
 
   function CreateUserInformation(): UserInformaion{
     return{
-      username: username,
-      password: password,
-      email: email,
+      username: username.toLowerCase().trim(),
+      password: password.trim(),
+      email: email.toLowerCase().trim(),
       nickname: null,
       address: null,
       phone: null,
@@ -114,6 +161,21 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
           <div className='Line'></div>
           <p>or</p>
           <div className='Line'></div>
+          <span ref={errorSpan} style={{
+            color:'red', 
+            marginBlockStart:'0%', 
+            display: 'none', 
+            position: 'absolute', 
+            top: '25%',
+            backgroundColor: 'white',
+            height: 'fit-content',
+            width: 'fit-content',
+            border: '1px solid gray',
+            padding: '0.3em',
+            borderRadius: '0.25em'
+            }}>
+              {errorMessage}
+          </span>
         </div>
         <article className='RForm'>
           <input type='text' placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
