@@ -20,6 +20,7 @@ namespace Backend.Models.Entities
         public string? Information { get; set; }
         public string? SecurityCode { get; set; }
         public bool LoggedIn { get; set; }
+        public string? Team {  get; set; }
 
         public UserInformation()
         {

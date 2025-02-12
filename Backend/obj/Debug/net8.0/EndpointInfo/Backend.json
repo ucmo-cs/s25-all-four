@@ -5,6 +5,91 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Team": {
+      "get": {
+        "tags": [
+          "Team"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Team"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTeamDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTeamDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTeamDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Team/{id}": {
+      "get": {
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/UserInformation": {
       "get": {
         "tags": [
@@ -179,6 +264,32 @@
           },
           "loggedIn": {
             "type": "boolean"
+          },
+          "team": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditTeamDto": {
+        "type": "object",
+        "properties": {
+          "teamName": {
+            "type": "string",
+            "nullable": true
+          },
+          "teamDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "teamSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamManager": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -224,6 +335,10 @@
             "nullable": true
           },
           "securityCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "team": {
             "type": "string",
             "nullable": true
           },

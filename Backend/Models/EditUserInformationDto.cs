@@ -12,7 +12,7 @@
         public DateTime? Birthday { get; set; }
         public string? Information { get; set; }
         public string? SecurityCode { get; set; }
-
+        public string? Team { get; set; }
 
         public bool LoggedIn { get; set; }
 
