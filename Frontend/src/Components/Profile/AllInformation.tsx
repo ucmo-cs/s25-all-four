@@ -6,11 +6,13 @@ interface IModifyMore{
   modify: boolean
   birthday: string;
   nickName: string;
+  information: string;
+  setInformation: (value: string) => void;
   setBirthday: (value: string) => void;
   setNickName: (value: string) => void;
 }
 
-const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setBirthday, setNickName}) => {
+const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setBirthday, setNickName, information, setInformation}) => {
   const {userInfo, loading, error} = GetUserHook()
   return (
     <section className='AllInformation'>
@@ -23,12 +25,12 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                         <div className='InformationItemContainer'>
                           <div className='InformationItem'>
                               <p style={{backgroundColor: '#D9001B', color: 'white', height: '70%', width: '35%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.5em'}}>
-                              modify
+                              Birthday
                               </p>
                               <p style={{marginLeft: '2vw'}}>
                                 {
-                                  modify === true ? <input type="text" /> 
-                                  : <p>Not provided</p>
+                                  modify === true ? <input type="date" className='BirthdayInput' value={birthday} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBirthday(e.target.value)} /> 
+                                  : (userInfo?.birthday?.toString() === '' ) || (userInfo?.birthday === null ) ? <p>No birthday provided</p> : userInfo?.birthday?.toString().substring(0,10)
                                 }
                               </p>
                           </div>
@@ -46,7 +48,10 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                           <p style={{backgroundColor: '#D9001B', color: 'white', height: '70%', width: '35%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.5em'}}>
                             NickName
                           </p>
-                              <p style={{marginLeft: '2vw'}}>Not provided</p>
+                              {
+                                modify === true ? <input type="text"  className='BirthdayInput' value={nickName} onChange={(e) => setNickName(e.target.value)} style={{marginLeft: '2vw'}} placeholder='Add your nickname' />  
+                                : (userInfo?.nickName === '' ) || (userInfo?.nickName === null ) ? <p style={{marginLeft: '2vw'}}>No nickname provided</p> : <p style={{marginLeft: '2vw'}}>{userInfo?.nickName}</p>
+                              }
                           </div>
                         </div>
                       </article>
@@ -56,7 +61,10 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                             <h3>information</h3>
                         </div>
                         <div className='InformationTextInfo'>
-
+                              {
+                                modify === true ? <textarea placeholder='Write your information here...' rows={4}  value={information} onChange={(e) => setInformation(e.target.value)}/> :
+                                (userInfo?.information === '' ) || (userInfo?.information === null ) ? <p>No information provided</p> : <p>{userInfo?.information}</p>
+                              }
                         </div>
 
                     </div>

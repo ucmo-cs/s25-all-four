@@ -90,7 +90,8 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
                 </div>
             </div>
             <div className='Edit_Delete'>
-                <img src={modifyImg}
+                <img src={modifyImg} 
+                    //  ref={}
                      alt="edit" onMouseEnter={() => ShakeIcon(0)} onClick={SetChanges} />       
                 <img src="https://www.svgrepo.com/show/522316/trash.svg" 
                      alt="delete" onClick={DeleteUser} onMouseEnter={() => ShakeIcon(1)}/>       

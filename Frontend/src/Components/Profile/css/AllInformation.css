@@ -89,7 +89,10 @@
 }
 .InformationTextInfo{
     height: 90%;
-    width: 100%;    
+    width: 100%;   
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 .InformationItemContainer{
 
@@ -225,4 +228,23 @@
 }
 .ProjectListHeader h3{
     margin: 0;
+}
+.BirthdayInput{
+    border: none;
+    border-bottom: 1px solid gray;
+    
+}
+.InformationTextInfo textarea{
+    border: none;
+    width: 90%;
+    height: 90%;
+    border-radius: 1em;
+    display: flex;
+    justify-content: flex-start;
+    outline: none;
+
+
+}
+.InformationTextInfo p{
+    text-align: center;
 }

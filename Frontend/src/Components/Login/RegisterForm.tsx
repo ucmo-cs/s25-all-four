@@ -14,7 +14,7 @@ export interface UserInformaion{
   username: string;
   password: string;
   email: string;
-  nickname: string | null;
+  nickName: string | null;
   address: string | null;
   phone: string | null;
   position: string;
@@ -134,7 +134,7 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       username: username.toLowerCase().trim(),
       password: password.trim(),
       email: email.toLowerCase().trim(),
-      nickname: null,
+      nickName: null,
       address: null,
       phone: null,
       position: admin,
