@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Team } from '../Components/Profile/NewTeam';
-import GetUserHook from './GetUserHook';
 import GetAllTeamsHook from './GetAllTeamsHook';
+import { UserInformaion } from '../Components/Login/RegisterForm';
 
 const GetTeamHook = () => {
 
@@ -9,43 +9,47 @@ const GetTeamHook = () => {
     const [teamInfo, setUserInfo] = useState<Team | null>(null);
     const [load, setLoading] = useState<boolean>(true);
     const [er, setError] = useState<string | null>(null);
-    const {userInfo} =GetUserHook();
-    const {teamsInfo} = GetAllTeamsHook()
+    const {teamsInfo} = GetAllTeamsHook();
+    const [URL, setURL] = useState<string>('');
+
+    async function GetCurrentURL(): Promise<void> {
+        
+        const response = await fetch(`https://localhost:7010/api/UserInformation/${localStorage.getItem('UserId')}`)
+        const data: UserInformaion = await response.json();
+        console.log(data.team)
+        const getTeam = teamsInfo?.find(t => t.id === data?.team);
+        
+        setURL(`https://localhost:7010/api/Team/${getTeam?.id}`);
+        // console.log(`https://localhost:7010/api/Team/${getTeam?.id}` + ' I got this');
+    }
 
     useEffect(() => {
-
-        const getTeam = teamsInfo?.find(t => t.id === userInfo?.team);
-        const URL: string = `https://localhost:7010/api/Team/${getTeam?.id}`
-        
-      if (!storedUserId) {
-        setLoading(false);
-        return;
-      }  
-      const fetchUser = async () => {
+        if (!storedUserId) {
+            setLoading(false);
+            return;
+        }
+        const fetchUser = async () => {
         try {
-          const response = await fetch(URL);
+            await GetCurrentURL();            
+        } catch (err: any) {
+          console.error("Failed to fetch team info:", err);
+          setError(err.message || "Unknown error");
+        } finally {
+        const response = await fetch(URL);
           const text = await response.text();
-  
           if (!text) {
             console.warn("Empty response received from the server.");
             setUserInfo(null);
-          } else {          
+          } else {
             const data: Team = JSON.parse(text);
             setUserInfo(data);
-          }        
-  
-        } catch (err: any) {
-          
-          console.error("Failed to fetch team info:", err);
-          setError(err.message || "Unknown error");
-  
-        } finally {
+          }
           setLoading(false);
         }
       };
-  
       fetchUser();
-    }, [storedUserId]);
+    }, [storedUserId, URL]);
+
     return { teamInfo, load, er };
 }
 

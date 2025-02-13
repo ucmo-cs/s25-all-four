@@ -36,7 +36,7 @@ const GetAllTeamsHook = () => {
           setLoading(false);
         }
       };
-  
+      
       fetchUser();
     }, [storedUserId]);
     return { teamsInfo, load, er };

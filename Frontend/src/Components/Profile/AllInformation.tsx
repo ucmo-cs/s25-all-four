@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/AllInformation.css'
 import GetUserHook from '../../Shared/GetUserHook';
 import NewProject from './NewProject';
@@ -25,8 +25,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
   const { teamsInfo } = GetAllTeamsHook();
   // const { usersInfo } = GetAllUsersHook();
   const {teamInfo} = GetTeamHook()
+
   async function ChangeTeam(teamId: string | undefined): Promise<void>{
+
     const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`
+
     try{
       await fetch(url, {
         method: 'PUT',
@@ -124,7 +127,7 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
           <div className='InformationsContainerLower'>
             <div className='ProjectSelectionContainer'>
                 <article className='ProjectSelection'>
-                  <h2>Current team project</h2>
+                  <h2>Current team project: {teamInfo?.teamName}</h2>
                   <div className='SelectionBody'>
                     <img src="https://www.svgrepo.com/show/247760/left-arrow-back.svg" 
                           alt="" 
