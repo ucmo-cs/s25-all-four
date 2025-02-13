@@ -1,0 +1,61 @@
+.NewTeam{    
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    left: 55%;
+    top: 101%;
+    background-color: rgba(85, 85, 85, 0.397);
+    border-radius: 1em;
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    justify-content: center;
+    align-items: center;
+    transition: 300ms;
+    transform: translateY(200%);
+}
+.Close{
+    height: 10%;
+    width: 15%;
+    border-radius: 4em;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -3%;
+    right: -2%;
+    font-size: larger;
+    color:white;
+    background-color: red;
+    cursor: pointer;
+}
+
+.NewTeam label{
+    margin-block-start: 2vh;
+}
+.NewTeam input{
+    margin-block-start: 0.3vh;
+    height: 7%;
+    width: 50%;
+    border-radius: 1em;
+    border: 1px solid gray;
+    outline: none;
+}
+.NewTeam textarea{
+    border-radius: 1em;
+    border: 1px solid gray;
+    width: 50%;
+    height: 20%;
+    outline: none;
+}
+.NewTeam button{
+    margin-block-start: 3vh;
+    height: 7%;
+    width: 40%;
+    border: 3px solid black;
+    border-radius: 1em;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}

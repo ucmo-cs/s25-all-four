@@ -29,7 +29,7 @@ const SwitchLogin: React.FC<SwitchLoginProps> = ({LoginForm, Switch}) => {
     <section ref={contianer} className='SwitchLogin'>
         <h1>Got an account?</h1>
         <h4 style={{width: '80%', textAlign: 'center'}}>Login to your account and check all the functionalities this website can offer you!</h4>
-        <button onClick={change} >Sign up</button>
+        <button onClick={change} >login</button>
     </section>
   );
 }

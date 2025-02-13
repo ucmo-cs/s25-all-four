@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './css/BasicInformation.css'
 import GetUserHook from '../../Shared/GetUserHook'
 import { Url } from '../Login/RegisterForm';
@@ -17,7 +17,6 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
 
     const navigate = useNavigate();
     const {userInfo, loading, error} = GetUserHook()    
-    
     const DeleteUser = async () => {await fetch(url,{method: 'DELETE'}); navigate('/')}
     
     const [modifyImg, setModifyImg] = useState<string>('https://www.svgrepo.com/show/511904/edit-1479.svg')
@@ -35,8 +34,9 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
     async function SetChanges(): Promise<void>{
         setModify(!modify)        
         setModifyImg(modify ? 
-            'https://www.svgrepo.com/show/391790/check.svg' :
-            'https://www.svgrepo.com/show/511904/edit-1479.svg')
+            'https://www.svgrepo.com/show/511904/edit-1479.svg' :
+            'https://www.svgrepo.com/show/391790/check.svg')
+            
         if(modify === true){
             await SendChangesToDB()
         }
@@ -90,8 +90,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
                 </div>
             </div>
             <div className='Edit_Delete'>
-                <img src={modifyImg} 
-                    //  ref={}
+                <img src={modifyImg}                      
                      alt="edit" onMouseEnter={() => ShakeIcon(0)} onClick={SetChanges} />       
                 <img src="https://www.svgrepo.com/show/522316/trash.svg" 
                      alt="delete" onClick={DeleteUser} onMouseEnter={() => ShakeIcon(1)}/>       

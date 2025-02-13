@@ -1,11 +1,11 @@
 import React from 'react';
 import './css/FindUsers.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
-
+import GetUserHook from '../../Shared/GetUserHook';
 const FindUsers: React.FC = () => {
 
   const {usersInfo, load, er} = GetAllUsersHook();
-
+  const userinfo = GetUserHook()
   return (
     <section className='FindUsers'>
         <div className='FindUsersContainer'>
@@ -27,7 +27,7 @@ const FindUsers: React.FC = () => {
             )
           }
           {
-            (usersInfo || []).length > 1 && (
+            ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && (
               usersInfo?.map((user, index) => (                  
                   <div className='UserItem'>
                     <img 

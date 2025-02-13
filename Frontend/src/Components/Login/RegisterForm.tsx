@@ -22,6 +22,7 @@ export interface UserInformaion{
   information: string | null;
   securityCode: string | null;
   loggedIn: boolean;
+  team: string | null;
 }
 const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
 
@@ -141,7 +142,8 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       birthday: null,
       information: null,
       securityCode: null,
-      loggedIn: false
+      loggedIn: false,
+      team: null
     }
   }
 
