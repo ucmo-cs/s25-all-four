@@ -94,6 +94,10 @@
     justify-content: space-evenly;
     width: 50%;
 }
+.MemeberContainer p{
+    width: 80%;
+    overflow: auto;
+}
 .Member img{
     width: 19%;
     cursor: pointer;

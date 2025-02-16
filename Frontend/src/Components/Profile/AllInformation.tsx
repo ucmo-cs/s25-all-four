@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './css/AllInformation.css'
 import GetUserHook from '../../Shared/GetUserHook';
 import NewProject from './NewProject';
 import NewTeam from './NewTeam';
 import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
+import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 
 interface IModifyMore{
   modify: boolean
@@ -23,13 +24,19 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
   const [closeProjectPopUp, setCloseProjectPopUp] = useState<boolean>(true)
   const [teamIndex, setTeamIndex] = useState<number>(0)
   const { teamsInfo } = GetAllTeamsHook();
-  // const { usersInfo } = GetAllUsersHook();
-  const {teamInfo} = GetTeamHook()
+  const { usersInfo } = GetAllUsersHook();
+  const {teamInfo, load} = GetTeamHook()
+  const removeTeamId = useRef<HTMLSelectElement>(null)
+
 
   async function ChangeTeam(teamId: string | undefined): Promise<void>{
 
     const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`
-
+    const teamlenght = usersInfo?.filter(t => t.team === teamsInfo![teamIndex].id)    
+    if(teamlenght!.length > teamsInfo![teamIndex].teamSize - 1){
+      alert('This team is full, try with other team')
+      return
+    }
     try{
       await fetch(url, {
         method: 'PUT',
@@ -45,7 +52,24 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
       alert(e)
     }finally{
       console.log('Team added')
-      console.log(userInfo)
+      alert('Now you are part of ' + teamsInfo![teamIndex].teamName)
+      window.location.reload()
+    }
+  }
+
+  async function DeleteTeamById(): Promise<void> {
+    const url: string = `https://localhost:7010/api/Team/${removeTeamId.current?.value}`
+    if(removeTeamId.current?.value !== 'null'){
+      try {
+        await fetch(url, { method: 'DELETE' });
+        alert('Team removed successfully');
+        window.location.reload();
+      } catch (e) {
+        alert('Failed to remove team: ' + e);
+      }
+      finally{
+        window.location.reload()
+      }
     }
   }
 
@@ -62,10 +86,10 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
 
   useEffect(()=>{
     const see = () =>{
-      console.log(teamInfo?.teamSize)
+      console.log(removeTeamId.current?.value)
     }
     see()
-  },[])
+  },)
 
   return (
     <section className='AllInformation'>
@@ -82,8 +106,13 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                         </p>
                         <p style={{marginLeft: '2vw'}}>
                           {
-                            modify === true ? <input type="date" className='BirthdayInput' value={birthday} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBirthday(e.target.value)} /> 
-                            : (userInfo?.birthday?.toString() === '' ) || (userInfo?.birthday === null ) ? <p>No birthday provided</p> : userInfo?.birthday?.toString().substring(0,10)
+                            modify === true 
+                            ? <input type="date" className='BirthdayInput' value={birthday} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBirthday(e.target.value)} /> 
+                            : (userInfo?.birthday?.toString() === '' ) || (userInfo?.birthday === null ) ? <p>No birthday provided</p> : <p>
+                              {
+                                loading === true ? 'loading' : userInfo?.birthday?.toString().substring(0,10)
+                              }
+                            </p>
                           }
                         </p>
                     </div>
@@ -102,8 +131,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                       NickName
                     </p>
                         {
-                          modify === true ? <input type="text"  className='BirthdayInput' value={nickName} onChange={(e) => setNickName(e.target.value)} style={{marginLeft: '2vw'}} placeholder='Add your nickname' />  
-                          : (userInfo?.nickName === '' ) || (userInfo?.nickName === null ) ? <p style={{marginLeft: '2vw'}}>No nickname provided</p> : <p style={{marginLeft: '2vw'}}>{userInfo?.nickName}</p>
+                          modify === true 
+                          ? <input type="text"  className='BirthdayInput' value={nickName} onChange={(e) => setNickName(e.target.value)} style={{marginLeft: '2vw'}} placeholder='Add your nickname' />  
+                          : (userInfo?.nickName === '' ) || (userInfo?.nickName === null ) ? <p style={{marginLeft: '2vw'}}>No nickname provided</p> : <p style={{marginLeft: '2vw'}}>
+                          {loading === true ? 'Loading...' : userInfo?.nickName }
+                            </p>
                         }
                     </div>
                   </div>
@@ -127,7 +159,12 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
           <div className='InformationsContainerLower'>
             <div className='ProjectSelectionContainer'>
                 <article className='ProjectSelection'>
-                  <h2>Current team project: {teamInfo?.teamName}</h2>
+                  <h2>Current team project:_ 
+                    {
+                      (userInfo?.team === null) || (userInfo?.team === '') ? <p>No team</p> : 
+                      load === true ? <p>Loading...</p> :<p>{teamInfo?.teamName}</p>
+                    }
+                    </h2>
                   <div className='SelectionBody'>
                     <img src="https://www.svgrepo.com/show/247760/left-arrow-back.svg" 
                           alt="" 
@@ -141,6 +178,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                         {
                           teamsInfo &&(
                             teamsInfo!.length >= 1 ? <p>{teamsInfo[teamIndex].teamDescription}</p> : <p>No team</p>
+                          )
+                        }
+                        {
+                          teamsInfo &&(
+                            teamsInfo!.length >= 1 ? <p>Size of team: {teamsInfo[teamIndex].teamSize}</p> : <p>No team size available</p>
                           )
                         }
                     </div>
@@ -158,21 +200,37 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                     {
                       userInfo?.position === 'admin' && 
                       (
-                        <button onClick={() => setCloseTeamPopUp(!closeTeamPopUp)}>Add new team</button>                              
+                        <>
+                          <button style={{border: '2px solid #910012'}} onClick={() => setCloseTeamPopUp(!closeTeamPopUp)}>Add new team</button>                              
+                          <select ref={removeTeamId} style={{border: '2px solid #910012'}}name="" id="" >
+                          <option value={'null'}>Select team to remove</option>
+                          {
+                            teamsInfo && teamsInfo.length > 0 && (
+                              teamsInfo.filter(t => t.teamManager === userInfo!.id).map((team, index) => (
+                                  <option value={team.id} key={index}>
+                                    {team.teamName}
+                                  </option>
+                                ))
+                            )
+                          }
+                          </select>
+                          <button style={{border: '2px solid #910012'}} onClick={DeleteTeamById}>Remove team</button>
+                          <button style={{border: '2px solid black'}}onClick={() => setCloseProjectPopUp(!closeProjectPopUp)}>Add new project</button>
+                          <select style={{border: '2px solid black'}} name="" id="">
+                          <option value="">Select project to remove</option>
+                          <option value="">Project 1</option>
+                          <option value="">Project 2</option>
+                          </select>
+                          <button style={{border: '2px solid black'}}>Add project</button>
+                        </>
                       )
-                    }                          
-                    {
-                      userInfo?.position === 'admin' && 
-                      (
-                        <button onClick={() => setCloseProjectPopUp(!closeProjectPopUp)}>Add new project</button>
-                      )
-                    }                          
-                    <select name="" id="">
+                    }                                              
+                    <select style={{border: '2px solid gray'}} name="" id="">
                       <option value="">No project selected</option>
                       <option value="">Project 1</option>
                       <option value="">Project 2</option>
                     </select>
-                    <button>Add project</button>
+                    <button style={{border: '2px solid gray'}}>Add project</button>                    
                   </div>
                   <div className='AddProjectsList'>
                     <article className='ProjectList'>

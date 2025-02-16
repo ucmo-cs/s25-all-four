@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './css/TimeSheetMenu.css'
 import GetUserHook from '../../Shared/GetUserHook'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
+import GetTeamHook from '../../Shared/GetTeamHook';
 
 const TimeSheetMenu: React.FC = () => {
 
-  const {userInfo, loading, error} = GetUserHook();
+  const {userInfo, loading} = GetUserHook();
   const [month, setMonth] = useState<string>('June');
   const [monthId, setMonthId] = useState<number>(0);
-  const {usersInfo, load, er} = GetAllUsersHook();
-
+  const {usersInfo, load} = GetAllUsersHook();
+  const {teamInfo} = GetTeamHook()
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 31 },
     { "id": 2, "name": "February", "days": 28 },
@@ -24,7 +25,8 @@ const TimeSheetMenu: React.FC = () => {
     { "id": 11, "name": "November", "days": 30 },
     { "id": 12, "name": "December", "days": 31 }
   ]
-  
+  const [isEditable, setIsEditable] = useState<boolean>(false)
+
   useEffect(() =>{
     const AssignMonthId = () =>{
       for (let index = 0; index < calendarMonths.length; index++) {
@@ -35,6 +37,7 @@ const TimeSheetMenu: React.FC = () => {
     }
     AssignMonthId();
   },[month])
+
   return (
     <section className='TimeSheetMenu'>
       <div className='Time'>
@@ -74,7 +77,25 @@ const TimeSheetMenu: React.FC = () => {
                     <button>Edit</button>
                 </div>
               </div>
-            ) : (<div className='AdminTSOptions'></div>)
+            ) : (<div className='AdminTSOptions'>
+              <div className='SelectTS'>
+                  <h4>Select month</h4>
+                  <select name="" id="" onChange={(e) => setMonth(e.target.value)}>
+                  {                        
+                    calendarMonths.map((month, index) => (
+                      <option key={index} value={month.name}>
+                        {month.name}
+                      </option>
+                    ))                       
+                  }
+                  </select>
+                </div>
+                <div className='ExportEditSave'>
+                    <button>Export PDF</button>
+                    <button>Save</button>
+                    <button onClick={() => setIsEditable(!isEditable)}>Edit</button>
+                </div>
+            </div>)
           }
           <div className='CalendarTSContainer'>
             <h1>{month}</h1>
@@ -87,7 +108,30 @@ const TimeSheetMenu: React.FC = () => {
                     Array.from({ length: calendarMonths[monthId].days }).map((_, index) => (
                       <div className='DaysofMonth' key={index}>{index + 1}</div>
                     ))
-                  }
+                  }                  
+              </div>
+              <div className='MemebersTimes'>
+              {
+                load === true ? <p>Loading users</p> :
+                usersInfo?.filter(u => u.team === teamInfo?.id).map((member, index)=>(
+                  <>
+                  <div className='BCTMTS'>
+                    <div className='TeamMemberTS' key={index}><p className='TeamMemberTSName'>{member.username}</p></div>
+                    <div className='DaysOfMember'>
+                    {
+                      Array.from({ length: calendarMonths[monthId].days }).map((_, index) => (
+                        <div className='DaysofMonth' key={index}>
+                        {
+                          isEditable === true && member.username === userInfo?.username ? <input type="number" /> :  <p>4</p>
+                        }
+                        </div>
+                      ))
+                    }   
+                    </div>
+                  </div>
+                  </>
+                ))
+              }
               </div>
             </div>
           </div>

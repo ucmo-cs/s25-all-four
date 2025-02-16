@@ -39,6 +39,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             
         if(modify === true){
             await SendChangesToDB()
+            window.location.reload()
         }
     }
 

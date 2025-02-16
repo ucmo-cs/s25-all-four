@@ -122,3 +122,52 @@
     width: 10%;
     border-inline: 2px solid white;
 }
+.TeamMemberTS{
+    width: 10%;
+    min-height: 20%;
+    height: 100%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+}
+.TeamMemberTS p{
+    margin: 0;
+}
+.TeamMemberTSName{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid gray;
+    /* background-color: red; */
+    
+}
+.MemebersTimes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 85%;
+}
+.DaysOfMember{
+    display: flex;    
+    height: 100%;
+    width: 90%;
+}
+.DaysOfMember .DaysofMonth{
+    height: 100%;
+    border: 2px solid gray;
+}
+.BCTMTS{    
+    height: 20%;    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.DaysofMonth input{
+    width: 60%;
+    height: 50%;
+    border: none;
+    border-bottom: 2px solid black;
+}

@@ -1,7 +1,15 @@
 import React from 'react';
 import './css/Updates_Team.css'
+import GetAllUsersHook from '../../Shared/GetAllUsersHook';
+import GetTeamHook from '../../Shared/GetTeamHook';
+import GetUserHook from '../../Shared/GetUserHook';
 
 const Updates_Team: React.FC = () => {
+
+    const {usersInfo, load} = GetAllUsersHook()
+    const {userInfo, loading} = GetUserHook()
+    const {teamInfo} = GetTeamHook()
+
   return (
     <section className='Updates_Team'>
         <div className='RecentUpdatesContainer'>
@@ -15,26 +23,23 @@ const Updates_Team: React.FC = () => {
         </div>
         <div className='DisplayTeamInformation'>
             <div className='TeamMembers'>
-                <div className='TeamMembersHeader'><h4>Your team member</h4></div>
+                <div className='TeamMembersHeader'><h4>Your team members</h4></div>
                 <div className='TeamMemebersContainer'>
-                    <div className='Member'>
+                {
+                
+                load === true ? <p>Loading users from your team...</p> :
+                (userInfo?.team === '') || (userInfo?.team === null) ? <p>You are not part of a team</p> :
+                usersInfo?.filter(u => u.team === teamInfo?.id)
+                    .map((teamMember, index) => (
+                    <div className='Member' key={index}>
                         <div className='MemeberContainer'>
-                            <p>Username</p> 
-                            <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
-                        </div>                        
+                        <p>{teamMember.username}</p>
+                        <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
+                        </div>
                     </div>
-                    <div className='Member'>
-                        <div className='MemeberContainer'>
-                            <p>Username</p> 
-                            <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
-                        </div>                        
-                    </div>
-                    <div className='Member'>
-                        <div className='MemeberContainer'>
-                            <p>Username</p> 
-                            <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
-                        </div>                        
-                    </div>
+                    ))
+                }
+
                 </div>
             </div>
             <div className='TeamMembers'>
@@ -42,7 +47,12 @@ const Updates_Team: React.FC = () => {
                 <div className='TeamMemebersContainer teamImg'>
                     <img src="https://www.svgrepo.com/show/378088/firefox.svg" 
                          alt="team Example" />        
-                    <h4>Team name</h4>
+                <h4>
+                {
+                    
+                    loading === true ? <p>loading...</p> : (userInfo?.team === '') || (userInfo?.team === null) ? 'You are not part of a team' : teamInfo?.teamName
+                }
+                </h4>
                 </div>
             </div>
             
