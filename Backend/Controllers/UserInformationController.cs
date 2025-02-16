@@ -48,7 +48,8 @@ namespace Backend.Controllers
                 Position = addUserInformationDto.Position,
                 Birthday = addUserInformationDto.Birthday,
                 Information = addUserInformationDto.Information,
-                LoggedIn = addUserInformationDto.LoggedIn
+                LoggedIn = addUserInformationDto.LoggedIn,
+                Team = addUserInformationDto.Team
             };
 
             _dbContext.UserInformation.Add(newUser);
@@ -73,7 +74,7 @@ namespace Backend.Controllers
             OldUser.Information = editUserInformationDto.Information;
             OldUser.LoggedIn = editUserInformationDto.LoggedIn;
             OldUser.SecurityCode = editUserInformationDto.SecurityCode;
-
+            OldUser.Team = editUserInformationDto.Team;
             _dbContext.SaveChanges();
             return Ok(OldUser);
         }

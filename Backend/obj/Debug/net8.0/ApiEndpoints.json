@@ -58,6 +58,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Backend.Controllers.UpdatesController",
+    "Method": "GetAllUpdates",
+    "RelativePath": "api/Updates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Backend.Controllers.UserInformationController",
     "Method": "GetAllUsers",
     "RelativePath": "api/UserInformation",
