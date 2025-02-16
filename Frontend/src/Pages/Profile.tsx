@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './Css/Profile.css'
 import NavBar from '../Shared/NavBar';
 import BasicInformation from '../Components/Profile/BasicInformation';
@@ -41,15 +41,6 @@ async function SendChangesToDB(): Promise<void> {
       console.log('User information has been updated')
   }
 }
-
-useEffect(() => {
-  const ScrollToTop = () => {
-      const offset: number = span.current!.offsetHeight;
-      console.log(offset)
-      profileContainer.current?.scrollTo({ top: offset, behavior: 'smooth' });
-  }
-  ScrollToTop();
-},[])
 
   
   return (

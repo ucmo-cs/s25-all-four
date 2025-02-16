@@ -2,10 +2,13 @@ import React from 'react';
 import './css/FindUsers.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetUserHook from '../../Shared/GetUserHook';
+import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 const FindUsers: React.FC = () => {
 
   const {usersInfo, load, er} = GetAllUsersHook();
+  const {teamsInfo} = GetAllTeamsHook();
   const userinfo = GetUserHook()
+  
   return (
     <section className='FindUsers'>
         <div className='FindUsersContainer'>
@@ -28,16 +31,22 @@ const FindUsers: React.FC = () => {
           }
           {
             ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && (
-              usersInfo?.map((user, index) => (                  
-                  <div className='UserItem'>
-                    <img 
-                      src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
-                      alt="" 
-                    />
-                    <h1>{user.username}</h1>
-                    <p>Team: no team</p>
-                    <button>Add user</button>
-                  </div>
+              usersInfo?.map((user, index) => (
+                <div key={index} className='UserItem'>
+                  <img 
+                    src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
+                    alt="" 
+                  />
+                  <h1>{user.username}</h1>
+                  <p>
+                    {
+                      (user.team === null) || (user.team === '') ?
+                      'No team' :
+                      teamsInfo?.find(t => t.id === user.team)?.teamName
+                    }
+                  </p>
+                  <button>Add user</button>
+                </div>
               ))
             )
           } 

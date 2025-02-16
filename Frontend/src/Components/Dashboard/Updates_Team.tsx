@@ -14,7 +14,17 @@ const Updates_Team: React.FC = () => {
     <section className='Updates_Team'>
         <div className='RecentUpdatesContainer'>
             <div className='RecentUpdatesHeader'><h4>Recent updates</h4></div>
-            <article className='RecentUpdates'>            
+            <article className='RecentUpdates'>
+                <ul>
+                    <li className='UpdatesItemContainer'>                    
+                        <div className='ItemsUpdates'>
+                            <h2>Item header name</h2>
+                            <p>date</p>
+                            <p>Some description of this</p>
+                        </div>
+                        <button>Hide this one</button>
+                    </li>
+                </ul>
             </article>
         </div>
         <div className='ButtonsUpdate'>
@@ -39,7 +49,6 @@ const Updates_Team: React.FC = () => {
                     </div>
                     ))
                 }
-
                 </div>
             </div>
             <div className='TeamMembers'>
