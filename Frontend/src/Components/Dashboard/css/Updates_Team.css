@@ -20,16 +20,15 @@
 .RecentUpdates{
     height: 82%;
     width: 90%;
-    overflow: auto;
+    overflow: auto;    
     display: flex;
-    background-color: yellow;
-    /* justify-content: flex-start; */
+    justify-content: flex-start;
     flex-direction: column;
 }
 .UpdatesItemContainer{
     width: 100%;
     min-height: 25%;
-    height: 25%;
+    height: 100;
     max-height: 100%;
     overflow: auto;
     display: flex;
@@ -39,6 +38,7 @@
 }
 .ItemsUpdates{
     width: 80%;
+    margin-block: 1%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -64,6 +64,12 @@
 }
 .RecentUpdates ul{
     padding: 0;
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 .RecentUpdatesHeader{
     margin-block: 1vh;

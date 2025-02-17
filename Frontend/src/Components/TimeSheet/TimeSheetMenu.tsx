@@ -7,7 +7,7 @@ import GetTeamHook from '../../Shared/GetTeamHook';
 const TimeSheetMenu: React.FC = () => {
 
   const {userInfo, loading} = GetUserHook();
-  const [month, setMonth] = useState<string>('June');
+  const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
   const {usersInfo, load} = GetAllUsersHook();
   const {teamInfo} = GetTeamHook()
@@ -54,7 +54,7 @@ const TimeSheetMenu: React.FC = () => {
                     <option value="">No user selected</option>
                     {
                       usersInfo?.map((user, index) =>(
-                        <option value="">{user.username}</option>
+                        <option value="" key={index}>{user.username}</option>
                       ))
                     }
                   </select>
