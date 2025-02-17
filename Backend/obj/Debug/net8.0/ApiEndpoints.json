@@ -68,6 +68,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Backend.Controllers.UpdatesController",
+    "Method": "PostUpdate",
+    "RelativePath": "api/Updates",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateDto",
+        "Type": "Backend.Models.AddUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.UpdatesController",
+    "Method": "GetUpdate",
+    "RelativePath": "api/Updates/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.UpdatesController",
+    "Method": "Delete",
+    "RelativePath": "api/Updates/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Backend.Controllers.UserInformationController",
     "Method": "GetAllUsers",
     "RelativePath": "api/UserInformation",
