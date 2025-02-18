@@ -11,5 +11,7 @@ namespace Backend.Data
         public DbSet<UserInformation> UserInformation { get; set; }
         public DbSet<Team> teams { get; set; }
         public DbSet<Updates> updates { get; set; }
+        public DbSet<Timesheet> timesheets { get; set; }
+        public DbSet<TimeEntry> timeEntries { get; set; }
     }
 }

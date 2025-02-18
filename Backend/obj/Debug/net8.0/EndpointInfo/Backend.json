@@ -175,6 +175,18 @@
         }
       }
     },
+    "/api/Updates/remove-all": {
+      "delete": {
+        "tags": [
+          "Updates"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/UserInformation": {
       "get": {
         "tags": [
@@ -314,7 +326,7 @@
             "type": "string",
             "nullable": true
           },
-          "authorId": {
+          "authorName": {
             "type": "string",
             "nullable": true
           },

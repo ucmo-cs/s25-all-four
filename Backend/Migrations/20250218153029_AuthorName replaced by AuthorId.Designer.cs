@@ -4,6 +4,7 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250218153029_AuthorName replaced by AuthorId")]
+    partial class AuthorNamereplacedbyAuthorId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,47 +49,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("teams");
-                });
-
-            modelBuilder.Entity("Backend.Models.Entities.TimeEntry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
-
-                    b.Property<double>("HoursWorked")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("TimeSheetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TimeSheetId");
-
-                    b.ToTable("timeEntries");
-                });
-
-            modelBuilder.Entity("Backend.Models.Entities.Timesheet", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Month")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("timesheets");
                 });
 
             modelBuilder.Entity("Backend.Models.Entities.Updates", b =>
@@ -171,22 +133,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInformation");
-                });
-
-            modelBuilder.Entity("Backend.Models.Entities.TimeEntry", b =>
-                {
-                    b.HasOne("Backend.Models.Entities.Timesheet", "Timesheet")
-                        .WithMany("timeEntries")
-                        .HasForeignKey("TimeSheetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Timesheet");
-                });
-
-            modelBuilder.Entity("Backend.Models.Entities.Timesheet", b =>
-                {
-                    b.Navigation("timeEntries");
                 });
 #pragma warning restore 612, 618
         }

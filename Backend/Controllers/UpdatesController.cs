@@ -39,7 +39,7 @@ namespace Backend.Controllers
             {
                 Title = updateDto.Title,
                 Description = updateDto.Description,
-                AuthorId = updateDto.AuthorId,
+                AuthorName = updateDto.AuthorName,
                 TeamId = updateDto.TeamId,
                 DateCreated = updateDto.DateCreated,
                 IsVisible = updateDto.IsVisible
@@ -62,6 +62,21 @@ namespace Backend.Controllers
 
             return Ok(removeUpdate);
         }
+        [HttpDelete]
+        [Route("remove-all")]
+        public IActionResult DeleteAll()
+        {
+            var allUpdates = _dbContext.updates.ToList();
+
+            if (!allUpdates.Any())
+                return NotFound(new { message = "No updates found to delete" });
+
+            _dbContext.updates.RemoveRange(allUpdates);
+            _dbContext.SaveChanges();
+
+            return Ok(new { message = "All updates have been successfully deleted" });
+        }
+
 
     }
 }
