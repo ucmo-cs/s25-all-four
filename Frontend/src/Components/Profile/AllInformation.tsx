@@ -57,6 +57,7 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
     }
   }
 
+ 
   async function DeleteTeamById(): Promise<void> {
     const url: string = `https://localhost:7010/api/Team/${removeTeamId.current?.value}`
     if(removeTeamId.current?.value !== 'null'){

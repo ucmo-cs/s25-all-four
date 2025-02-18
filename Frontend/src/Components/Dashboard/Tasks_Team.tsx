@@ -1,13 +1,16 @@
 import React from 'react';
 import './css/Tasks_Team.css'
 import GetUserHook from '../../Shared/GetUserHook'
+import { Link } from 'react-scroll';
 
 const Tasks_Team: React.FC = () => {
 const {userInfo, loading, error} = GetUserHook()
   return (
     <section className='Tasks_Team'>
         <div className='TaskButtons'>
-            <button>Find people</button>
+            <Link to="ScrollFind" className='LinkDashboard'>
+                <button style={{border: 'none'}}>Find people</button>
+            </Link>
             <button>Open Chats</button>
             {
                 userInfo?.position === 'admin' && <button>Assign task</button>

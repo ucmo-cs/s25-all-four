@@ -3,15 +3,15 @@ import { IClose } from '../Profile/NewProject';
 import './css/CreateNewUpdate.css'
 import GetUserHook from '../../Shared/GetUserHook';
 
-interface IUpdate{
-    id: string;
+export interface IUpdate {
+    id?: string;
     title: string;
     description: string;
-    authorId: string;
+    authorName: string;
     teamId: string;
     dateCreated: string;
     isVisible: boolean;
-}
+  }
 
 const CreateNewUpdate: React.FC<IClose> = ({close, setClose}) => {
     
@@ -20,41 +20,50 @@ const CreateNewUpdate: React.FC<IClose> = ({close, setClose}) => {
     const [text, setText] = useState<string>('')
     const {userInfo} = GetUserHook()
 
-    // function NewUpdate(): IUpdate{
-    //     return {
-    //         title: header,
-    //         description: text,
-    //         authorId: userInfo!.id,
-    //         teamId: userInfo!.team,
-    //         dateCreated: '23e3242342343',
-    //         isVisible: true
-    //     }
-    // }
+    function NewUpdate(): IUpdate {
+        return {          
+          title: header,
+          description: text,
+          authorName: userInfo?.username ?? '',
+          teamId: userInfo?.team ?? '',
+          dateCreated: new Date().toISOString(),
+          isVisible: true,
+        };
+      }
 
-    // async function PostUpdate(): Promise<void> {
-    //     const url: string = ''    
-    //     try{
-    //         await fetch(url, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(NewUpdate)
-    //         });
-    //     } catch(e){
-    //         alert(e)
-    //     } finally{
-    //         setTimeout(() => {
-    //             setClose(!close)
-    //         }, 200);
-    //     }
-    // }
+    async function PostUpdate(): Promise<void> {
+        const url: string = 'https://localhost:7010/api/Updates'    
+        try{
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(NewUpdate())
+            });
+        } catch(e){
+            alert(e)
+        } finally{
+            window.location.reload()
+            setTimeout(() => {
+                setClose(!close)
+            }, 200);
+            setHeader('')
+            setText('')
+        }
+    }
 
     async function CheckInput(): Promise<void>{
-        if(header === '') return
-        if(text === '') return
-
-        // await PostUpdate()
+        if(header === '') {
+            alert('Please give it a title name')
+            return
+        }
+        if(text === '') {
+            alert('Please give the description')
+            return
+        }
+        console.log(NewUpdate())
+        await PostUpdate()
     }
 
     useEffect(() =>{

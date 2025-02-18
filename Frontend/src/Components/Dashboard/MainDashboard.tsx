@@ -5,18 +5,16 @@ import './css/MainDashboard.css'
 import GetUserHook from '../../Shared/GetUserHook'
 const MainDashboard: React.FC = () => {
 
-  const {userInfo, loading, error} = GetUserHook();
+  const {userInfo, loading} = GetUserHook();
   
   return (
     <section className='MainDashboard'>
         <div className='DashboardContainer'>
           <div className='HeaderName'>
             {
-              loading === true && "Loading"
+              loading === true ? "Loading" : userInfo?.username.toUpperCase()
             }
-            {
-              loading === false && userInfo?.username.toUpperCase()
-            }
+
           </div>
           <div className='SectionsDashboard'> 
             <div className='NewsInformation'>

@@ -3,6 +3,7 @@ import './css/FindUsers.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetUserHook from '../../Shared/GetUserHook';
 import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
+import { Element } from 'react-scroll';
 const FindUsers: React.FC = () => {
 
   const {usersInfo, load, er} = GetAllUsersHook();
@@ -11,6 +12,7 @@ const FindUsers: React.FC = () => {
   
   return (
     <section className='FindUsers'>
+      <Element name='ScrollFind'></Element>
         <div className='FindUsersContainer'>
           <div className='FindUsersHeader'>
             <div className='SearchbarFriends'>

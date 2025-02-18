@@ -89,7 +89,7 @@
     justify-content: space-evenly;
     flex-direction: column;
 }
-.TaskButtons button{
+.TaskButtons button,.LinkDashboard{
     height: 20%;
     width: 70%;
     background-color: white;
@@ -100,4 +100,8 @@
 .TaskButtons button:nth-of-type(odd){
     border: 2px solid #910012;
     
+}
+.LinkDashboard button {
+    height: 100%;
+    width: 100%;
 }
