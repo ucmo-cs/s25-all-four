@@ -11,6 +11,24 @@ const GetTeamHook = () => {
 
   const { teamsInfo } = GetAllTeamsHook();
 
+  async function TeamNull(user: UserInformaion): Promise<void> {
+    const url: string = `https://localhost:7010/api/UserInformation/${storedUserId}`;
+    try{
+      await fetch(url,{
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...user,
+          Team: null
+        })
+      })
+    }catch(e:any){
+
+    }
+  }
+
   useEffect(() => {
     // 1. If no user ID in localStorage, skip loading (no need to fetch).
     if (!storedUserId) {
@@ -62,7 +80,13 @@ const GetTeamHook = () => {
           setTeamInfo(null);
         } else {
           const data: Team = JSON.parse(text);
+
           setTeamInfo(data);
+          if(userData.team !== data.id){
+            TeamNull(userData);
+            console.log(userData.team + 'This is our team')
+            console.log(data.id + 'This is our team person')
+          }
         }
       } catch (error: any) {
         console.error("Failed to fetch team info:", error);

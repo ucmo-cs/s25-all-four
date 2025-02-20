@@ -52,7 +52,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             </div>
             <div className='Name_Email_Phone'>                
                 {
-                    loading === false ? <h2>{userInfo?.username.toUpperCase()}</h2> :  <h2>Loading...</h2>
+                    loading === false ? <h2>{userInfo?.username.toUpperCase().substring(0,27)}</h2> :  <h2>Loading...</h2>
                 }
                 <div className='informationItem'>
                 {

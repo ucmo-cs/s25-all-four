@@ -69,7 +69,7 @@ const TimeSheetMenu: React.FC = () => {
                     <option value="">No user selected</option>
                     {
                       usersInfo?.filter((t) => t.team === teamInfo?.id).map((user, index) =>(
-                        <option value={user.id} key={index}>{user.username}</option>
+                        <option value={user.id} key={index}>{user.username.substring(0,30)}</option>
                       ))
                     }
                   </select>
@@ -132,7 +132,7 @@ const TimeSheetMenu: React.FC = () => {
                 usersInfo?.filter(u => u.team === teamInfo?.id).map((member, index)=>(
                   <>
                   <div className='BCTMTS'>
-                    <div className='TeamMemberTS' key={index}><p className='TeamMemberTSName'>{member.username}</p></div>
+                    <div className='TeamMemberTS' key={index}><p className='TeamMemberTSName'>{member.username.substring(0,40)}</p></div>
                     <div className='DaysOfMember'>
                     {
                       Array.from({ length: calendarMonths[monthId].days }).map((_, index) => (

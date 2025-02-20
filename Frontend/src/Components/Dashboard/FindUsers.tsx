@@ -39,10 +39,10 @@ const FindUsers: React.FC = () => {
                     src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
                     alt="" 
                   />
-                  <h1>{user.username}</h1>
+                  <h1>{user.username.substring(0,22)}</h1>
                   <p>
                     {
-                      (user.team === null) || (user.team === '') ?
+                      user.team === null ?
                       'No team' :
                       teamsInfo?.find(t => t.id === user.team)?.teamName
                     }

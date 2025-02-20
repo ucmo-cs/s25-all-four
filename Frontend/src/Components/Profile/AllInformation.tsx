@@ -154,10 +154,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
           <div className='InformationsContainerLower'>
             <div className='ProjectSelectionContainer'>
                 <article className='ProjectSelection'>
-                  <h2>Current team project:_ 
+                  <p className='PCTP'>{userInfo?.team !== null ? 'Current team project' : ''}</p>
+                  <h2>  
                     {
-                      (userInfo?.team === null) || (userInfo?.team === '') ? <p>No team</p> : 
-                      load === true ? <p>Loading...</p> :<p>{teamInfo?.teamName}</p>
+                      (userInfo?.team === null) || (userInfo?.team === '') ? 'Choose a team' : 
+                      load === true ? 'Loading...' : teamInfo?.teamName.substring(0, 27)
                     }
                     </h2>
                   <div className='SelectionBody'>
@@ -167,7 +168,7 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                     <div>
                         {
                           teamsInfo &&(
-                            teamsInfo!.length >= 1 ? <h4 onChange={() => (console.log(teamsInfo[teamIndex].teamName))}>{teamsInfo[teamIndex].teamName}</h4> : <p>No team</p>
+                            teamsInfo!.length >= 1 ? <h4 onChange={() => (console.log(teamsInfo[teamIndex].teamName))}>{teamsInfo[teamIndex].teamName.substring(0,25)}</h4> : <p>No team</p>
                           )
                         }
                         {

@@ -5,6 +5,8 @@ import MainDashboard from '../Components/Dashboard/MainDashboard';
 import FindUsers from '../Components/Dashboard/FindUsers';
 
 const Dashboard: React.FC = () => {
+  
+
   return (
     <main className='Dashboard'>    
         <NavBar/>     

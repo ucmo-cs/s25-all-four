@@ -101,7 +101,7 @@ const Updates_Team: React.FC = () => {
                         .map((teamMember, index) => (
                         <div className='Member' key={index}>
                             <div className='MemeberContainer'>
-                            <p>{teamMember.username}</p>
+                            <p>{teamMember.username.substring(0,30)}</p>
                             <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
                             {
                                 teamMember.loggedIn === true ? 
@@ -123,7 +123,7 @@ const Updates_Team: React.FC = () => {
                     <h4>
                     {
                         
-                        loading === true ? <p>loading...</p> : (userInfo?.team === '') || (userInfo?.team === null) ? 'You are not part of a team' : teamInfo?.teamName
+                        loading === true ? <p>loading...</p> : (userInfo?.team === '') || (userInfo?.team === null) ? 'You are not part of a team' : teamInfo?.teamName.substring(0,47)
                     }
                     </h4>
                     </div>
