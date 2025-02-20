@@ -6,9 +6,9 @@
     border-radius: 0.5em;
     width: 57%;
     height: 51%;
-    background-color: rgb(255, 250, 236);
+    background-color: white;
     display: flex;
-    
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
     transform: translateY(-120%);
@@ -18,19 +18,27 @@
 .CreateNewUpdate h1{
     color: black;
 }
-.CreateNewUpdate label, .CreateNewUpdate h1, .CreateNewUpdate input, .CreateNewUpdate button{
-    margin-block-start: 2%;
-}
+
 .CreateNewUpdate input{
     border: 1px solid gray;
     height: 10%;
-    width: 30%;
+    width: 50%;
     border-radius: 0.25em;
+}
+.CreateNewUpdate button{
+    height: 10%;
+    width:15%;
+    background-color: rgb(245, 255, 158);
+    color: black;
+    border: 1px solid black;
+    border-radius: 1em;
+    cursor: pointer;
+
 }
 .CreateNewUpdate textarea{
     border: 1px solid gray;
     height: 40%;
-    width: 30%;
+    width: 50%;
     border-radius: 0.25em;
     
 }

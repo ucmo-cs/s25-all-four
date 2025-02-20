@@ -29,11 +29,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
   const removeTeamId = useRef<HTMLSelectElement>(null)
 
 
-  async function ChangeTeam(teamId: string | undefined): Promise<void>{
+  async function ChangeTeam(teamId: string | null, leave: boolean): Promise<void>{
 
     const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`
     const teamlenght = usersInfo?.filter(t => t.team === teamsInfo![teamIndex].id)    
-    if(teamlenght!.length > teamsInfo![teamIndex].teamSize - 1){
+    if(teamlenght!.length > teamsInfo![teamIndex].teamSize - 1 && leave === false){
       alert('This team is full, try with other team')
       return
     }
@@ -52,7 +52,8 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
       alert(e)
     }finally{
       console.log('Team added')
-      alert('Now you are part of ' + teamsInfo![teamIndex].teamName)
+      if(leave === true) alert('Now you are part of ' + teamsInfo![teamIndex].teamName)
+      if(leave === false) alert('You left ' + teamInfo?.teamName)
       window.location.reload()
     }
   }
@@ -74,15 +75,8 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
     }
   }
 
-  async function SelectTeam(): Promise<void>{
-
-    var teamID: string | undefined = '';
-    
-    if(teamsInfo){
-      teamID = teamsInfo[teamIndex].id
-      await ChangeTeam(teamID)
-    }
-
+  async function SelectTeam(teamID_: string | null, leave: boolean): Promise<void>{
+    await ChangeTeam(teamID_, leave)
   }
 
   useEffect(()=>{
@@ -186,6 +180,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                             teamsInfo!.length >= 1 ? <p>Size of team: {teamsInfo[teamIndex].teamSize}</p> : <p>No team size available</p>
                           )
                         }
+                        {
+                          teamsInfo &&(
+                            teamsInfo!.length >= 1 ? <p>Current size of team: {usersInfo?.filter(t => t.team === teamsInfo![teamIndex].id).length }</p> : <p>No team size available</p>
+                          )
+                        }
                     </div>
                     <img style={{transform: 'rotateZ(180deg)'}} 
                           src="https://www.svgrepo.com/show/247760/left-arrow-back.svg" 
@@ -193,7 +192,12 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
                           onClick={() => setTeamIndex(teamIndex < teamsInfo!.length - 1? teamIndex + 1 : teamIndex - 0)}
                           />
                   </div>
-                  <button onClick={SelectTeam}>Request Join</button>
+                  <div className='ButtonsTeam'>
+                  <button onClick={() => SelectTeam(teamsInfo?.[teamIndex]?.id ?? "", true)}>Join</button>
+                    {
+                      userInfo?.team !== null && <button onClick={() => SelectTeam(null, false)}>Leave team</button>
+                    }
+                  </div>
                 </article>
             </div>
             <div className='TeamSelectionContainer'>

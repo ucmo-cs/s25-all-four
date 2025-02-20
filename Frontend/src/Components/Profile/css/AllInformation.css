@@ -249,3 +249,15 @@
 .InformationTextInfo p{
     text-align: center;
 }
+.ButtonsTeam{
+    display: flex;
+    height: 10%;
+    width: 100%;
+    justify-content: space-evenly;
+}
+.ButtonsTeam button{
+    height: 100%;
+}
+.ButtonsTeam button:nth-child(even){
+    background-color: red;
+}

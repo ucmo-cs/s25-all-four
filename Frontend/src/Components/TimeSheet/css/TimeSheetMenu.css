@@ -171,3 +171,13 @@
     border: none;
     border-bottom: 2px solid black;
 }
+.noarrows::-webkit-outer-spin-button,
+.noarrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.noarrows {
+    -moz-appearance: textfield;
+    text-align: center;
+}

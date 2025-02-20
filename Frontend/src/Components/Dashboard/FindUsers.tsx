@@ -33,7 +33,7 @@ const FindUsers: React.FC = () => {
           }
           {
             ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && (
-              usersInfo?.map((user, index) => (
+              usersInfo.filter((u) => u.id !== userinfo.userInfo?.id).map((user, index) => (
                 <div key={index} className='UserItem'>
                   <img 
                     src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 

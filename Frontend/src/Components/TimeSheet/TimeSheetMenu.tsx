@@ -6,11 +6,14 @@ import GetTeamHook from '../../Shared/GetTeamHook';
 
 const TimeSheetMenu: React.FC = () => {
 
-  const {userInfo, loading} = GetUserHook();
+  const {userInfo} = GetUserHook();
   const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
   const {usersInfo, load} = GetAllUsersHook();
   const {teamInfo} = GetTeamHook()
+  const [editUser, setEditUser] = useState<string>(localStorage.getItem('UserId')?? "")
+  const [timeEntries, setTimeEntries] = useState<{[key: number]: number}>({})
+
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 31 },
     { "id": 2, "name": "February", "days": 28 },
@@ -38,6 +41,18 @@ const TimeSheetMenu: React.FC = () => {
     AssignMonthId();
   },[month])
 
+  function HandleChanges(id: number, value: number): void {
+    setTimeEntries((prev) => ({
+      ...prev,
+      [id]: value
+    }));
+    console.log(timeEntries)
+  }
+
+  useEffect(() =>{
+    console.log(timeEntries)
+  },[timeEntries])
+
   return (
     <section className='TimeSheetMenu'>
       <div className='Time'>
@@ -50,11 +65,11 @@ const TimeSheetMenu: React.FC = () => {
               <div className='AdminTSOptions'>
                 <div className='SelectTS'>
                   <h4>Select user</h4>
-                  <select name="" id="">
+                  <select name="" id="" value={editUser} onChange={(e) => setEditUser(e.target.value)}>
                     <option value="">No user selected</option>
                     {
-                      usersInfo?.map((user, index) =>(
-                        <option value="" key={index}>{user.username}</option>
+                      usersInfo?.filter((t) => t.team === teamInfo?.id).map((user, index) =>(
+                        <option value={user.id} key={index}>{user.username}</option>
                       ))
                     }
                   </select>
@@ -73,8 +88,9 @@ const TimeSheetMenu: React.FC = () => {
                 </div>
                 <div className='ExportEditSave'>
                     <button>Export PDF</button>
+                    <button onClick={() => setIsEditable(!isEditable)}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
                     <button>Save</button>
-                    <button>Edit</button>
+                   
                 </div>
               </div>
             ) : (<div className='AdminTSOptions'>
@@ -93,7 +109,7 @@ const TimeSheetMenu: React.FC = () => {
                 <div className='ExportEditSave'>
                     <button>Export PDF</button>
                     <button>Save</button>
-                    <button onClick={() => setIsEditable(!isEditable)}>Edit</button>
+                    <button onClick={() => setIsEditable(!isEditable)}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
                 </div>
             </div>)
           }
@@ -122,7 +138,11 @@ const TimeSheetMenu: React.FC = () => {
                       Array.from({ length: calendarMonths[monthId].days }).map((_, index) => (
                         <div className='DaysofMonth' key={index}>
                         {
-                          isEditable === true && member.username === userInfo?.username ? <input type="number" /> :  <p>4</p>
+                          (isEditable === true && member.id === editUser) 
+                          ? 
+                          <input key={index} type="number" className='noarrows' placeholder='#' value={timeEntries[index]} onChange={(e) => HandleChanges(index, Number(e.target.value))}/> 
+                          :  
+                          <p key={index}>4</p>
                         }
                         </div>
                       ))
