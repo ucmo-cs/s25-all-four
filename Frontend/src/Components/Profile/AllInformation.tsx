@@ -33,9 +33,11 @@ const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setB
 
     const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`
     const teamlenght = usersInfo?.filter(t => t.team === teamsInfo![teamIndex].id)    
-    if(teamlenght!.length > teamsInfo![teamIndex].teamSize - 1 && leave === false){
+      
+    if(teamlenght!.length > teamsInfo![teamIndex].teamSize - 1){
+      
       alert('This team is full, try with other team')
-      return
+      if(leave === true) return
     }
     try{
       await fetch(url, {

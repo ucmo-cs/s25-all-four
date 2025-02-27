@@ -7,7 +7,7 @@ import GetUserHook from '../Shared/GetUserHook'
 
 const Profile: React.FC = () => {
 
-  const {userInfo, loading, error} = GetUserHook()
+  const {userInfo} = GetUserHook()
   const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`;
   const [phone, setPhone] = useState<string>('')
   const [address, setAddress] = useState<string>('')
@@ -19,6 +19,16 @@ const Profile: React.FC = () => {
   const span = useRef<HTMLSpanElement>(null)
 
 async function SendChangesToDB(): Promise<void> {
+  if(
+    phone === '' && 
+    address === '' &&
+    nickName === '' &&
+    birthday === '' &&
+    information === ''
+  ){
+    alert('No changes has been made')
+    return;
+  }  
   try{      
     await fetch(`https://localhost:7010/api/UserInformation/${userInfo?.id}`, {
           method: 'PUT',

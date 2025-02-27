@@ -1,0 +1,11 @@
+.UserInformation{
+    width: auto;
+    max-width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+.UIB{
+    height: 100%;
+    width: 95%;
+    margin-left: 5%;    
+}

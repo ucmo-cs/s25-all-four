@@ -4,9 +4,12 @@ import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetUserHook from '../../Shared/GetUserHook';
 import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import { Element } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
+
 const FindUsers: React.FC = () => {
 
-  const {usersInfo, load, er} = GetAllUsersHook();
+  const navigate = useNavigate()
+  const {usersInfo} = GetAllUsersHook();
   const {teamsInfo} = GetAllTeamsHook();
   const userinfo = GetUserHook()
   
@@ -36,6 +39,8 @@ const FindUsers: React.FC = () => {
               usersInfo.filter((u) => u.id !== userinfo.userInfo?.id).map((user, index) => (
                 <div key={index} className='UserItem'>
                   <img 
+                    style={{cursor: 'pointer'}}
+        np            onClick={() => navigate(`/application/user/${user.username}`)}
                     src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
                     alt="" 
                   />

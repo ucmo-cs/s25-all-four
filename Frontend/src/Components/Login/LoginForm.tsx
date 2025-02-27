@@ -102,7 +102,7 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
         </span>
         </div>
         <article className='LForm'>          
-          <input type='text' placeholder='Email' value={username} onChange={(e) => setUsername(e.target.value)}/>
+          <input type='text' placeholder='Email or Username' value={username} onChange={(e) => setUsername(e.target.value)}/>
           <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}/>
           <button style={{cursor: 'pointer'}} onClick={() => Login()} type='submit'>Login!</button>          
           <p style={{cursor: 'pointer'}} onClick={() => navigate('/')}>Go back to menu</p>

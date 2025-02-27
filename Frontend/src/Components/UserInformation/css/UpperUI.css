@@ -1,0 +1,65 @@
+.UIC_Article_Upper{
+    width: 70%;
+    height: 30%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-radius: 1em;
+}
+.UIC_Article_Upper p,.UIC_Article_Upper h4{
+    margin: 1%;
+}
+.UIC_DivInfo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.UIC_IMages{
+    width: 33.33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}
+.UIC_IMages img{
+    width: 63.33%;
+}
+.ButtonUIContainer{
+
+    width: 33.33%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ButtonUI{
+    height: 30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+}
+.ButtonUI button{
+    width: 60%;
+    height: 50%;
+    cursor: pointer;
+
+}
+.ButtonUI img{
+    width: 15%;
+}
+.UIC_BasicInfo h1{
+    font-size: 2em;
+    margin: 5%;
+}
+.UIC_BasicInfo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 33.33%;
+}

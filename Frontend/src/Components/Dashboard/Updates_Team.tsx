@@ -4,9 +4,10 @@ import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
 import GetUserHook from '../../Shared/GetUserHook';
 import CreateNewUpdate, { IUpdate } from './CreateNewUpdate';
+import { useNavigate } from 'react-router-dom';
 
 const Updates_Team: React.FC = () => {
-
+    const navigate = useNavigate()
     const {usersInfo, load} = GetAllUsersHook()
     const {userInfo, loading} = GetUserHook()
     const {teamInfo} = GetTeamHook()
@@ -102,7 +103,7 @@ const Updates_Team: React.FC = () => {
                         <div className='Member' key={index}>
                             <div className='MemeberContainer'>
                             <p>{teamMember.username.substring(0,30)}</p>
-                            <img src="https://www.svgrepo.com/show/532362/user.svg" alt="user icon" />
+                            <img src="https://www.svgrepo.com/show/532362/user.svg" onClick={() => navigate(`/application/user/${teamMember.username}`)} alt="user icon" />
                             {
                                 teamMember.loggedIn === true ? 
                                 <img src="https://www.svgrepo.com/show/335281/status-connected.svg" style={{width: '5%'}}alt="online status" /> :

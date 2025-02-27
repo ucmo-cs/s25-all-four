@@ -16,7 +16,7 @@ interface IModifyBasic{
 const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres,setModify,modify,address,phone,SendChangesToDB}) => {
 
     const navigate = useNavigate();
-    const {userInfo, loading, error} = GetUserHook()    
+    const {userInfo, loading} = GetUserHook()    
     const DeleteUser = async () => {await fetch(url,{method: 'DELETE'}); navigate('/')}
     
     const [modifyImg, setModifyImg] = useState<string>('https://www.svgrepo.com/show/511904/edit-1479.svg')
