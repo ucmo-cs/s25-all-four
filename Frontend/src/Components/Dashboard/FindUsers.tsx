@@ -40,7 +40,7 @@ const FindUsers: React.FC = () => {
                 <div key={index} className='UserItem'>
                   <img 
                     style={{cursor: 'pointer'}}
-        np            onClick={() => navigate(`/application/user/${user.username}`)}
+                    onClick={() => navigate(`/application/user/${user.username}`)}
                     src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
                     alt="" 
                   />
