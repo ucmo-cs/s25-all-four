@@ -4,6 +4,7 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250227174121_User information team changed1")]
+    partial class Userinformationteamchanged1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,15 +63,12 @@ namespace Backend.Migrations
                     b.Property<int>("HoursWorked")
                         .HasColumnType("int");
 
-                    b.Property<string>("TimesheetId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("TimesheetId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TimesheetId");
 
                     b.ToTable("timeEntries");
                 });
@@ -83,15 +83,12 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserInformationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserInformationId");
 
                     b.ToTable("timesheets");
                 });
@@ -178,6 +175,28 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInformation");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.TimeEntry", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.Timesheet", "Timesheet")
+                        .WithMany()
+                        .HasForeignKey("TimesheetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Timesheet");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.Timesheet", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.UserInformation", "UserInformation")
+                        .WithMany()
+                        .HasForeignKey("UserInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserInformation");
                 });
 #pragma warning restore 612, 618
         }

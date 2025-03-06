@@ -58,6 +58,90 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Backend.Controllers.TimeEntryController",
+    "Method": "GetAllTimeEntries",
+    "RelativePath": "api/TimeEntry",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeEntryController",
+    "Method": "AddTimeEntry",
+    "RelativePath": "api/TimeEntry",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "timeEntry",
+        "Type": "Backend.Models.Entities.TimeEntry",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeEntryController",
+    "Method": "GetTimeEntryById",
+    "RelativePath": "api/TimeEntry/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeSheetController",
+    "Method": "GetAllTimeSheets",
+    "RelativePath": "api/TimeSheet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeSheetController",
+    "Method": "CreateTimeSheet",
+    "RelativePath": "api/TimeSheet",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "timeSheet",
+        "Type": "Backend.Models.Entities.Timesheet",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeSheetController",
+    "Method": "GetTimeSheets",
+    "RelativePath": "api/TimeSheet/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Backend.Controllers.UpdatesController",
     "Method": "GetAllUpdates",
     "RelativePath": "api/Updates",
