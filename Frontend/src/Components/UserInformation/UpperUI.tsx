@@ -10,7 +10,14 @@ const UpperUI: React.FC<IUserInformationProps> = ({userInformation}) => {
                 alt="Profile picture" />
         </div>
         <div className='UIC_BasicInfo'>
-            <h1>{userInformation.username.toUpperCase().substring(0,16)}</h1>
+            <div className='UI_BasicInfo_Username_NickName'>
+                <h1>{userInformation.username.toUpperCase().substring(0,16)}</h1>
+                <h3>
+                    {
+                        userInformation.nickName ? `(${userInformation.nickName})` : ''
+                    }
+                </h3>
+            </div>
             <div className='UIC_DivInfo'>
             <h4>Email: </h4>
             <p>{userInformation.email}</p>

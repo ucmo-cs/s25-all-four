@@ -80,6 +80,9 @@
     margin-top: 3vh;
     background: linear-gradient(to bottom, #D9001B, #910012);
 }
+.UserItem h1{
+    text-align: center;
+}
 .UserItem p{
     text-align: center;
 }

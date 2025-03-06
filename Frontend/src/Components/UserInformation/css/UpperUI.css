@@ -16,6 +16,9 @@
     display: flex;
     justify-content: center;
 }
+.UIC_DivInfo h4{
+    color: black;
+}
 .UIC_IMages{
     width: 33.33%;
     height: 100%;
@@ -51,9 +54,24 @@
 .ButtonUI img{
     width: 15%;
 }
-.UIC_BasicInfo h1{
+.UI_BasicInfo_Username_NickName{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-block-end: 7%;
+}
+.UI_BasicInfo_Username_NickName h1{
     font-size: 2em;
     margin: 5%;
+    color: black;
+    margin: 0;
+    text-align: center;
+}
+.UI_BasicInfo_Username_NickName h3{
+    margin: 0;
 }
 .UIC_BasicInfo{
     display: flex;
