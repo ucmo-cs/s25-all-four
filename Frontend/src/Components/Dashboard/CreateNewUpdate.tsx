@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IClose } from '../Profile/NewProject';
 import './css/CreateNewUpdate.css'
 import GetUserHook from '../../Shared/GetUserHook';
 
@@ -12,13 +11,19 @@ export interface IUpdate {
     dateCreated: string;
     isVisible: boolean;
   }
+interface ICloseUpdate {
+    close: boolean;
+    setClose: (close: boolean) => void;
+    GetData: () => void;
+}
 
-const CreateNewUpdate: React.FC<IClose> = ({close, setClose}) => {
+const CreateNewUpdate: React.FC<ICloseUpdate> = ({close, setClose, GetData}) => {
     
+    const [userChange] = useState<boolean>(false)
     const divRef = useRef<HTMLElement>(null)
     const [header, setHeader] = useState<string>('')
     const [text, setText] = useState<string>('')
-    const {userInfo} = GetUserHook()
+    const {userInfo} = GetUserHook(userChange)
 
     function NewUpdate(): IUpdate {
         return {          
@@ -43,8 +48,8 @@ const CreateNewUpdate: React.FC<IClose> = ({close, setClose}) => {
             });
         } catch(e){
             alert(e)
-        } finally{
-            window.location.reload()
+        } finally{            
+            GetData()
             setTimeout(() => {
                 setClose(!close)
             }, 200);

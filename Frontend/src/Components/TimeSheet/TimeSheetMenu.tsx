@@ -15,14 +15,14 @@ interface ITimeEntry{
   id?: string;
   day: number;
   hoursWorked: number;
-  timesheetId: string ;
+  month: string;
   userId: string;
 }
 
 const TimeSheetMenu: React.FC = () => {
-
-  const [change, setChange] = useState<boolean>(false)
-  const {userInfo} = GetUserHook();
+  
+  const [userChange, setUserChange] = useState<boolean>(false)
+  const {userInfo} = GetUserHook(userChange);
   const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
   const {usersInfo, load} = GetAllUsersHook();
@@ -30,7 +30,7 @@ const TimeSheetMenu: React.FC = () => {
   const [editUser, setEditUser] = useState<string>(localStorage.getItem('UserId')?? "")
   const [timeEntries, setTimeEntries] = useState<{[key: number]: number}>({})
   const [timeEntry, setTimeEntry] = useState<ITimeEntry[]>([])
-  const [isEditable, setIsEditable] = useState<boolean>(false)
+  const [isEditable, setIsEditable] = useState<boolean>(false)  
   const [timeSheet, setTimeSheet] = useState<ITimeSheet[]>([])
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 31 },
@@ -72,12 +72,23 @@ const TimeSheetMenu: React.FC = () => {
       alert(e)
     }
   }
-  async function SubmitTimeEntries(): Promise<void> {
-    const url: string = 'https://localhost:7010/api/TimeEntry'    
-    var localMethod: string = 'POST'
 
+  async function SubmitTimeEntries(): Promise<void> {
+    var url: string = 'https://localhost:7010/api/TimeEntry'    
+    var localMethod: string = 'POST';
+    await GetTimeEntries()
+    
     Object.keys(timeEntries).forEach(async (key) => {
-      console.log(key, timeEntries[Number(key)])
+      var ftimeEntries = timeEntry.find(te => te.userId === editUser && te.month === month && te.day === Number(key))    
+      const timeEntryId = ftimeEntries?.id ?? ""
+      if(ftimeEntries) {
+        url = `https://localhost:7010/api/TimeEntry/${timeEntryId}`
+        localMethod = 'PUT'
+      }else{
+        url = 'https://localhost:7010/api/TimeEntry'
+        localMethod = 'POST'
+      }
+
       try{
             await fetch(url, {
             method: localMethod,
@@ -85,14 +96,17 @@ const TimeSheetMenu: React.FC = () => {
             body: JSON.stringify({
               day: Number(key),
               hoursWorked: timeEntries[Number(key)],
-              timesheetId: timeSheet.find(ts => ts.userId === editUser)?.id,
+              month: month,
               userId: editUser
             })
             })
       }catch(e){
         alert(e)
       }finally{
-        alert('Time entries saved')
+        alert(`Your ${key} hour/s on ${month}, ${timeEntries[Number(key)]} has been saved`)
+        setIsEditable(false)
+        await GetTimeEntries()
+        setTimeEntries({});``
       }
     })
   }  
@@ -188,8 +202,9 @@ const TimeSheetMenu: React.FC = () => {
                 <div className='ExportEditSave'>
                     <button>Export PDF</button>
                     <button onClick={() => {setIsEditable(!isEditable); CheckToPost();}}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
-                    <button onClick={SubmitTimeEntries}>Save</button>
-                   
+                    {
+                      isEditable === true && <button onClick={SubmitTimeEntries}>Save</button>             
+                    } 
                 </div>
               </div>
             ) : (<div className='AdminTSOptions'>
@@ -244,7 +259,7 @@ const TimeSheetMenu: React.FC = () => {
                           :  
                           <p key={index}>                            
                             {
-                              timeEntry.filter(te => te.day === index + 1 && te.userId === member.id)[0]?.hoursWorked ?? <b style={{fontFamily: 'monospace'}}>0</b>                              
+                              timeEntry.find(te => te.day === index + 1 && te.userId === member.id && te.month === month)?.hoursWorked ?? <b style={{fontFamily: 'monospace'}}>0</b>                              
                                 // .map((te, i) => (
                                 //   <span key={i}>{te.hoursWorked}</span>
                                 // ))

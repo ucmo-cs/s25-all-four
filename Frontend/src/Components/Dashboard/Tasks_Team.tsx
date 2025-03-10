@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/Tasks_Team.css'
 import GetUserHook from '../../Shared/GetUserHook'
 import { Link } from 'react-scroll';
 
 const Tasks_Team: React.FC = () => {
-const {userInfo, loading, error} = GetUserHook()
+
+    const [userChange, setUserChange] = useState<boolean>(false)
+    const {userInfo} = GetUserHook(userChange)
   return (
     <section className='Tasks_Team'>
         <div className='TaskButtons'>

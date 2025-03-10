@@ -16,10 +16,11 @@ interface IModifyBasic{
 const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres,setModify,modify,address,phone,SendChangesToDB}) => {
 
     const navigate = useNavigate();
-    const {userInfo, loading} = GetUserHook()    
-    const DeleteUser = async () => {await fetch(url,{method: 'DELETE'}); navigate('/')}
-    
+    const [userChange, setUserChange] = useState<boolean>(false)
     const [modifyImg, setModifyImg] = useState<string>('https://www.svgrepo.com/show/511904/edit-1479.svg')
+    
+    const DeleteUser = async () => {await fetch(url,{method: 'DELETE'}); navigate('/')}    
+
     function ShakeIcon(index: number): void{
         const Icon = document.querySelectorAll('.Edit_Delete img') as NodeListOf<HTMLImageElement>
         Icon[index].style.transform = 'rotateZ(20deg)'
@@ -30,7 +31,8 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             Icon[index].style.transform = 'rotateZ(0deg)'
         }, 200);
     }
-
+    
+    const {userInfo, loading} = GetUserHook(userChange)    
     async function SetChanges(): Promise<void>{
         setModify(!modify)        
         setModifyImg(modify ? 
@@ -39,7 +41,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             
         if(modify === true){
             await SendChangesToDB()
-            window.location.reload()
+            setUserChange(!userChange)
         }
     }
 
@@ -49,6 +51,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             <div className='ProfileImg'>
                 <img src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
                     alt="prfile img" />
+                    <input type="range" />
             </div>
             <div className='Name_Email_Phone'>                
                 {

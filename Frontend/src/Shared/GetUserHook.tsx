@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { UserInformaion } from "../Components/Login/RegisterForm"; 
 
-const GetUserHook = () => {
+const GetUserHook = (updateHook: boolean) => {
 
   const storedUserId = localStorage.getItem('UserId') ?? "";  
   const [userInfo, setUserInfo] = useState<UserInformaion | null>(null);
@@ -39,7 +39,7 @@ const GetUserHook = () => {
     };
 
     fetchUser();
-  }, [storedUserId]);
+  }, [updateHook]);
   return { userInfo, loading, error };
 };
 

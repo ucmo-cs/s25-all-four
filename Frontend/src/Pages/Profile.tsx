@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Css/Profile.css'
 import NavBar from '../Shared/NavBar';
 import BasicInformation from '../Components/Profile/BasicInformation';
@@ -7,7 +7,8 @@ import GetUserHook from '../Shared/GetUserHook'
 
 const Profile: React.FC = () => {
 
-  const {userInfo} = GetUserHook()
+  const [userChange, setUserChange] = useState<boolean>(false)
+  const {userInfo} = GetUserHook(userChange)
   const url: string = `https://localhost:7010/api/UserInformation/${userInfo?.id}`;
   const [phone, setPhone] = useState<string>('')
   const [address, setAddress] = useState<string>('')
@@ -48,7 +49,12 @@ async function SendChangesToDB(): Promise<void> {
   }catch(e){
       alert(e);
   } finally{
-      console.log('User information has been updated')
+    setAddress('')
+    setPhone('')
+    setNickName('')
+    setBirthday('')
+    setInformation('')    
+    setUserChange(!userChange)
   }
 }
 

@@ -2,7 +2,8 @@
 .UpperSection{
     height: 100vh;
     width: 100%;
-    background: url("https://th.bing.com/th/id/R.fd5f251072974193cc1ffcb0790ab4f4?rik=FYLxVYQhZ3w88A&riu=http%3a%2f%2fwallsdesk.com%2fwp-content%2fuploads%2f2018%2f04%2fPlane-Images.jpg&ehk=Bw%2bSFqU80LhNgvZ4CgNC%2fTNU6FivORaOsSqNLnlQGWM%3d&risl=1&pid=ImgRaw&r=0");
+    background: url("https://static.vecteezy.com/system/resources/previews/027/104/066/large_2x/plane-taking-off-and-landing-at-sunset-with-cloudy-sky-free-photo.jpg");
+    /* background-color: red; */
     background-size: cover;
     display: flex;
     flex-direction: column;

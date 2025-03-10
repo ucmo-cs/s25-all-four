@@ -18,8 +18,8 @@ interface IModifyMore{
 }
 
 const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setBirthday, setNickName, information, setInformation}) => {
-  
-  const {userInfo, loading} = GetUserHook()
+  const [userChange, setUserChange] = useState<boolean>(false)
+  const {userInfo, loading} = GetUserHook(userChange)
   const [closeTeamPopUp,setCloseTeamPopUp] = useState<boolean>(true);
   const [closeProjectPopUp, setCloseProjectPopUp] = useState<boolean>(true)
   const [teamIndex, setTeamIndex] = useState<number>(0)

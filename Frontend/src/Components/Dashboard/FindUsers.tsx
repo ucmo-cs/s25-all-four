@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/FindUsers.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetUserHook from '../../Shared/GetUserHook';
@@ -11,7 +11,8 @@ const FindUsers: React.FC = () => {
   const navigate = useNavigate()
   const {usersInfo} = GetAllUsersHook();
   const {teamsInfo} = GetAllTeamsHook();
-  const userinfo = GetUserHook()
+  const [userChange, setUserChange] = useState<boolean>(false)
+  const userinfo = GetUserHook(userChange)
   
   return (
     <section className='FindUsers'>

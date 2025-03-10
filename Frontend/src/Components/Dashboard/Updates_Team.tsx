@@ -7,9 +7,11 @@ import CreateNewUpdate, { IUpdate } from './CreateNewUpdate';
 import { useNavigate } from 'react-router-dom';
 
 const Updates_Team: React.FC = () => {
+
+    const [userChange, setUserChange] = useState<boolean>(false)
     const navigate = useNavigate()
     const {usersInfo, load} = GetAllUsersHook()
-    const {userInfo, loading} = GetUserHook()
+    const {userInfo, loading} = GetUserHook(userChange)
     const {teamInfo} = GetTeamHook()
     const [close, setClose] = useState<boolean>(false)
     const [updates, setUpdates] = useState<IUpdate[]>()
@@ -37,10 +39,9 @@ const Updates_Team: React.FC = () => {
         } catch(e){
           alert(e + ' No updated deleted')
         }finally{
-          window.location.reload()
+          GetAllUpdates();
         }
-      }
-    
+      }    
 
     useEffect(() => {
         GetAllUpdates()
@@ -132,7 +133,7 @@ const Updates_Team: React.FC = () => {
                 
             </div>
         </section>
-        <CreateNewUpdate close={close} setClose={setClose}/>
+        <CreateNewUpdate close={close} setClose={setClose} GetData={GetAllUpdates}/>
     </>
   );
 }
