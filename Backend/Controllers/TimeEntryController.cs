@@ -40,6 +40,28 @@ namespace Backend.Controllers
             _dbContext.SaveChanges();
             return Ok(timeEntry);
         }
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult UpdateTimeEntry(Guid id, [FromBody] TimeEntry timeEntry)
+        {
+            var existingTimeEntry = _dbContext.timeEntries.Find(id);
+            if (existingTimeEntry == null) return NotFound(new { message = "Time entry not found" });
+            existingTimeEntry.Day = timeEntry.Day;
+            existingTimeEntry.HoursWorked = timeEntry.HoursWorked;
+            existingTimeEntry.Month = timeEntry.Month;
+            existingTimeEntry.UserId = timeEntry.UserId;
+            _dbContext.SaveChanges();
+            return Ok(existingTimeEntry);
+        }
 
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteTimeEntry(Guid id)
+        {
+            var timeEntry = _dbContext.timeEntries.Find(id);
+            if (timeEntry == null) return NotFound(new { message = "Time entry not found" });
+            _dbContext.timeEntries.Remove(timeEntry);
+            _dbContext.SaveChanges();
+            return Ok(timeEntry);
+        }
     }
 }

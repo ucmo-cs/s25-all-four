@@ -100,6 +100,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Backend.Controllers.TimeEntryController",
+    "Method": "UpdateTimeEntry",
+    "RelativePath": "api/TimeEntry/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "timeEntry",
+        "Type": "Backend.Models.Entities.TimeEntry",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TimeEntryController",
+    "Method": "DeleteTimeEntry",
+    "RelativePath": "api/TimeEntry/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Backend.Controllers.TimeSheetController",
     "Method": "GetAllTimeSheets",
     "RelativePath": "api/TimeSheet",
