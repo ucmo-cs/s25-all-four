@@ -6,6 +6,7 @@ import TimeSheet from '../../Pages/TimeSheet';
 import NotFoundApp from '../../Pages/NotFoundApp';
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import UserInformation from '../../Pages/UserInformation';
+import AirTraffic from '../../Pages/AirTraffic';
 
 const RouterApplication: React.FC = () => {
   const {usersInfo} = GetAllUsersHook();
@@ -13,6 +14,7 @@ const RouterApplication: React.FC = () => {
     <Routes>
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/airtraffic' element={<AirTraffic/>}/>
         <Route path='/timesheet' element={<TimeSheet/>}/>
         {
           usersInfo?.map((user) => (

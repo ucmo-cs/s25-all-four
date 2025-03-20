@@ -51,7 +51,7 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
             <div className='ProfileImg'>
                 <img src="https://www.svgrepo.com/show/486506/user-profile-filled.svg" 
                     alt="prfile img" />
-                    <input type="range" />
+                    {/* <input type="range" /> */}
             </div>
             <div className='Name_Email_Phone'>                
                 {

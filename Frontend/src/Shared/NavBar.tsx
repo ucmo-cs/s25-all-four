@@ -12,11 +12,12 @@ import GetUserHook from './GetUserHook';
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
-  const {userInfo, loading, error} = GetUserHook();
-  
+  const {userInfo} = GetUserHook(false);
+  // const [navigation, setNavigation] = useState<string>('');
+
   async function LogOut(): Promise<void> {
     try{
-      const response = await  fetch(`https://localhost:7010/api/UserInformation/${userInfo?.id}`,{
+      await  fetch(`https://localhost:7010/api/UserInformation/${userInfo?.id}`,{
         method: 'PUT',
         headers:{
           'Content-Type': 'application/json',
@@ -32,9 +33,12 @@ const NavBar: React.FC = () => {
       // localStorage.setItem('UserAC', 'null');
       // localStorage.setItem('UserId', 'null');
       navigate('/')
-    }
-    
+    }    
   }
+
+  // function HandleChangePage():void{
+
+  // }
 
   return (
     <nav className='NavBar'>
@@ -45,7 +49,7 @@ const NavBar: React.FC = () => {
               <li onClick={() => navigate('/application/')}><img src={Dashboard} alt="fox img" /><p>Home</p></li>
               <li onClick={() => navigate('/application/timesheet')}><img src={calendar} alt="calendar img" /><p>Timesheet</p></li>
               <li><img src={chat} alt="chat img" /><p>Chats</p></li>
-              <li ><img src={cloud} alt="cloud img" /><p>Wheater</p></li>
+              <li onClick={() => navigate('/application/airtraffic')}><img src={cloud} alt="cloud img" /><p>Wheater</p></li>
             </div>
             <li onClick={LogOut} style={{marginTop: 'auto', marginBottom: '1vh'}}><img src={exit} alt="exit img" /><p>exit</p></li>            
          </ul>

@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Updates_Team from './Updates_Team';
 import Tasks_Team from './Tasks_Team';
 import './css/MainDashboard.css'
 import GetUserHook from '../../Shared/GetUserHook'
 
 const MainDashboard: React.FC = () => {
-   
-  const [userChange, setUserChange] = useState<boolean>(false)
-  const {userInfo, loading} = GetUserHook(userChange);
-
+     
+  const {userInfo, loading} = GetUserHook(false);
+  
 
   return (
     <section className='MainDashboard'>

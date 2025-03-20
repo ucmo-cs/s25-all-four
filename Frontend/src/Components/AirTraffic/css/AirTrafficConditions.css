@@ -1,0 +1,88 @@
+.AirTrafficConditions{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.AirTrafficConditions h1{
+    border: 3px solid gray;
+    padding: 2%;
+    color: black;
+    font-size: 2em;
+    padding-inline: 10%;
+    margin: 0;
+}   
+.AirTrafficConditions label{
+    display: flex;
+    width: inherit;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: red; */
+    /* margin-block: 0.1%; */
+}
+.AirportInput{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+.AirportInput button{
+    border-radius: 2em;
+    border: none;
+    height: 100%;
+    width: 15%;
+    background-color: rgb(43, 108, 151);
+    color: white;
+    cursor: pointer;
+}
+.AirTrafficConditions label input{
+    background-image: url('https://www.svgrepo.com/show/522353/airplane.svg');    
+    background-position: 10px center; /* Adjust position */
+    background-repeat: no-repeat;
+    background-size: 20px; /* Adjust size */
+    padding-left: 35px; /* Make space for the image */
+    width: 70%;
+    border: 1px solid gray;
+    border-radius: .3em;    
+    height: 2.5em;
+    margin-block: 0.5%;
+}
+.AirportList{
+    border-radius: 0.3em;
+    position: absolute;
+    top: 90%;
+    left: 0;
+    list-style: none;
+    width: 100%;
+    background-color: rgb(61, 61, 61);
+    z-index: 1;
+    padding-inline:0;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transition: 700ms;
+    height: 0%;
+    /* height: fit-content; */
+    max-height: 20em;
+    overflow: auto;
+}
+.AirportList li{
+    border-radius: 0.3em;
+    margin-block: 0.5em;
+    padding: 1%;
+    width: 95%;
+    height: 1.5em;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    transition: 300ms;
+}
+.AirportList li:hover{
+    background-color: rgb(43, 108, 151);
+    color: white;
+    transition: 300ms;
+}
