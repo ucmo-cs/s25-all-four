@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './css/UpperSectionAir.css'
 import AirTrafficConditions from './AirTrafficConditions';
 import AirportsInfo, { Airport } from './AirportsInfo';
 
-const UpperSectionAir: React.FC = () => {
-
-  const [departureAirport, setDepartureAirport] = useState<Airport>(
-    {icao: '', 
-    iata: '', 
-    name: '', 
-    city: '', 
-    region: '', 
-    country: '', 
-    elevation_ft: 0, 
-    latitude: 0, 
-    longitude: 0, 
-    timezone: ''})
-  const [destinationAirport, setDestinationAirport] = useState<Airport>({
-    icao: '', 
-    iata: '', 
-    name: '', 
-    city: '', 
-    region: '', 
-    country: '', 
-    elevation_ft: 0, 
-    latitude: 0, 
-    longitude: 0, 
-    timezone: ''})
+interface UpperSectionAirProps {
+  setDepartureAirport: (airport: Airport) => void;
+  setDestinationAirport: (airport: Airport) => void;
+  departureAirport: Airport;
+  destinationAirport: Airport;
+  changeweather: (any: boolean) => void;
+  weather: boolean;
+}
+const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
+  setDepartureAirport,
+  setDestinationAirport,
+  departureAirport,
+  destinationAirport,
+  changeweather,
+  weather
+}) => {
 
   return (
     <section className='UpperSectionAir'>
-      <AirTrafficConditions setSelectedDepartureAirport={setDepartureAirport} setSelectedDestinationAirport={setDestinationAirport}/>
-      <AirportsInfo departureAirport={departureAirport} destinationAirport={destinationAirport}/>
+      <AirTrafficConditions 
+        setSelectedDepartureAirport={setDepartureAirport} 
+        setSelectedDestinationAirport={setDestinationAirport} 
+        setWeather={changeweather}
+        weather={weather}/>
+        
+      <AirportsInfo 
+        departureAirport={departureAirport} 
+        destinationAirport={destinationAirport}/>
     </section>
   );
 }

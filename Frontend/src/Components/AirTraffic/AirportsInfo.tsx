@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/AirportsInfo.css'
 
-interface AirportsInfoProps {
+export interface AirportsInfoProps {
     departureAirport: Airport;
     destinationAirport: Airport;
 }

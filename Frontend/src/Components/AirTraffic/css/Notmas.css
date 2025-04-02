@@ -1,0 +1,49 @@
+.Notmas{
+    height: 100%;
+    width: 48%;
+    background-color: white;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Notmas h1{
+    font-size: 2em;
+    color: #4A4A4A;    
+    margin: 0.5em;
+}
+.NotmasBox{
+    width: 95%;
+    height: 40%;    
+    /* background-color: red; */
+}
+.NotmasBoxContent{
+    overflow: auto;
+    height: 80%;
+    width: 100%;
+    border-radius: 0.5em;
+    background-color: #696969;
+    border: 2px solid #696969;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.NotamItem{
+    margin-inline-start: 1em;
+    height: 90%;
+    min-width: 12vw;
+    width: 30%;
+    border-radius: 0.5em;
+    background-color: white;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    text-align: center;
+    overflow: auto;
+    cursor: pointer;
+    transition: 300ms;
+}
+.NotamItem:hover{
+    background-color: #f7f8d3;
+    transition: 300ms;
+}

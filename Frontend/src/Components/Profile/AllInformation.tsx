@@ -17,7 +17,15 @@ interface IModifyMore{
   setNickName: (value: string) => void;
 }
 
-const AllInformation: React.FC<IModifyMore> = ({modify, birthday, nickName, setBirthday, setNickName, information, setInformation}) => {
+const AllInformation: React.FC<IModifyMore> = ({
+  modify, 
+  birthday, 
+  nickName, 
+  setBirthday, 
+  setNickName, 
+  information, 
+  setInformation}) => {
+    
   const [userChange, setUserChange] = useState<boolean>(false)
   const {userInfo, loading} = GetUserHook(userChange)
   const [closeTeamPopUp,setCloseTeamPopUp] = useState<boolean>(true);

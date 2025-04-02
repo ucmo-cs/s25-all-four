@@ -1,0 +1,8 @@
+.LowerSectionAir{
+    width: 90%;
+    height: 50%;
+    margin-block: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
