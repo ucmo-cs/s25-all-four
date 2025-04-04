@@ -18,25 +18,35 @@
     display: flex;
     width: inherit;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     /* background-color: red; */
     /* margin-block: 0.1%; */
 }
 .AirportInput{
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     position: relative;
 }
-.AirportInput button{
-    border-radius: 2em;
+.AirTrafficConditions label button{
+    border-radius: 0.7em;
     border: none;
-    height: 100%;
-    width: 15%;
+    height: 85%;
+    width: 25%;
     background-color: rgb(43, 108, 151);
     color: white;
     cursor: pointer;
+}
+.AirTrButton{
+    background-color: rgb(156, 156, 156);
+    padding: 2%;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    border-radius: 0.5em;
+    cursor: pointer;
+    transition: 1s;
 }
 .AirTrafficConditions label input{
     background-image: url('https://www.svgrepo.com/show/522353/airplane.svg');    

@@ -35,7 +35,7 @@
     justify-content: center;
 }
 .FindUsersHeader img{
-    width: 2em;
+    width: 2.5em;
     cursor: pointer;
 }
 .SearchbarFriends{    
@@ -85,4 +85,12 @@
 }
 .UserItem p{
     text-align: center;
+}
+.FindPeopleInput{
+    margin-inline: 0.5em;
+    border: 2px solid black;
+    border-radius: 0.5em ;
+    height: 2em;
+    width: 15%;
+    
 }

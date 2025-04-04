@@ -5,15 +5,24 @@ import GetUserHook from '../../Shared/GetUserHook';
 import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import { Element } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
+import { UserInformaion } from '../Login/RegisterForm';
 
 const FindUsers: React.FC = () => {
 
   const navigate = useNavigate()
   const {usersInfo} = GetAllUsersHook();
   const {teamsInfo} = GetAllTeamsHook();
-  const [userChange, setUserChange] = useState<boolean>(false)
-  const userinfo = GetUserHook(userChange)
-  
+  const userinfo = GetUserHook(false)
+  const [userInput, setUserInput] = useState<string>('')
+  const [userList, setUserList] = useState<UserInformaion[]>([])
+
+  const HandleUserList = (): UserInformaion[] => {
+    const filteredUsers = usersInfo!.filter((user) => {
+      return user.username.toLowerCase().includes(userInput.toLowerCase())
+    })
+    return filteredUsers
+  }
+
   return (
     <section className='FindUsers'>
       <Element name='ScrollFind'></Element>
@@ -21,7 +30,13 @@ const FindUsers: React.FC = () => {
           <div className='FindUsersHeader'>
             <div className='SearchbarFriends'>
               <h1>Find people</h1>
-              <input type="text" />
+              <input 
+                type="text" 
+                className='FindPeopleInput' 
+                value={userInput} 
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder='Search for a user'
+                />
               <img src="https://www.svgrepo.com/show/506743/search-square.svg" 
               alt="search img" />
             </div>
@@ -36,8 +51,7 @@ const FindUsers: React.FC = () => {
             )
           }
           {
-            ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && (
-              usersInfo.filter((u) => u.id !== userinfo.userInfo?.id).map((user, index) => (
+            ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && HandleUserList().map((user, index) => (
                 <div key={index} className='UserItem'>
                   <img 
                     style={{cursor: 'pointer'}}
@@ -55,8 +69,7 @@ const FindUsers: React.FC = () => {
                   </p>
                   <button>Add user</button>
                 </div>
-              ))
-            )
+              ))            
           } 
           </div>
         </div>

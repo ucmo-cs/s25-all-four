@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './css/TimeSheetMenu.css'
 import GetUserHook from '../../Shared/GetUserHook'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 // import { Team } from '../Profile/NewTeam';
 
 interface ITimeSheet{
@@ -21,8 +23,7 @@ interface ITimeEntry{
 
 const TimeSheetMenu: React.FC = () => {
   
-  const [userChange, setUserChange] = useState<boolean>(false)
-  const {userInfo} = GetUserHook(userChange);
+  const {userInfo} = GetUserHook(false);
   const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
   const {usersInfo, load} = GetAllUsersHook();
@@ -32,6 +33,7 @@ const TimeSheetMenu: React.FC = () => {
   const [timeEntry, setTimeEntry] = useState<ITimeEntry[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)  
   const [timeSheet, setTimeSheet] = useState<ITimeSheet[]>([])
+  const printRef = useRef<HTMLDivElement>(null)
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 31 },
     { "id": 2, "name": "February", "days": 28 },
@@ -157,17 +159,34 @@ const TimeSheetMenu: React.FC = () => {
     try{
       const response = await fetch(url)
       const data: ITimeSheet[] = await response.json()
-      // const teamInformation: string = teamInfo?.id ?? "";
-
-      // const currentTS: ITimeSheet[] = data.filter((ts) => ts.month === month && ts.userId === editUser)
       if(data !== null) setTimeSheet(data)        
     }catch(e){
       alert(e)
     }
   }  
+  const HandleDownloadPDF = async (): Promise<void> => {
+    const target = printRef.current as HTMLDivElement;
+    if(!target) return;
+    const canvas = await html2canvas(target)
+    const data = canvas.toDataURL('image/png')
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: 'letter'
+    })
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+    pdf.addImage(data, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('TimeSheet.pdf');
+  }
 
   return (
-    <section className='TimeSheetMenu'>
+    <section className='TimeSheetMenu' ref={printRef}>
       <div className='Time'>
 
       <div className='TSContainer'>
@@ -200,7 +219,7 @@ const TimeSheetMenu: React.FC = () => {
                   </select>
                 </div>
                 <div className='ExportEditSave'>
-                    <button>Export PDF</button>
+                    <button onClick={HandleDownloadPDF}>Export PDF</button>
                     <button onClick={() => {setIsEditable(!isEditable); CheckToPost();}}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
                     {
                       isEditable === true && <button onClick={SubmitTimeEntries}>Save</button>             
@@ -221,9 +240,11 @@ const TimeSheetMenu: React.FC = () => {
                   </select>
                 </div>
                 <div className='ExportEditSave'>
-                    <button>Export PDF</button>
-                    <button onClick={SubmitTimeEntries}>Save</button>
+                    <button onClick={HandleDownloadPDF}>Export PDF</button>
                     <button onClick={() => {setIsEditable(!isEditable); CheckToPost();}}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
+                    {
+                      isEditable === true && <button onClick={SubmitTimeEntries}>Save</button>             
+                    } 
                 </div>
             </div>)
           }
@@ -279,8 +300,7 @@ const TimeSheetMenu: React.FC = () => {
           </div>
         </article>
         <div className='SubmitTime'>
-          <input type="text" placeholder='Signature'/>
-          <button>Submit</button>
+
         </div>
       </div>
 

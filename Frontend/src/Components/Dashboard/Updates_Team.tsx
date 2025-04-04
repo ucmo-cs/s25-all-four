@@ -8,10 +8,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Updates_Team: React.FC = () => {
 
-    const [userChange, setUserChange] = useState<boolean>(false)
     const navigate = useNavigate()
     const {usersInfo, load} = GetAllUsersHook()
-    const {userInfo, loading} = GetUserHook(userChange)
+    const {userInfo, loading} = GetUserHook(false)
     const {teamInfo} = GetTeamHook()
     const [close, setClose] = useState<boolean>(false)
     const [updates, setUpdates] = useState<IUpdate[]>()
@@ -41,7 +40,14 @@ const Updates_Team: React.FC = () => {
         }finally{
           GetAllUpdates();
         }
-      }    
+    }    
+
+    const HideAllUpdates = (): void => {
+        var updates = document.querySelectorAll('.UpdatesItemContainer') as NodeListOf<HTMLElement>;
+        updates.forEach((update) => {
+            update.style.display = 'none';
+        })
+    }
 
     useEffect(() => {
         GetAllUpdates()
@@ -58,11 +64,11 @@ const Updates_Team: React.FC = () => {
                             <li className='UpdatesItemContainer' key={index}>                    
                                 <div className='ItemsUpdates'>
                                     <h2>{update.title}</h2>
-                                    <p>Posted on: <b>{update.dateCreated.substring(0,10)} </b>@<b>{update.dateCreated.substring(11,16)}</b></p>
-                                    <p>Posted by: <b>{update.authorName}</b></p>
+                                    <p>Posted on: <b style={{marginLeft: '0.5em'}}>{update.dateCreated.substring(0,10)} </b>@<b>{update.dateCreated.substring(11,16)}</b></p>
+                                    <p>Posted by: <b style={{marginLeft: '0.5em'}}>{update.authorName}</b></p>
                                     <p>{update.description}</p>
                                 </div>
-                                <button onClick={() => DeleteUpdate(update?.id ?? "")}>Hide this one</button>
+                                <button onClick={() => DeleteUpdate(update?.id ?? "")}>Remove this one</button>
                             </li>        
                             ))
                         }
@@ -88,7 +94,7 @@ const Updates_Team: React.FC = () => {
                 </article>
             </div>
             <div className='ButtonsUpdate'>
-                <button className='' style={{backgroundColor: '#910012'}}>Hide All</button>
+                <button className='' style={{backgroundColor: '#910012'}} onClick={HideAllUpdates}>Hide All</button>
                 <button className='' style={{backgroundColor: 'black'}} onClick={() => HaveTeamCheck()}>{close === false ? 'Create new update' : 'Close pop up'}</button>
             </div>
             <div className='DisplayTeamInformation'>

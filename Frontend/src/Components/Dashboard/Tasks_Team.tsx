@@ -5,8 +5,7 @@ import { Link } from 'react-scroll';
 
 const Tasks_Team: React.FC = () => {
 
-    const [userChange, setUserChange] = useState<boolean>(false)
-    const {userInfo} = GetUserHook(userChange)
+    const {userInfo} = GetUserHook(false)
   return (
     <section className='Tasks_Team'>
         <div className='TaskButtons'>

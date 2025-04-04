@@ -58,7 +58,7 @@ const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
     }
   }
   
-
+useEffect(() => {},[departureAirportCode, destinationAirportCode]);
   useEffect(() => {
     console.log('Weather changed to: ' + weather);
   }, [weather]);
@@ -67,29 +67,29 @@ const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
     <article className='AirTrafficConditions'>
         <h1>Air Traffic Conditions</h1>
         <label htmlFor="Departure">
-            Please select your departure airport
             <div className='AirportInput'>
+            Please select your departure airport
               <input type="text" 
                 placeholder='Provide the airport'
                 value={departureAirportCode}
                 onChange={(e) => setDepartureAirportCode(e.target.value)}
                 />
-              <button onClick={() => CallAirport(true, departureAirportCode)}>Search</button>
             </div>
+            <button onClick={() => CallAirport(true, departureAirportCode)}>Search</button>
         </label>
         <label htmlFor="Destination">
-            Please select your destination airport
             <div className='AirportInput'>
+            Please select your destination airport
               <input type="text" 
                 placeholder='Provide the airport'
                 value={destinationAirportCode}
                 onChange={(e) => setDestinationAirportCode(e.target.value)}
                 />
-              <button onClick={() => CallAirport(false, destinationAirportCode)}>Search</button>
             </div>
+            <button onClick={() => CallAirport(false, destinationAirportCode)}>Search</button>
         </label>
 
-          <button>Press Here to see in the map</button>
+          <button className='AirTrButton'>Press Here to see in the map</button>
     </article>
   );
 }
