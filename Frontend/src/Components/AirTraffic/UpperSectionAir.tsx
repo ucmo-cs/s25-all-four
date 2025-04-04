@@ -9,6 +9,7 @@ interface UpperSectionAirProps {
   departureAirport: Airport;
   destinationAirport: Airport;
   changeweather: (any: boolean) => void;
+  isDeparture: (any: boolean) => void;
   weather: boolean;
 }
 const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
@@ -17,6 +18,7 @@ const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
   departureAirport,
   destinationAirport,
   changeweather,
+  isDeparture,
   weather
 }) => {
 
@@ -26,6 +28,7 @@ const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
         setSelectedDepartureAirport={setDepartureAirport} 
         setSelectedDestinationAirport={setDestinationAirport} 
         setWeather={changeweather}
+        isDepartureEX={isDeparture}
         weather={weather}/>
         
       <AirportsInfo 

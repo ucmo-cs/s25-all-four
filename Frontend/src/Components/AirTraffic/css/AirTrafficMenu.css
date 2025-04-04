@@ -6,3 +6,8 @@
     align-items: flex-end;
     
 }
+
+#map {
+    height: 100%;
+  }
+  

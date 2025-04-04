@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './css/WeatherBox.css';
 import { Airport } from './AirportsInfo';
 import { WeatherData } from './Weather';
@@ -6,13 +6,13 @@ import { WeatherData } from './Weather';
 interface WeatherBoxProps {
   weather: WeatherData | null;
   airport: Airport;
-  setWeather: () => void;
 }
 
 const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {  
 
   const WeatherBackground1 = useRef<HTMLDivElement>(null);
   const WeatherBackground2 = useRef<HTMLDivElement>(null);
+  const [weatherImg, setWeatherImg] = useState<string>('https://www.svgrepo.com/show/469195/loading.svg');
 
   useEffect(()=>{
     ChangeBackgroundColor()
@@ -33,10 +33,10 @@ const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {
         WeatherBackground2.current!.style.backgroundColor = '#f4fabc';
       }
       else if(weather.temp >= 20 && weather.temp < 30){
-        WeatherBackground1.current!.style.backgroundColor = '#fa7b40';
-        WeatherBackground2.current!.style.backgroundColor = '#fa7b40';
+        WeatherBackground1.current!.style.backgroundColor = '#FFDDAB';
+        WeatherBackground2.current!.style.backgroundColor = '#FFDDAB';
       }
-      else if(weather.temp > 30){
+      else if(weather.temp >= 30){
         WeatherBackground1.current!.style.backgroundColor = '#aa1400';
         WeatherBackground2.current!.style.backgroundColor = '#aa1400';
       }
@@ -51,7 +51,7 @@ const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {
       else if(weather.cloud_pct < 30 && weather!.cloud_pct >= 10){
         return 'Mostly Sunny'
       }
-      else if(weather.cloud_pct < 50 && weather!.cloud_pct >= 30){
+      else if(weather.cloud_pct < 50 && weather!.cloud_pct >= 30){        
         return 'Partly Cloudy'
       }
       else if(weather.cloud_pct < 70 && weather!.cloud_pct >= 50){
@@ -70,6 +70,33 @@ const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {
       return 'no data'
     }
   }
+
+  useEffect(() => {
+    if(weather){
+      if(weather.cloud_pct < 10){
+        setWeatherImg('https://www.svgrepo.com/show/503805/sun.svg')        
+      }
+      else if(weather.cloud_pct < 30 && weather!.cloud_pct >= 10){
+        setWeatherImg('https://www.svgrepo.com/show/313149/partally-sunny.svg')        
+      }
+      else if(weather.cloud_pct < 50 && weather!.cloud_pct >= 30){
+        setWeatherImg('https://www.svgrepo.com/show/313149/partally-sunny.svg')        
+      }
+      else if(weather.cloud_pct < 70 && weather!.cloud_pct >= 50){
+        setWeatherImg('https://www.svgrepo.com/show/463469/cloudy.svg')        
+      }
+      else if(weather.cloud_pct < 90 && weather!.cloud_pct >= 70){
+        setWeatherImg('https://www.svgrepo.com/show/463469/cloudy.svg')
+      }
+      else if(weather.cloud_pct >= 90){
+        setWeatherImg('https://www.svgrepo.com/show/295696/cloudy-cloud.svg')
+      }    
+      else{
+        setWeatherImg('https://www.svgrepo.com/show/209459/error.svg')
+      }
+    } else{      
+    }
+  },[weather])
 
   function GetHumidityInformation(): string {
     if (weather) {
@@ -103,13 +130,10 @@ const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {
           <div className="left-side">
             <div className="weather">
               <div>
-                <svg stroke="#ffffff" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-                  <g strokeWidth={0} id="SVGRepo_bgCarrier" />
-                  <g strokeLinejoin="round" strokeLinecap="round" id="SVGRepo_tracerCarrier" />
-                  <g id="SVGRepo_iconCarrier">
-                    <path d="M512 704a192 192 0 1 0 0-384 192 192 0 0 0 0 384zm0 64a256 256 0 1 1 0-512 256 256 0 0 1 0 512zm0-704a32 32 0 0 1 32 32v64a32 32 0 0 1-64 0V96a32 32 0 0 1 32-32zm0 768a32 32 0 0 1 32 32v64a32 32 0 1 1-64 0v-64a32 32 0 0 1 32-32zM195.2 195.2a32 32 0 0 1 45.248 0l45.248 45.248a32 32 0 1 1-45.248 45.248L195.2 240.448a32 32 0 0 1 0-45.248zm543.104 543.104a32 32 0 0 1 45.248 0l45.248 45.248a32 32 0 0 1-45.248 45.248l-45.248-45.248a32 32 0 0 1 0-45.248zM64 512a32 32 0 0 1 32-32h64a32 32 0 0 1 0 64H96a32 32 0 0 1-32-32zm768 0a32 32 0 0 1 32-32h64a32 32 0 1 1 0 64h-64a32 32 0 0 1-32-32zM195.2 828.8a32 32 0 0 1 0-45.248l45.248-45.248a32 32 0 0 1 45.248 45.248L240.448 828.8a32 32 0 0 1-45.248 0zm543.104-543.104a32 32 0 0 1 0-45.248l45.248-45.248a32 32 0 0 1 45.248 45.248l-45.248 45.248a32 32 0 0 1-45.248 0z" fill="#ffffff" />
-                  </g>
-                </svg>
+                <img 
+                  className='WeatherImg'
+                  src={weatherImg} 
+                  alt="Weather img" />
               </div>
               <div style={{width: '9em'}}>{GetCloudInformation()}</div>
             </div>

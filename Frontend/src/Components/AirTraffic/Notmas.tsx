@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './css/Notmas.css';
 import QuitoData from './QuitoTraffic.json';
+import { Airport } from './AirportsInfo';
 
 interface AirportsInfoProps {
-  departureAirport: { icao: string };
-  destinationAirport: { icao: string };
+  departureAirport: Airport;
+  destinationAirport: Airport;
+  weatherChange: boolean;
+  isDepartureEx: boolean;
 }
 
 interface Notam {
@@ -31,48 +34,56 @@ interface Notam {
   criticality: number;
 }
 
-const Notmas: React.FC<AirportsInfoProps> = ({ departureAirport, destinationAirport }) => {
+const Notmas: React.FC<AirportsInfoProps> = ({ 
+  departureAirport, 
+  destinationAirport, 
+  weatherChange, 
+  isDepartureEx }) => {
+
   const [notamsDeparture, setNotamsDeparture] = useState<Notam[]>([]);
   const [notamsDestination, setNotamsDestination] = useState<Notam[]>([]);
 
-  async function getNotamsDeparture(): Promise<void> {
-    const url = `https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=bd29dc5e-41b6-4a33-ae25-7eed7402a8fb&=json&criticality=ALL&locations=${departureAirport.icao}`;
-    
-    const response = await fetch(url);
-    const data: Notam[] = await response.json();
-    console.log(data);
-    setNotamsDeparture(data);
+  async function HandleNotams(): Promise<void> {
+
+    try{
+      const Airport: Airport = isDepartureEx ? departureAirport : destinationAirport;
+      const url: string = `https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=973dab72-fdca-464a-b3fc-59d368737b0a&format=json&criticality=ALL&locations=${Airport.icao}`;
+      // const url: string = ''
+      const response = await fetch(url);
+      const data: Notam[] = await response.json();
+      
+      console.log(data);
+      if(isDepartureEx) setNotamsDeparture(data);
+      else setNotamsDestination(data);    
+    } catch (error) {
+      alert('Error fetching NOTAMS. Please try again later.');
+      setNotamsDeparture([]);
+      setNotamsDestination([]);
+    }
+  
   }
 
   function DisplayMessage(notam: Notam): void{
     alert(
       `Subject: ${notam.Subject}
       \nModifier: ${notam.Modifier}
+      \nCriticality: ${notam.criticality}
       \nMessage: ${notam.message}
-      \nStart date: ${notam.startdate}`);
+      \nStart date: ${notam.startdate}
+      \nEnd date: ${notam.enddate}`
+    );
 
-  }
-
-  async function getNotamsDestination(): Promise<void> {
-    const url = `https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=bd29dc5e-41b6-4a33-ae25-7eed7402a8fb&format=json&criticality=ALL&locations=${destinationAirport.icao}`;
-    
-    const response = await fetch(url);
-    const data: Notam[] = await response.json();
-    console.log(data);
-    setNotamsDestination(data);
   }
 
   // Fetch new departure NOTAMs whenever the departure airport changes
   useEffect(() => {
     if(departureAirport.icao === '') return;
-    getNotamsDeparture();
-  }, [departureAirport]);
+    if(weatherChange === true){     
+      HandleNotams()
+      alert('Fetching NOTAMS for departure airport...');     
+    }
+  }, [weatherChange]);
 
-  // Fetch new destination NOTAMs whenever the destination airport changes
-  useEffect(() => {
-    if(destinationAirport.icao === '') return;
-    getNotamsDestination();
-  }, [destinationAirport]);
 
   return (
     <article className='Notmas'>
@@ -82,13 +93,13 @@ const Notmas: React.FC<AirportsInfoProps> = ({ departureAirport, destinationAirp
       <div className='NotmasBox'>
         <h4>Departure Airport NOTAMS</h4>
         <article className='NotmasBoxContent'>
-          {QuitoData.length === 0 ? (
+          {notamsDeparture.length === 0 ? (
             <div className='NotamItem'>
               <h5>No NOTAMS</h5>
               <p>Select an airport or wait until we get your NOTAMS</p>
             </div>
           ) : (
-            QuitoData.map((notam: Notam) => 
+            notamsDeparture.map((notam: Notam) => 
             (
                 <div onClick={() => DisplayMessage(notam)} className='NotamItem' key={notam.key}>
                   <h4>{notam.Subject}</h4>
@@ -104,7 +115,7 @@ const Notmas: React.FC<AirportsInfoProps> = ({ departureAirport, destinationAirp
       <div className='NotmasBox'>
         <h4>Destination Airport NOTAMS</h4>
         <article className='NotmasBoxContent'>
-          {/* {notamsDestination.length === 0 ? (
+          {notamsDestination.length === 0 ? (
             <div className='NotamItem'>
               <h5>No NOTAMS</h5>
               <p>Select an airport or wait until we get your NOTAMS</p>
@@ -119,7 +130,7 @@ const Notmas: React.FC<AirportsInfoProps> = ({ departureAirport, destinationAirp
                 </div>
               );
             })
-          )} */}
+          )}
         </article>
       </div>
     </article>

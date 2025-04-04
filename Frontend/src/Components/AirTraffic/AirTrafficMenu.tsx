@@ -3,6 +3,7 @@ import './css/AirTrafficMenu.css'
 import UpperSectionAir from './UpperSectionAir';
 import LowerSectionAir from './LowerSectionAir';
 import { Airport } from './AirportsInfo';
+import Map from './Map';
 
 const AirTrafficMenu: React.FC = () => {
 
@@ -30,9 +31,11 @@ const AirTrafficMenu: React.FC = () => {
     timezone: ''})
 
     const [loadingWeather, setLoadingWeather] = useState<boolean>(false);
+    const [isDepartureEx, setIsDepartureEx] = useState<boolean>(false);
 
   return (
     <section className='AirTrafficMenu'>
+      {/* <Map/> */}
          <UpperSectionAir 
          setDepartureAirport={setDepartureAirport} 
          setDestinationAirport={setDestinationAirport} 
@@ -40,8 +43,10 @@ const AirTrafficMenu: React.FC = () => {
          destinationAirport={destinationAirport}
          changeweather={setLoadingWeather}
          weather={loadingWeather}
+         isDeparture={setIsDepartureEx}
          />
          <LowerSectionAir 
+         isDepartureEx={isDepartureEx}
          destinationAirport={destinationAirport} 
          departureAirport={departureAirport}
          weatherChange={loadingWeather}
