@@ -4,9 +4,9 @@ import './css/UpperSection.css';
 
 const UpperSection: React.FC = () => {
 
-  function SetBackground(): void{
+  // function SetBackground(): void{
     
-  }
+  // }
 
   return (
     <section className='UpperSection' id='UpperSection'>   

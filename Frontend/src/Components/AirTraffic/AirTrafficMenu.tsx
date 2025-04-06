@@ -3,7 +3,7 @@ import './css/AirTrafficMenu.css'
 import UpperSectionAir from './UpperSectionAir';
 import LowerSectionAir from './LowerSectionAir';
 import { Airport } from './AirportsInfo';
-import Map from './Map';
+// import Map from './Map';
 
 const AirTrafficMenu: React.FC = () => {
 

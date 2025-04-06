@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/Notmas.css';
-import QuitoData from './QuitoTraffic.json';
+// import QuitoData from './QuitoTraffic.json';
 import { Airport } from './AirportsInfo';
 
 interface AirportsInfoProps {

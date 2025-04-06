@@ -3,10 +3,6 @@ import GetAllTeamsHook from './GetAllTeamsHook';
 import { Team } from '../Components/Profile/NewTeam';
 import { UserInformaion } from '../Components/Login/RegisterForm';
 
-/**
- * Returns the team object for the logged‑in user.
- * Pass `refreshTrigger` (e.g. a boolean you toggle) whenever you need a refetch.
- */
 const GetTeamHook = (refreshTrigger: boolean) => {
   const storedUserId = localStorage.getItem('UserId') ?? '';
 

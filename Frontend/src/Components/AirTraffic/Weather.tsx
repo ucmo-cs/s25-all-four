@@ -3,7 +3,7 @@ import './css/Weather.css';
 import WeatherBox from './WeatherBox';
 import { Airport } from './AirportsInfo';
 import WindCard from './WindCard';
-import Map from './Map';
+// import Map from './Map';
 
 interface WeatherProps {
   departureAirport: Airport;

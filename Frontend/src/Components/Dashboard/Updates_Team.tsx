@@ -7,13 +7,14 @@ import CreateNewUpdate, { IUpdate } from './CreateNewUpdate';
 import { useNavigate } from 'react-router-dom';
 
 const Updates_Team: React.FC = () => {
-
-    const navigate = useNavigate()
-    const {usersInfo, load} = GetAllUsersHook()
-    const {userInfo, loading} = GetUserHook(false)
-    const {teamInfo} = GetTeamHook()
+    
     const [close, setClose] = useState<boolean>(false)
     const [updates, setUpdates] = useState<IUpdate[]>()
+    const [hideButton, setHideButton] = useState<boolean>(false)
+    const {usersInfo, load} = GetAllUsersHook()
+    const {userInfo, loading} = GetUserHook(false)
+    const {teamInfo} = GetTeamHook(false)
+    const navigate = useNavigate()
 
     function HaveTeamCheck(): void{
         if(userInfo?.team !== null){            
@@ -44,9 +45,17 @@ const Updates_Team: React.FC = () => {
 
     const HideAllUpdates = (): void => {
         var updates = document.querySelectorAll('.UpdatesItemContainer') as NodeListOf<HTMLElement>;
-        updates.forEach((update) => {
-            update.style.display = 'none';
-        })
+        if(!hideButton){
+            updates.forEach((update) => {
+                update.style.display = 'none';
+            })
+            setHideButton(prev => !prev)
+        } else{
+            updates.forEach((update) => {
+                update.style.display = 'flex';
+            })
+            setHideButton(prev => !prev)
+        }
     }
 
     useEffect(() => {
@@ -94,7 +103,7 @@ const Updates_Team: React.FC = () => {
                 </article>
             </div>
             <div className='ButtonsUpdate'>
-                <button className='' style={{backgroundColor: '#910012'}} onClick={HideAllUpdates}>Hide All</button>
+                <button className='' style={{backgroundColor: '#910012'}} onClick={HideAllUpdates}>{!hideButton ? "Hide all" : "Show all"}</button>
                 <button className='' style={{backgroundColor: 'black'}} onClick={() => HaveTeamCheck()}>{close === false ? 'Create new update' : 'Close pop up'}</button>
             </div>
             <div className='DisplayTeamInformation'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './css/CreateNewTask.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
@@ -9,7 +9,7 @@ interface IOpenTask {
     open: boolean;
     setOpen: (close: boolean) => void;
 }
-interface ITaskInfo {
+export interface ITaskInfo {
     id?: string;
     taskName: string;
     owner: string | undefined;
@@ -20,13 +20,13 @@ interface ITaskInfo {
 const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
 
     const {usersInfo} = GetAllUsersHook()
-    const {teamInfo} = GetTeamHook()
+    const {teamInfo} = GetTeamHook(false)
     const {userInfo} = GetUserHook(false)
     
     const [taskName, setTaskName] = useState<string>('')
     const [taskInformation, setTaskInformation] = useState<string>('')
-
-    const  [userList, setUserList] = useState<UserInformaion[]>([])
+    const [taskDate, setTaskDate] = useState<string>('')
+    const [userList, setUserList] = useState<UserInformaion[]>([])
     const [task, setTask] = useState<ITaskInfo>({
         taskName: '',
         owner: '',
@@ -34,6 +34,7 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
         information: '',
         createdBy: ''
     })
+
 
 
     const GetUsersFromList = (user:UserInformaion, Add: boolean): void => {        
@@ -48,40 +49,45 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
     }
 
     const PostTasks = async (): Promise<void> => {
-        if(userList.length === 0) return alert('Please select at least one user')
-
-        try{
-            for (let i = 0; i < userList.length; i++) {
-
-                setTask({
-                    taskName: taskName,
-                    dueDate: new Date().toISOString(),
-                    createdBy: userInfo?.id ?? 'Error',
-                    owner: userList[i].id ?? 'Error',
-                    information: taskInformation,
-                })
-
-                const url: string = 'https://localhost:7010/api/TaskUser'
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }                
-            }
-        }catch(e){
-            alert(e)
-        } finally{
-            setTimeout(() => {
-                setUserList([])
-                setOpen(!open)
-            }, 200);
+        if (userList.length === 0) {
+          alert('Please select at least one user');
+          return;
         }
-    }
+      
+        try {
+          for (const user of userList) {
+            const taskPayload = {
+              taskName: taskName,
+              dueDate: taskDate.toString(),
+              createdBy: userInfo?.username ?? 'Error',
+              owner: user.username ?? 'Error',
+              information: taskInformation,
+            };
+      
+            const url = 'https://localhost:7010/api/TaskUser';
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(taskPayload)
+            });
+      
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+          }
+        } catch (error) {
+          alert(error);
+        } finally {
+          setTimeout(() => {
+            setUserList([]);
+            setOpen(!open);
+          }, 200);
+        }
+      };
+      
+
   return (
     <>
     {
@@ -89,25 +95,33 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
             <article className='CreateNewTask'>
                 <div onClick={() => setOpen(!open)} className='CloseTask' style={{width: '5%'}}>X</div>
                 <div className='CreateNewTaskContainer'>
-                    <h1>Assign a task</h1>
+                    <h1 className='AssignTextHeader'>Assign a task</h1>
                     <label htmlFor="TaskName">
                         <h1>Task name</h1>
                         <input type="text" placeholder='Assign to' value={taskName} onChange={((e) => setTaskName(e.target.value))}/>                                                
                     </label>
-                    <label htmlFor="">
+                    <label htmlFor="" className='AUBOX'>
                         <h1>Assign to</h1>
-                    {
-                        usersInfo?.filter((u) => u.team === teamInfo?.id).map((user, index) => (
-                            <label htmlFor="UserTask" className='UserTask' key={index}>
-                                <input type="checkbox"  placeholder='Task name' onClick={(e) => GetUsersFromList(user, e.currentTarget.checked)}/>
-                                <h5>{user.username.substring(0,20)}</h5>                                    
-                            </label>
-                        ))
-                    }
+                        <div className='AssignUsersContainer'>
+                        {
+                            usersInfo?.filter((u) => u.team === teamInfo?.id).map((user, index) => (
+                                <label htmlFor="UserTask" className='UserTask' key={index}>
+                                    <input type="checkbox"  placeholder='Task name' onClick={(e) => GetUsersFromList(user, e.currentTarget.checked)}/>
+                                    <p>{user.username.substring(0,20)}</p>                                    
+                                </label>
+                            ))
+                        }
+
+                        </div>
                     </label>
                     <label htmlFor="DueDate">
                         <h1>Due date</h1>
-                        <input type="date" placeholder='Due date' />
+                        <input 
+                            type="date" 
+                            placeholder='Due date' 
+                            value={taskDate}
+                            onChange={(e) => setTaskDate(e.target.value)}
+                            />
                     </label>
                     <label htmlFor="Information">
                         <h1>Task information</h1>

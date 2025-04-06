@@ -17,8 +17,7 @@ const NewTeam: React.FC<IClose> = ({close, setClose}) => {
   const [description, setDescription] = useState<string>('')
   const [teamSize, setTeamSize] = useState<number>()
   const teamContainer = useRef<HTMLDivElement>(null)
-  const [userChange, setUserChange] = useState<boolean>(false)
-  const userInfo = GetUserHook(userChange)
+  const userInfo = GetUserHook(false)
 
   async function CreateNewTeam(): Promise<void> {
       try{

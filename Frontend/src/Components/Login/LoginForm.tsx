@@ -7,11 +7,9 @@ import GetUserHook from '../../Shared/GetUserHook'
 const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>('')
-  const [password, setPassword] = useState<string>('');
-  const [user, setUser] = useState<UserInformaion | null>(null);
-  const errorSpan = useRef<HTMLSpanElement>(null);
-  const [userChange, setUserChange] = useState<boolean>(false)
-  const {userInfo, loading, error} = GetUserHook(userChange);
+  const [password, setPassword] = useState<string>('');  
+  const errorSpan = useRef<HTMLSpanElement>(null);  
+  const {userInfo} = GetUserHook(false);
 
   async function Login(): Promise<void> {
     try {
@@ -25,9 +23,7 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
 
       if(userInf) {
         localStorage.setItem('UserAC', userInf.securityCode ?? '');
-        localStorage.setItem('UserId', userInf.id ?? '');
-
-        setUser(userInf);        
+        localStorage.setItem('UserId', userInf.id ?? '');        
         await ActivateUserStatus(userInf);
       }else {
 

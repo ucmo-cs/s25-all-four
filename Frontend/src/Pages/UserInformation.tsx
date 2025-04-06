@@ -13,7 +13,7 @@ export interface IUserInformationProps
 
 const UserInformation: React.FC<IUserInformationProps> = ({userInformation}) => {
     const navigate = useNavigate()
-    const {userInfo} = GetUserHook()
+    const {userInfo} = GetUserHook(false)
     
     if(userInformation.username === userInfo?.username){
         navigate('/application/profile')
