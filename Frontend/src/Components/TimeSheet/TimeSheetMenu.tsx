@@ -27,7 +27,7 @@ const TimeSheetMenu: React.FC = () => {
   const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
   const {usersInfo, load} = GetAllUsersHook();
-  const {teamInfo} = GetTeamHook()
+  const {teamInfo} = GetTeamHook(false)
   const [editUser, setEditUser] = useState<string>(localStorage.getItem('UserId')?? "")
   const [timeEntries, setTimeEntries] = useState<{[key: number]: number}>({})
   const [timeEntry, setTimeEntry] = useState<ITimeEntry[]>([])

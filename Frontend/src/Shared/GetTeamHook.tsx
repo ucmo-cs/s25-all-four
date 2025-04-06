@@ -1,105 +1,76 @@
-import { useEffect, useState } from "react";
-import { Team } from "../Components/Profile/NewTeam";
-import GetAllTeamsHook from "./GetAllTeamsHook";
-import { UserInformaion } from "../Components/Login/RegisterForm";
+import { useEffect, useState } from 'react';
+import GetAllTeamsHook from './GetAllTeamsHook';
+import { Team } from '../Components/Profile/NewTeam';
+import { UserInformaion } from '../Components/Login/RegisterForm';
 
-const GetTeamHook = () => {
-  const storedUserId = localStorage.getItem("UserId") ?? "";
-  const [teamInfo, setTeamInfo] = useState<Team | null>(null);
-  const [load, setLoading] = useState<boolean>(true);
-  const [er, setError] = useState<string | null>(null);
+/**
+ * Returns the team object for the logged‑in user.
+ * Pass `refreshTrigger` (e.g. a boolean you toggle) whenever you need a refetch.
+ */
+const GetTeamHook = (refreshTrigger: boolean) => {
+  const storedUserId = localStorage.getItem('UserId') ?? '';
 
+  const [teamInfo, setTeamInfo]   = useState<Team | null>(null);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState<string | null>(null);
+
+  // all teams cached by a separate hook
   const { teamsInfo } = GetAllTeamsHook();
 
-  async function TeamNull(user: UserInformaion): Promise<void> {
-    const url: string = `https://localhost:7010/api/UserInformation/${storedUserId}`;
-    try{
-      await fetch(url,{
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...user,
-          Team: null
-        })
-      })
-    }catch(e:any){
-
-    }
-  }
-
   useEffect(() => {
-    // 1. If no user ID in localStorage, skip loading (no need to fetch).
+    // short‑circuit if we have no user
     if (!storedUserId) {
       setLoading(false);
+      setTeamInfo(null);
       return;
     }
 
-    // 2. If teamsInfo isn't loaded yet or is an empty array, wait until it's available.
-    if (!teamsInfo || teamsInfo.length === 0) {
-      return;
-    }
+    // wait until teams list is ready
+    if (!teamsInfo) return;
 
-    const fetchTeamInfo = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+
       try {
-        // 3. Fetch user info from the server (to get the user's team ID).
-        const userResponse = await fetch(
+        // 1. fetch user to know her current team
+        const userResp = await fetch(
           `https://localhost:7010/api/UserInformation/${storedUserId}`
         );
-        if (!userResponse.ok) {
-          throw new Error(
-            `Failed to fetch user info: ${userResponse.status} ${userResponse.statusText}`
-          );
-        }
+        if (!userResp.ok) throw new Error('Cannot fetch user');
 
-        const userData: UserInformaion = await userResponse.json();
+        const user: UserInformaion = await userResp.json();
 
-        // 4. Find the matching team object from the list of teams.
-        const userTeam = teamsInfo.find((t) => t.id === userData.team);
-        if (!userTeam) {
-          console.warn("No matching team found for this user's team ID.");
+        // 2. if user has no team → clear and finish
+        if (!user.team) {
           setTeamInfo(null);
           return;
         }
 
-        // 5. Fetch the actual team details using the found team's ID.
-        const teamResponse = await fetch(
-          `https://localhost:7010/api/Team/${userTeam.id}`
-        );
-        if (!teamResponse.ok) {
-          throw new Error(
-            `Failed to fetch team info: ${teamResponse.status} ${teamResponse.statusText}`
-          );
+        // 3. try to locate the team locally first
+        const localTeam = teamsInfo.find(t => t.id === user.team);
+        if (localTeam) {
+          setTeamInfo(localTeam);
+          return;
         }
 
-        // 6. Handle empty response or parse the JSON data.
-        const text = await teamResponse.text();
-        if (!text) {
-          console.warn("Empty response for the team info.");
-          setTeamInfo(null);
-        } else {
-          const data: Team = JSON.parse(text);
+        // 4. fallback: fetch the team by id
+        const teamResp = await fetch(`https://localhost:7010/api/Team/${user.team}`);
+        if (!teamResp.ok) throw new Error('Cannot fetch team');
 
-          setTeamInfo(data);
-          if(userData.team !== data.id){
-            TeamNull(userData);
-            console.log(userData.team + 'This is our team')
-            console.log(data.id + 'This is our team person')
-          }
-        }
-      } catch (error: any) {
-        console.error("Failed to fetch team info:", error);
-        setError(error.message || "Unknown error");
+        const remoteTeam: Team = await teamResp.json();
+        setTeamInfo(remoteTeam);
+      } catch (e: any) {
+        console.error(e);
+        setError(e.message ?? 'Unknown error');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeamInfo();
-  }, [storedUserId, teamsInfo]);
+    fetchData();
+  }, [refreshTrigger, teamsInfo, storedUserId]);
 
-  return { teamInfo, load, er };
+  return { teamInfo, load: loading, er: error };
 };
 
 export default GetTeamHook;

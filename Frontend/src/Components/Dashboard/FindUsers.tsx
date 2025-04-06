@@ -14,7 +14,6 @@ const FindUsers: React.FC = () => {
   const {teamsInfo} = GetAllTeamsHook();
   const userinfo = GetUserHook(false)
   const [userInput, setUserInput] = useState<string>('')
-  const [userList, setUserList] = useState<UserInformaion[]>([])
 
   const HandleUserList = (): UserInformaion[] => {
     const filteredUsers = usersInfo!.filter((user) => {

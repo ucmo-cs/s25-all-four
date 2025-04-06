@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Team } from '../Components/Profile/NewTeam';
 
 const GetAllTeamsHook = () => {

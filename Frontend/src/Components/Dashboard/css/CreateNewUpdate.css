@@ -13,7 +13,6 @@
     flex-direction: column;
     transform: translateY(-120%);
     transition: 500ms;
-
 }
 .CreateNewUpdate h1{
     color: black;

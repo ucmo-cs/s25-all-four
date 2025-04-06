@@ -19,6 +19,7 @@
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
     padding-bottom: 2em;
+    position: relative;
 }
 .DisplayTasksHeader{
     height: 15%;

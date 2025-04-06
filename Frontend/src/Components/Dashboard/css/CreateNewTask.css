@@ -1,0 +1,40 @@
+.CreateNewTask{
+    background-color: white;    
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 1.7em;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}   
+.CloseTask{
+    position: absolute;
+    top: -2%;
+    right: -2%;
+    cursor: pointer;
+    font-size: larger;
+    color: black;
+    background-color: red;
+    height: 10%;
+    padding-inline: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5em;
+    cursor: pointer;
+    color: white;
+}
+.CreateNewTaskContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+.UserTask{
+    display: flex;
+}
