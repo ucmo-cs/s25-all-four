@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './css/BasicInformation.css'
 import GetUserHook from '../../Shared/GetUserHook'
 import { Url } from '../Login/RegisterForm';

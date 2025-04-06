@@ -49,9 +49,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
       });
     } catch (e) {
       alert(e);
-    } finally {
-      if (join && selectedTeam) alert('Now you are part of ' + selectedTeam.teamName);
-      if (!join && teamInfo) alert('You left ' + teamInfo.teamName);      
+    } finally {  
       setChangeTeamB(prev => !prev)
     }
   };  
