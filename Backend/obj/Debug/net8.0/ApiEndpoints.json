@@ -1,5 +1,84 @@
 [
   {
+    "ContainingType": "Backend.Controllers.TaskUserController",
+    "Method": "GetAllTask",
+    "RelativePath": "api/TaskUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TaskUserController",
+    "Method": "CreateTask",
+    "RelativePath": "api/TaskUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "task",
+        "Type": "Backend.Models.Entities.TaskUser",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TaskUserController",
+    "Method": "GetTaskById",
+    "RelativePath": "api/TaskUser/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TaskUserController",
+    "Method": "UpdateTask",
+    "RelativePath": "api/TaskUser/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "task",
+        "Type": "Backend.Models.Entities.TaskUser",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TaskUserController",
+    "Method": "DeleteTask",
+    "RelativePath": "api/TaskUser/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Backend.Controllers.TeamController",
     "Method": "GetAllTeams",
     "RelativePath": "api/Team",
@@ -19,7 +98,7 @@
     "Parameters": [
       {
         "Name": "teamDto",
-        "Type": "Backend.Models.EditTeamDto",
+        "Type": "Backend.Models.Entities.Team",
         "IsRequired": true
       }
     ],
@@ -198,7 +277,7 @@
     "Parameters": [
       {
         "Name": "updateDto",
-        "Type": "Backend.Models.AddUpdateDto",
+        "Type": "Backend.Models.Entities.Updates",
         "IsRequired": true
       }
     ],
@@ -266,7 +345,7 @@
     "Parameters": [
       {
         "Name": "addUserInformationDto",
-        "Type": "Backend.Models.AddUserInformationDto",
+        "Type": "Backend.Models.Entities.UserInformation",
         "IsRequired": true
       }
     ],
@@ -303,7 +382,7 @@
       },
       {
         "Name": "editUserInformationDto",
-        "Type": "Backend.Models.EditUserInformationDto",
+        "Type": "Backend.Models.Entities.UserInformation",
         "IsRequired": true
       }
     ],

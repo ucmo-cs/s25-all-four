@@ -35,30 +35,16 @@ namespace Backend.Controllers
             return Ok(User);
         }
         [HttpPost]
-        public IActionResult PostUser(AddUserInformationDto addUserInformationDto)
-        {
-            var newUser = new UserInformation()
-            {
-                Username = addUserInformationDto.Username,
-                Password = addUserInformationDto.Password,
-                Email = addUserInformationDto.Email,
-                NickName = addUserInformationDto.NickName,
-                Address = addUserInformationDto.Address,
-                Phone = addUserInformationDto.Phone,
-                Position = addUserInformationDto.Position,
-                Birthday = addUserInformationDto.Birthday,
-                Information = addUserInformationDto.Information,
-                LoggedIn = addUserInformationDto.LoggedIn,
-                Team = addUserInformationDto.Team
-            };
-
-            _dbContext.UserInformation.Add(newUser);
+        public IActionResult PostUser([FromBody]UserInformation addUserInformationDto)
+        {            
+            addUserInformationDto.Id = Guid.NewGuid();
+            _dbContext.UserInformation.Add(addUserInformationDto);
             _dbContext.SaveChanges();
-            return Ok(newUser);
+            return Ok(addUserInformationDto);
         }
         [HttpPut]
         [Route("{id:guid}")]
-        public IActionResult EditUser(Guid id, EditUserInformationDto editUserInformationDto)
+        public IActionResult EditUser(Guid id, UserInformation editUserInformationDto)
         {
             var OldUser = _dbContext.UserInformation.Find(id);
             if (OldUser == null) return NotFound(new { message = "Existing user not found" });
@@ -72,9 +58,10 @@ namespace Backend.Controllers
             OldUser.Position = editUserInformationDto.Position;
             OldUser.Birthday = editUserInformationDto.Birthday;
             OldUser.Information = editUserInformationDto.Information;
-            OldUser.LoggedIn = editUserInformationDto.LoggedIn;
             OldUser.SecurityCode = editUserInformationDto.SecurityCode;
+            OldUser.LoggedIn = editUserInformationDto.LoggedIn;
             OldUser.Team = editUserInformationDto.Team;
+
             _dbContext.SaveChanges();
             return Ok(OldUser);
         }

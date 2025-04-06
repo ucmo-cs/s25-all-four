@@ -46,6 +46,7 @@ namespace Backend.Controllers
         {
             var existingTimeEntry = _dbContext.timeEntries.Find(id);
             if (existingTimeEntry == null) return NotFound(new { message = "Time entry not found" });
+
             existingTimeEntry.Day = timeEntry.Day;
             existingTimeEntry.HoursWorked = timeEntry.HoursWorked;
             existingTimeEntry.Month = timeEntry.Month;

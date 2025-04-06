@@ -32,22 +32,13 @@ namespace Backend.Controllers
             return Ok(Team);
         }
         [HttpPost]
-        public IActionResult PostTeam(EditTeamDto teamDto)
+        public IActionResult PostTeam([FromBody] Team teamDto)
         {
-            var team = new Team()
-            {
-                TeamName = teamDto.TeamName,
-                TeamDescription = teamDto.TeamDescription,
-                TeamSize = teamDto.TeamSize,
-                TeamManager = teamDto.TeamManager
-            };
-            _dbContext.teams.Add(team);
+            teamDto.Id = Guid.NewGuid();
+            _dbContext.teams.Add(teamDto);
             _dbContext.SaveChanges();
-            return Ok(team);
+            return Ok(teamDto);
         }
-        //[HttpPut]
-        //[Route("{id:guid}")]
-        //public IActionResult EditTeam(EditTeamDto teamDto)
 
         [HttpDelete]
         [Route("{id:guid}")]

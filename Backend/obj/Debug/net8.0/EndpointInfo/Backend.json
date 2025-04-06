@@ -5,6 +5,131 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/TaskUser": {
+      "get": {
+        "tags": [
+          "TaskUser"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TaskUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TaskUser/{id}": {
+      "get": {
+        "tags": [
+          "TaskUser"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TaskUser"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TaskUser"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Team": {
       "get": {
         "tags": [
@@ -24,17 +149,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTeamDto"
+                "$ref": "#/components/schemas/Team"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTeamDto"
+                "$ref": "#/components/schemas/Team"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTeamDto"
+                "$ref": "#/components/schemas/Team"
               }
             }
           }
@@ -298,17 +423,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUpdateDto"
+                "$ref": "#/components/schemas/Updates"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUpdateDto"
+                "$ref": "#/components/schemas/Updates"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUpdateDto"
+                "$ref": "#/components/schemas/Updates"
               }
             }
           }
@@ -395,17 +520,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             }
           }
@@ -458,17 +583,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EditUserInformationDto"
+                "$ref": "#/components/schemas/UserInformation"
               }
             }
           }
@@ -504,92 +629,43 @@
   },
   "components": {
     "schemas": {
-      "AddUpdateDto": {
+      "TaskUser": {
         "type": "object",
         "properties": {
-          "title": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "taskName": {
             "type": "string",
             "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "authorName": {
-            "type": "string",
-            "nullable": true
-          },
-          "teamId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
+          "dueDate": {
             "type": "string",
             "format": "date-time"
           },
-          "isVisible": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AddUserInformationDto": {
-        "type": "object",
-        "properties": {
-          "username": {
+          "createdBy": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "owner": {
             "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "nickName": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "position": {
-            "type": "string",
-            "nullable": true
-          },
-          "birthday": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           },
           "information": {
             "type": "string",
             "nullable": true
-          },
-          "securityCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "loggedIn": {
-            "type": "boolean"
-          },
-          "team": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "EditTeamDto": {
+      "Team": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "teamName": {
             "type": "string",
             "nullable": true
@@ -605,60 +681,6 @@
           "teamManager": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EditUserInformationDto": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "nickName": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "position": {
-            "type": "string",
-            "nullable": true
-          },
-          "birthday": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "information": {
-            "type": "string",
-            "nullable": true
-          },
-          "securityCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "team": {
-            "type": "string",
-            "nullable": true
-          },
-          "loggedIn": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -705,6 +727,103 @@
             "nullable": true
           },
           "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Updates": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "teamId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isVisible": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserInformation": {
+        "required": [
+          "email",
+          "password",
+          "position",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nickName": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "position": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "information": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "loggedIn": {
+            "type": "boolean"
+          },
+          "team": {
             "type": "string",
             "nullable": true
           }

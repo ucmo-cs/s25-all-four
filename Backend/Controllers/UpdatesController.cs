@@ -32,24 +32,17 @@ namespace Backend.Controllers
             if (Update == null) return NotFound(new { message = "Not update found" });
             return Ok(Update);
         }
-        [HttpPost]
-        public IActionResult PostUpdate(AddUpdateDto updateDto)
-        {
-            var newPost = new Updates()
-            {
-                Title = updateDto.Title,
-                Description = updateDto.Description,
-                AuthorName = updateDto.AuthorName,
-                TeamId = updateDto.TeamId,
-                DateCreated = updateDto.DateCreated,
-                IsVisible = updateDto.IsVisible
-            };
 
-            _dbContext.updates.Add(newPost);
+        [HttpPost]
+        public IActionResult PostUpdate([FromBody]Updates updateDto)
+        {
+            updateDto.Id = Guid.NewGuid();
+            _dbContext.updates.Add(updateDto);
             _dbContext.SaveChanges();
 
-            return Ok(newPost);
+            return Ok(updateDto);
         }
+
         [HttpDelete]
         [Route("{id:guid}")]
         public IActionResult Delete(Guid id)
