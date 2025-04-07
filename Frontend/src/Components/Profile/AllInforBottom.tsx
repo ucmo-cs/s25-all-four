@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
-import NewProject from './NewProject';
+import NewProject, { Project } from './NewProject';
 import NewTeam from './NewTeam';
 import { UserInformaion } from '../Login/RegisterForm';
 import ChangeTeamComponent from './ChangeTeam';
@@ -18,7 +18,8 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
   const [closeProjectPopUp, setCloseProjectPopUp] = useState(true);
   const [teamIndex, setTeamIndex] = useState(0);  
   const [changeTeamB, setChangeTeamB] = useState(false);
-
+  const [projects, setProjects] = useState<Project[]>([])
+  
   const { teamInfo } = GetTeamHook(changeTeamB);
   const { teamsInfo, load } = GetAllTeamsHook();
   const { usersInfo } = GetAllUsersHook();
@@ -38,6 +39,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
       if (members.length >= selectedTeam.teamSize) {
         alert('This team is full, try another');
         return;
+
       }
     }
 
@@ -54,6 +56,22 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
     }
   };  
 
+  const HandleGetProjects = async(): Promise<void> =>{
+    const url: string = "https://localhost:7010/api/Project"
+    try{
+      const response = await fetch(url)
+      if(!response.ok) throw "This is not working"
+      const projectData: Project[] = await response.json();
+      setProjects(projectData)
+    }catch(e){
+      alert(e)
+    }
+  }
+
+  useEffect(()=>{    
+    HandleGetProjects()
+    console.log(projects)    
+  },[])
   return (
     <section className='InformationsContainerLower'>
 
@@ -73,6 +91,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
       <div className='TeamSelectionContainer'>
         <AddProjectsTeam
           userInfo={userInfo}
+          projects={projects}
           teamsInfo={teamsInfo}
           closeTeamPopUp={closeTeamPopUp}
           setCloseTeamPopUp={setCloseTeamPopUp}
@@ -86,9 +105,15 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
               <h3>Projects</h3>
             </div>
             <div className='ProjectListBody'>
-              {[1, 2, 3, 4].map(i => (
-                <div className='ProjectItem' key={i}>
-                  <h3>Project - {i}</h3>
+              {projects.length === 0 ? (
+                <div className='ProjectItem'>
+                <h3>No projects available</h3>
+                {/* <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' /> */}
+              </div>
+              ) :
+              projects.map((project, key) => (
+                <div className='ProjectItem' key={key}>
+                  <h3>{project.name}</h3>
                   <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' />
                 </div>
               ))}
@@ -97,7 +122,10 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
         </div>
       </div>
 
-      <NewProject close={closeProjectPopUp} setClose={setCloseProjectPopUp} />
+      <NewProject 
+        close={closeProjectPopUp} 
+        setClose={setCloseProjectPopUp} 
+        teamID={teamInfo?.id}/>
       <NewTeam close={closeTeamPopUp} setClose={setCloseTeamPopUp} />
     </section>
   );

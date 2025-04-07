@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
 import { UserInformaion } from '../Login/RegisterForm';
 import { Team } from './NewTeam';
+import { Project } from './NewProject';
 
 interface IAddProjectsTeamProps {
   userInfo: UserInformaion | null;
   teamsInfo: Team[] | null;
   closeTeamPopUp: boolean;
+  projects: Project[];
   setCloseTeamPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   closeProjectPopUp: boolean;
   setCloseProjectPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +19,7 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
   closeTeamPopUp,
   setCloseTeamPopUp,
   closeProjectPopUp,
+  projects,
   setCloseProjectPopUp,
 }) => {
   const removeTeamId = useRef<HTMLSelectElement>(null);
@@ -58,10 +61,18 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
           </button>
           <select style={{ border: '2px solid black' }}>
             <option value=''>Select project to remove</option>
-            <option value=''>Project 1</option>
+            {
+              projects.map((project, index) => (
+                <option key={index} value={project.id}>
+                  {
+                    project.name
+                  }
+                </option>
+              ))
+            }
             <option value=''>Project 2</option>
           </select>
-          <button style={{ border: '2px solid black' }}>Add project</button>
+          <button style={{ border: '2px solid black' }}>Remove project</button>
         </>
       )}
 

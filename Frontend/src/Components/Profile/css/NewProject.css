@@ -13,6 +13,10 @@
     justify-content: center;
     align-items: center;
 }
+.NewProject h1{
+    font-size: 1.3em;
+    margin: 0;
+}
 .Close{
     height: 10%;
     width: 15%;
@@ -36,7 +40,7 @@
     margin-block-start: 0.3vh;
     height: 7%;
     width: 50%;
-    border-radius: 1em;
+    border-radius: 0.5em;
     border: 1px solid gray;
 }
 .NewProject button{
@@ -45,6 +49,13 @@
     width: 40%;
     border: 3px solid black;
     border-radius: 1em;
-    background-color: white;
+    background-color: black;
+    color: white;
     cursor: pointer;
+}
+.textAreaProject{
+    width: 50%;
+    height: 30%;
+    border-radius: 0.5em;
+    border: 1px solid gray;
 }

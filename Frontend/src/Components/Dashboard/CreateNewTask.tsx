@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './css/CreateNewTask.css'
 import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
@@ -15,6 +15,7 @@ export interface ITaskInfo {
     owner: string | undefined;
     dueDate: string;
     information: string;
+    teamID: string;
     createdBy: string;
 }
 const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
@@ -23,19 +24,11 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
     const {teamInfo} = GetTeamHook(false)
     const {userInfo} = GetUserHook(false)
     
+    const divRef = useRef<HTMLElement>(null)
     const [taskName, setTaskName] = useState<string>('')
     const [taskInformation, setTaskInformation] = useState<string>('')
     const [taskDate, setTaskDate] = useState<string>('')
     const [userList, setUserList] = useState<UserInformaion[]>([])
-    const [task, setTask] = useState<ITaskInfo>({
-        taskName: '',
-        owner: '',
-        dueDate: '',
-        information: '',
-        createdBy: ''
-    })
-
-
 
     const GetUsersFromList = (user:UserInformaion, Add: boolean): void => {        
         if(Add){            
@@ -61,6 +54,7 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
               dueDate: taskDate.toString(),
               createdBy: userInfo?.username ?? 'Error',
               owner: user.username ?? 'Error',
+              teamID: userInfo?.team,
               information: taskInformation,
             };
       
@@ -87,12 +81,19 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
         }
       };
       
-
+    useEffect(() =>{
+        const startingAnimation = () =>{
+            setTimeout(() => {
+                divRef.current!.style.transform = 'translateY(0%)'                
+            }, 100);
+        }
+        startingAnimation()
+    },[open])
   return (
     <>
     {
         open && (
-            <article className='CreateNewTask'>
+            <article className='CreateNewTask' ref={divRef}>
                 <div onClick={() => setOpen(!open)} className='CloseTask' style={{width: '5%'}}>X</div>
                 <div className='CreateNewTaskContainer'>
                     <h1 className='AssignTextHeader'>Assign a task</h1>

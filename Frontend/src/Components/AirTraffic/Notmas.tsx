@@ -34,6 +34,18 @@ interface Notam {
   criticality: number;
 }
 
+interface USNOTAMSInfo {
+  StateCode: string;
+  StateName: string;
+  all: string;
+  criticality: number;
+  id: string;
+  isICAO: boolean;
+  key: string;
+  location: string;
+  type: string;
+}
+
 const Notmas: React.FC<AirportsInfoProps> = ({ 
   departureAirport, 
   destinationAirport, 
@@ -42,6 +54,9 @@ const Notmas: React.FC<AirportsInfoProps> = ({
 
   const [notamsDeparture, setNotamsDeparture] = useState<Notam[]>([]);
   const [notamsDestination, setNotamsDestination] = useState<Notam[]>([]);
+
+  const [notamsDepartureUS, setNotamsDepartureUS] = useState<USNOTAMSInfo[]>([]);
+  const [notamsDestinationUS, setNotamsDestinationUS] = useState<USNOTAMSInfo[]>([]);
 
   async function HandleNotams(): Promise<void> {
 
@@ -53,13 +68,21 @@ const Notmas: React.FC<AirportsInfoProps> = ({
       const data: Notam[] = await response.json();
       
       console.log(data);
-      if(isDepartureEx) setNotamsDeparture(data);
-      else setNotamsDestination(data);   
+      if(isDepartureEx){
+        if(departureAirport.country === 'US') setNotamsDepartureUS(data)
+        else setNotamsDeparture(data);
+      } 
+      else {
+        if(destinationAirport.country === 'US') setNotamsDestinationUS(data)
+        else setNotamsDestination(data);   
+      }
        
     } catch (error) {
       alert('Error fetching NOTAMS. Please try again later.');
       setNotamsDeparture([]);
       setNotamsDestination([]);
+      setNotamsDepartureUS([])
+      setNotamsDestinationUS([])
     }
   
   }
@@ -73,7 +96,16 @@ const Notmas: React.FC<AirportsInfoProps> = ({
       \nStart date: ${notam.startdate}
       \nEnd date: ${notam.enddate}`
     );
-
+  }
+  function DisplayMessageUS(notam: USNOTAMSInfo): void{
+    alert(
+      `State code: ${notam.StateCode}
+      \nState name: ${notam.StateName}
+      \nNotification: ${notam.all}
+      \nCriticality: ${notam.criticality}
+      \nNOTAM ID: ${notam.id}
+      \nNOTAM location: ${notam.location}`
+    );
   }
 
   // Fetch new departure NOTAMs whenever the departure airport changes
@@ -94,20 +126,31 @@ const Notmas: React.FC<AirportsInfoProps> = ({
       <div className='NotmasBox'>
         <h4>Departure Airport NOTAMS</h4>
         <article className='NotmasBoxContent'>
-          {notamsDeparture.length === 0 ? (
+          {notamsDeparture.length === 0 && notamsDepartureUS.length === 0? (
             <div className='NotamItem'>
               <h5>No NOTAMS</h5>
               <p>Select an airport or wait until we get your NOTAMS</p>
             </div>
-          ) : (
+          ) : (            
+            departureAirport.country === 'US' ? 
+            notamsDepartureUS.map((notam: USNOTAMSInfo) => 
+              (
+                  <div className='NotamItem' key={notam.key} onClick={() => DisplayMessageUS(notam)}>
+                    <h4>{notam.key}</h4>
+                    <h4>{notam.criticality}</h4>
+                    <h5>{notam.id}</h5>                  
+                  </div>
+              )
+            ) :
             notamsDeparture.map((notam: Notam) => 
-            (
-                <div onClick={() => DisplayMessage(notam)} className='NotamItem' key={notam.key}>
-                  <h4>{notam.Subject}</h4>
-                  <h4>{notam.SubArea}</h4>
-                  <h5>{notam.Modifier}</h5>                  
-                </div>
-            ))
+              (
+                  <div onClick={() => DisplayMessage(notam)} className='NotamItem' key={notam.key}>
+                    <h4>{notam.Subject}</h4>
+                    <h4>{notam.SubArea}</h4>
+                    <h5>{notam.Modifier}</h5>                  
+                  </div>
+              )
+            )
           )}
         </article>
       </div>
@@ -116,22 +159,36 @@ const Notmas: React.FC<AirportsInfoProps> = ({
       <div className='NotmasBox'>
         <h4>Destination Airport NOTAMS</h4>
         <article className='NotmasBoxContent'>
-          {notamsDestination.length === 0 ? (
-            <div className='NotamItem'>
-              <h5>No NOTAMS</h5>
-              <p>Select an airport or wait until we get your NOTAMS</p>
-            </div>
-          ) : (
-            notamsDestination.map((notam: Notam) => {
-              return (
-                <div onClick={() => DisplayMessage(notam)} className='NotamItem' key={notam.key}>
+        {notamsDestination.length === 0 && notamsDestinationUS.length === 0 ? (
+          <div className='NotamItem'>
+            <h5>No NOTAMS</h5>
+            <p>Select an airport or wait until we get your NOTAMS</p>
+          </div>
+        ) : (
+          destinationAirport.country === 'US'
+            ? notamsDestinationUS.map((notam) => (
+                <div
+                  className='NotamItem'
+                  key={notam.key}
+                  onClick={() => DisplayMessageUS(notam)}
+                >
+                  <h4>{notam.key}</h4>
+                  <h4>{notam.criticality}</h4>
+                  <h5>{notam.id}</h5>
+                </div>
+              ))
+            : notamsDestination.map((notam) => (
+                <div
+                  onClick={() => DisplayMessage(notam)}
+                  className='NotamItem'
+                  key={notam.key}
+                >
                   <h4>{notam.Subject}</h4>
                   <h4>{notam.SubArea}</h4>
-                  <h5>{notam.Modifier}</h5>                  
+                  <h5>{notam.Modifier}</h5>
                 </div>
-              );
-            })
-          )}
+              ))
+        )}
         </article>
       </div>
     </article>
