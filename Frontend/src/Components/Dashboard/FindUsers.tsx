@@ -5,7 +5,6 @@ import GetUserHook from '../../Shared/GetUserHook';
 import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import { Element } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
-import { UserInformaion } from '../Login/RegisterForm';
 
 const FindUsers: React.FC = () => {
 
@@ -14,13 +13,6 @@ const FindUsers: React.FC = () => {
   const {teamsInfo} = GetAllTeamsHook();
   const userinfo = GetUserHook(false)
   const [userInput, setUserInput] = useState<string>('')
-
-  const HandleUserList = (): UserInformaion[] => {
-    const filteredUsers = usersInfo!.filter((user) => {
-      return user.username.toLowerCase().includes(userInput.toLowerCase())
-    })
-    return filteredUsers
-  }
 
   return (
     <section className='FindUsers'>
@@ -50,7 +42,7 @@ const FindUsers: React.FC = () => {
             )
           }
           {
-            ((usersInfo || []).length)  > 1 && (usersInfo?.find(user => user.id === userinfo.userInfo?.id))  && HandleUserList().map((user, index) => (
+            ((usersInfo || []).length)  > 1 && usersInfo?.filter(user => user.id !== userinfo.userInfo?.id).map((user, index) => (
                 <div key={index} className='UserItem'>
                   <img 
                     style={{cursor: 'pointer'}}

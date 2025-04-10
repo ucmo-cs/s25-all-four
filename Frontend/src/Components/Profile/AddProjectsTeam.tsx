@@ -6,26 +6,34 @@ import { Project } from './NewProject';
 interface IAddProjectsTeamProps {
   userInfo: UserInformaion | null;
   teamsInfo: Team[] | null;
+  teamInfo: Team | null;
   closeTeamPopUp: boolean;
   projects: Project[];
-  setCloseTeamPopUp: React.Dispatch<React.SetStateAction<boolean>>;
+  setCloseTeamPopUp: (value: boolean) => void;
   closeProjectPopUp: boolean;
-  setCloseProjectPopUp: React.Dispatch<React.SetStateAction<boolean>>;
+  setCloseProjectPopUp: (value: boolean) => void;
+  setUpdateProjects: (change: boolean) => void;
+  updateProject: boolean;  
 }
 
 const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
   userInfo,
   teamsInfo,
+  teamInfo,
   closeTeamPopUp,
   setCloseTeamPopUp,
   closeProjectPopUp,
   projects,
   setCloseProjectPopUp,
+  setUpdateProjects,
+  updateProject
 }) => {
+
   const removeTeamId = useRef<HTMLSelectElement>(null);
+  const removeProjectId = useRef<HTMLSelectElement>(null);
 
   async function deleteTeamById(): Promise<void> {
-    const teamId = removeTeamId.current?.value;
+    const teamId: string = removeTeamId.current?.value ?? "";
     if (!teamId || teamId === 'null') return;
 
     try {
@@ -38,6 +46,26 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
     }
   }
 
+  const DeleteProjectByID = async (): Promise<void> => {
+    const projectID: string = removeProjectId.current?.value ?? ""
+    if(projectID === "" || projectID === null) return;
+
+    const url: string = `https://localhost:7010/api/Project/${projectID}`;
+    try {
+      const response = await fetch(url, { method: "DELETE" });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      setUpdateProjects(!updateProject);
+    } catch (e) {
+      alert("Failed to remove project: " + e);
+    }
+  };
+
+  const HandleJoinProject = async(): Promise<void> => {
+
+  }
   return (
     <div className='AddProjectsTeam'>
       {userInfo?.position === 'admin' && (
@@ -59,27 +87,37 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
           <button style={{ border: '2px solid black' }} onClick={() => setCloseProjectPopUp(!closeProjectPopUp)}>
             Add new project
           </button>
-          <select style={{ border: '2px solid black' }}>
+          <select style={{ border: '2px solid black' }} ref={removeProjectId}>
             <option value=''>Select project to remove</option>
             {
-              projects.map((project, index) => (
-                <option key={index} value={project.id}>
+              projects.filter(p => p.teamID === teamInfo?.id && p.creatorID === userInfo.id).map((project, index) => (
+                <option 
+                  key={index} 
+                  value={project.id}>                
                   {
                     project.name
                   }
                 </option>
               ))
-            }
-            <option value=''>Project 2</option>
+            }            
           </select>
-          <button style={{ border: '2px solid black' }}>Remove project</button>
+          <button style={{ border: '2px solid black' }} onClick={DeleteProjectByID}>Remove project</button>
         </>
       )}
 
       <select style={{ border: '2px solid gray' }}>
         <option value=''>No project selected</option>
-        <option value=''>Project 1</option>
-        <option value=''>Project 2</option>
+        {
+          projects.filter(p => p.teamID === teamInfo?.id).map((project, index) => (
+            <option 
+              key={index} 
+              value={project.id}>                
+              {
+                project.name
+              }
+            </option>
+          ))
+        }       
       </select>
       <button style={{ border: '2px solid gray' }}>Add project</button>
     </div>

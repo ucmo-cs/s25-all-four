@@ -8,16 +8,18 @@ import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
 import AddProjectsTeam from './AddProjectsTeam';
 import { Team } from './NewTeam';
+// import Updates_Team from '../Dashboard/Updates_Team';
 
 interface IModifyMoreBottom {
   userInfo: UserInformaion | null;
 }
 
 const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
-  const [closeTeamPopUp, setCloseTeamPopUp] = useState(true);
-  const [closeProjectPopUp, setCloseProjectPopUp] = useState(true);
-  const [teamIndex, setTeamIndex] = useState(0);  
-  const [changeTeamB, setChangeTeamB] = useState(false);
+  const [closeTeamPopUp, setCloseTeamPopUp] = useState<boolean>(true);
+  const [closeProjectPopUp, setCloseProjectPopUp] = useState<boolean>(true);
+  const [teamIndex, setTeamIndex] = useState<number>(0);  
+  const [changeTeamB, setChangeTeamB] = useState<boolean>(false);
+  const [changeTeamC, setChangeTeamC] = useState<boolean>(false)
   const [projects, setProjects] = useState<Project[]>([])
   
   const { teamInfo } = GetTeamHook(changeTeamB);
@@ -71,7 +73,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
   useEffect(()=>{    
     HandleGetProjects()
     console.log(projects)    
-  },[])
+  },[changeTeamC])
   return (
     <section className='InformationsContainerLower'>
 
@@ -90,6 +92,9 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
 
       <div className='TeamSelectionContainer'>
         <AddProjectsTeam
+          teamInfo={teamInfo}
+          updateProject={changeTeamC}
+          setUpdateProjects={(setChangeTeamC)}
           userInfo={userInfo}
           projects={projects}
           teamsInfo={teamsInfo}
@@ -105,15 +110,14 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
               <h3>Projects</h3>
             </div>
             <div className='ProjectListBody'>
-              {projects.length === 0 ? (
+              {projects.filter(p => p.teamID === teamInfo?.id).length === 0 ? (
                 <div className='ProjectItem'>
                 <h3>No projects available</h3>
-                {/* <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' /> */}
               </div>
               ) :
-              projects.map((project, key) => (
+              projects.filter(p => p.teamID === teamInfo?.id).map((project, key) => (
                 <div className='ProjectItem' key={key}>
-                  <h3>{project.name}</h3>
+                  <h3>{project.name.substring(0,26)}</h3>
                   <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' />
                 </div>
               ))}
@@ -123,10 +127,17 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
       </div>
 
       <NewProject 
+        userInfo={userInfo}
         close={closeProjectPopUp} 
         setClose={setCloseProjectPopUp} 
-        teamID={teamInfo?.id}/>
-      <NewTeam close={closeTeamPopUp} setClose={setCloseTeamPopUp} />
+        teamID={teamInfo?.id}
+        updateProject={changeTeamC}
+        setUpdateProjects={(setChangeTeamC)}
+        />
+      <NewTeam 
+        close={closeTeamPopUp} 
+        setClose={setCloseTeamPopUp} 
+        />
     </section>
   );
 };

@@ -41,7 +41,7 @@ const NewTeam: React.FC<IClose> = ({close, setClose}) => {
         setTeamSize(0)
         setTimeout(() => {
           setClose(!close)
-        }, 1000);
+        }, 500);
       }
   }
 

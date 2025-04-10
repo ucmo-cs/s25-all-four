@@ -62,8 +62,8 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
                     loading === false ? <p>{userInfo?.email}</p> : <p>Loading...</p>
                 }
                     <div className='InformationItemConfig'>
-                        <img src="https://www.svgrepo.com/show/509920/eye.svg" 
-                            alt="visible" />                        
+                        {/* <img src="https://www.svgrepo.com/show/509920/eye.svg" 
+                            alt="visible" />                         */}
                         {/* <img src="https://www.svgrepo.com/show/509919/eye-off.svg" 
                             alt="not visible" /> */}
                     </div>
@@ -74,8 +74,8 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
                         : (userInfo?.phone === '' ) || (userInfo?.phone === null ) ? <p>No phone provided</p> : userInfo?.phone
                     }                    
                     <div className='InformationItemConfig'>
-                        <img src="https://www.svgrepo.com/show/509920/eye.svg" 
-                            alt="visible" />                        
+                        {/* <img src="https://www.svgrepo.com/show/509920/eye.svg" 
+                            alt="visible" />                         */}
                         {/* <img src="https://www.svgrepo.com/show/509919/eye-off.svg" 
                             alt="not visible" /> */}
                     </div>
@@ -86,8 +86,8 @@ const BasicInformation: React.FC<Url & IModifyBasic> = ({url, setPhone,setAddres
                         : (userInfo?.address === '' ) || (userInfo?.address === null ) ? <p>No address provided</p> : userInfo?.address
                     }                    
                     <div className='InformationItemConfig'>
-                        <img src="https://www.svgrepo.com/show/509920/eye.svg" 
-                            alt="visible" />                        
+                        {/* <img src="https://www.svgrepo.com/show/509920/eye.svg" 
+                            alt="visible" />                         */}
                         {/* <img src="https://www.svgrepo.com/show/509919/eye-off.svg" 
                             alt="not visible" /> */}
                     </div>

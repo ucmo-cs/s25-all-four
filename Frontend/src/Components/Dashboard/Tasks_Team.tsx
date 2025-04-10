@@ -85,7 +85,7 @@ const Tasks_Team: React.FC = () => {
                     <p>Due date: {task.dueDate.substring(0,10)}</p>
                     <div className="TaskInformation">{task.information}</div>
                     <button style={{ width: "70%" }} onClick={() => HandleRemoveTask(task.id ?? "")}>
-                        <p style={{ width: "fit-content" }}>Completed!</p>
+                        <p style={{ width: "fit-content" }} >Completed!</p>
                         <img
                         style={{ width: "2em" }}
                         src="https://www.svgrepo.com/show/167914/pointer.svg"
