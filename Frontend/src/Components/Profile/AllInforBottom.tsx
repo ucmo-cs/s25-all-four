@@ -8,6 +8,7 @@ import GetAllTeamsHook from '../../Shared/GetAllTeamsHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
 import AddProjectsTeam from './AddProjectsTeam';
 import { Team } from './NewTeam';
+import { useNavigate } from 'react-router-dom';
 // import Updates_Team from '../Dashboard/Updates_Team';
 
 interface IModifyMoreBottom {
@@ -22,6 +23,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
   const [changeTeamC, setChangeTeamC] = useState<boolean>(false)
   const [projects, setProjects] = useState<Project[]>([])
   
+  const navigate = useNavigate()
   const { teamInfo } = GetTeamHook(changeTeamB);
   const { teamsInfo, load } = GetAllTeamsHook();
   const { usersInfo } = GetAllUsersHook();
@@ -116,7 +118,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
               </div>
               ) :
               projects.filter(p => p.teamID === teamInfo?.id).map((project, key) => (
-                <div className='ProjectItem' key={key}>
+                <div className='ProjectItem' key={key} onClick={() => navigate(`/application/project/${project.id}`)}>
                   <h3>{project.name.substring(0,26)}</h3>
                   <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' />
                 </div>

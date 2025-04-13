@@ -4,13 +4,16 @@ import AirTrafficConditions from './AirTrafficConditions';
 import AirportsInfo, { Airport } from './AirportsInfo';
 
 interface UpperSectionAirProps {
+  DepartureAirport: Airport;
+  DestinationAirport: Airport;
   setDepartureAirport: (airport: Airport) => void;
   setDestinationAirport: (airport: Airport) => void;
   departureAirport: Airport;
   destinationAirport: Airport;
   changeweather: (any: boolean) => void;
   isDeparture: (any: boolean) => void;
-  weather: boolean;
+  closeMap: boolean;
+  setCloseMap: (value: boolean) => void;
 }
 const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
   setDepartureAirport,
@@ -19,7 +22,8 @@ const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
   destinationAirport,
   changeweather,
   isDeparture,
-  weather
+  closeMap,
+  setCloseMap
 }) => {
 
   return (
@@ -29,8 +33,11 @@ const UpperSectionAir: React.FC<UpperSectionAirProps> = ({
         setSelectedDestinationAirport={setDestinationAirport} 
         setWeather={changeweather}
         isDepartureEX={isDeparture}
-        weather={weather}/>
-        
+        closeMap={closeMap}
+        setCloseMap={setCloseMap}
+        DestinationAirport={destinationAirport}
+        DepartureAirport={departureAirport}
+        />        
       <AirportsInfo 
         departureAirport={departureAirport} 
         destinationAirport={destinationAirport}/>

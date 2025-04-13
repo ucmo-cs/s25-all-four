@@ -9,7 +9,8 @@ const LoginForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('');  
   const errorSpan = useRef<HTMLSpanElement>(null);  
-  const {userInfo} = GetUserHook(false);
+  const [change, setChange] = useState<boolean>(false)
+  const {userInfo} = GetUserHook(change);
 
   async function Login(): Promise<void> {
     try {

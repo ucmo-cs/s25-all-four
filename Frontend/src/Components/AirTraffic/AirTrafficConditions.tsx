@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import './css/AirTrafficConditions.css'
 import { Airport } from './AirportsInfo';
 
 interface AirTrafficConditionsProps {
+  DepartureAirport: Airport;
+  DestinationAirport: Airport;
   setSelectedDepartureAirport: (airport: Airport) => void;
   setSelectedDestinationAirport: (airport: Airport) => void;
   setWeather: (any :boolean) => void;
   isDepartureEX: (any: boolean) => void;
-  weather: boolean;
+  closeMap: boolean;
+  setCloseMap: (value: boolean) => void;
 }
 
 const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
@@ -15,12 +18,16 @@ const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
   setSelectedDestinationAirport,
   setWeather,
   isDepartureEX,
-  weather
+  closeMap,
+  setCloseMap,
+  DepartureAirport,
+  DestinationAirport
 }) => {
 
   const [departureAirportCode, setDepartureAirportCode] = useState<string>('')
   const [destinationAirportCode, setDestinationAirportCode] = useState<string>('')
-
+  const [canSeeMap, setCanSeeMap] = useState<boolean>(false)
+  const seeMapButton = useRef<HTMLButtonElement>(null)
   async function CallAirport(isDeparture: boolean, code: string): Promise<void> {  
     if (code.trim() === '') return;    
     try {
@@ -57,11 +64,20 @@ const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
       setDestinationAirportCode('');
     }
   }
-  
-useEffect(() => {},[departureAirportCode, destinationAirportCode]);
-  useEffect(() => {
-    console.log('Weather changed to: ' + weather);
-  }, [weather]);
+
+  const HandleSeeMap = (): void =>{
+    if(canSeeMap) setCloseMap(!closeMap)    
+      else alert('Select airports please')
+  }
+
+  useEffect(() =>{
+    if(DestinationAirport.icao !== '' && DepartureAirport.icao !== '') setCanSeeMap(true)
+    if(canSeeMap){
+      seeMapButton.current!.style.backgroundColor = 'rgb(43, 108, 151)'
+    } else{
+      seeMapButton.current!.style.backgroundColor = 'gray'
+    }
+  },[DestinationAirport.icao || DepartureAirport.icao])
 
   return (
     <article className='AirTrafficConditions'>
@@ -89,7 +105,7 @@ useEffect(() => {},[departureAirportCode, destinationAirportCode]);
             <button onClick={() => CallAirport(false, destinationAirportCode)}>Search</button>
         </label>
 
-          <button className='AirTrButton'>Press Here to see in the map</button>
+          <button className='AirTrButton' ref={seeMapButton} onClick={HandleSeeMap}>Press here to see in the map</button>
     </article>
   );
 }

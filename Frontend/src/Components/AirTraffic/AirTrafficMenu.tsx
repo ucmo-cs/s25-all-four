@@ -3,7 +3,7 @@ import './css/AirTrafficMenu.css'
 import UpperSectionAir from './UpperSectionAir';
 import LowerSectionAir from './LowerSectionAir';
 import { Airport } from './AirportsInfo';
-// import Map from './Map';
+import MapPopUp from './MapPopUp';
 
 const AirTrafficMenu: React.FC = () => {
 
@@ -32,18 +32,27 @@ const AirTrafficMenu: React.FC = () => {
 
     const [loadingWeather, setLoadingWeather] = useState<boolean>(false);
     const [isDepartureEx, setIsDepartureEx] = useState<boolean>(false);
-
+    const [close, setClose] = useState<boolean>(false)
+    
   return (
-    <section className='AirTrafficMenu'>
-      {/* <Map/> */}
+    <section className='AirTrafficMenu'>      
+        <MapPopUp 
+          close={close} 
+          setClose={setClose}
+          Departure={departureAirport}
+          Destination={destinationAirport}
+        />
          <UpperSectionAir 
          setDepartureAirport={setDepartureAirport} 
          setDestinationAirport={setDestinationAirport} 
          departureAirport={departureAirport} 
          destinationAirport={destinationAirport}
          changeweather={setLoadingWeather}
-         weather={loadingWeather}
          isDeparture={setIsDepartureEx}
+         closeMap={close}
+         DepartureAirport={departureAirport}
+         DestinationAirport={destinationAirport}
+         setCloseMap={setClose}
          />
          <LowerSectionAir 
          isDepartureEx={isDepartureEx}

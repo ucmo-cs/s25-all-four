@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
               <li onClick={() => navigate('/application/profile')}><img src={Img} alt="user img" /><p>Profile</p></li>
               <li onClick={() => navigate('/application/')}><img src={Dashboard} alt="fox img" /><p>Home</p></li>
               <li onClick={() => navigate('/application/timesheet')}><img src={calendar} alt="calendar img" /><p>Timesheet</p></li>
-              <li><img src={chat} alt="chat img" /><p>Chats</p></li>
+              {/* <li><img src={chat} alt="chat img" /><p>Chats</p></li> */}
               <li onClick={() => navigate('/application/airtraffic')}><img src={cloud} alt="cloud img" /><p>Wheater</p></li>
             </div>
             <li onClick={LogOut} style={{marginTop: 'auto', marginBottom: '1vh'}}><img src={exit} alt="exit img" /><p>exit</p></li>            

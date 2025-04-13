@@ -105,7 +105,7 @@ const TimeSheetMenu: React.FC = () => {
       }catch(e){
         alert(e)
       }finally{
-        alert(`Your ${key} hour/s on ${month}, ${timeEntries[Number(key)]} has been saved`)
+        // alert(`Your ${key} hour/s on ${month}, ${timeEntries[Number(key)]} has been saved`)
         setIsEditable(false)
         await GetTimeEntries()
         setTimeEntries({});``

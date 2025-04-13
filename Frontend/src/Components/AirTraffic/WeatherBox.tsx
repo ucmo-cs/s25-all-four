@@ -139,15 +139,18 @@ const WeatherBox: React.FC<WeatherBoxProps> = ({weather, airport}) => {
             </div>
             <div className="temperature">              
               {
-                !weather?.temp ? '---' : `${weather?.temp}°`
+                !weather?.temp ? '---' : 
+                airport.country === 'US' ? `${Math.round((weather?.temp * 1.8) + 32)}°F` : `${weather?.temp}°C`
               }
             </div>
             <div className="range">
               {
-                !weather?.min_temp ? '---' : `${weather?.min_temp}°`
+                !weather?.temp ? '---' : 
+                airport.country === 'US' ? `${Math.round((weather?.min_temp * 1.8) + 32)}°F` : `${weather?.min_temp}°C`
               }/
               {
-                !weather?.max_temp ? '---' : `${weather?.max_temp}°`
+                !weather?.temp ? '---' : 
+                airport.country === 'US' ? `${Math.round((weather?.max_temp * 1.8) + 32)}°F` : `${weather?.max_temp}°C`
               }
               </div>
           </div>

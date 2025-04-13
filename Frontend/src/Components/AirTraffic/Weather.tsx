@@ -72,8 +72,12 @@ const Weather: React.FC<WeatherProps> = ({
          <div className='ElementsWeather'>
          <WeatherBox 
           weather={weatherDataDeparture} 
-          airport={departureAirport} />  
-          <WindCard weather={weatherDataDeparture}/>
+          airport={departureAirport} 
+         />  
+          <WindCard 
+            weather={weatherDataDeparture}
+            Airport={departureAirport} 
+          />
         </div>   
 
          <label htmlFor="DeaprtureAirportWeather" className='DeaprtureAirportWeather'>
@@ -86,7 +90,10 @@ const Weather: React.FC<WeatherProps> = ({
           <WeatherBox 
             weather={weatherDataDestination} 
             airport={destinationAirport} />         
-            <WindCard weather={weatherDataDestination}/>
+            <WindCard 
+              weather={weatherDataDestination}
+              Airport={destinationAirport} 
+            />
           </div>      
     </article>
   );

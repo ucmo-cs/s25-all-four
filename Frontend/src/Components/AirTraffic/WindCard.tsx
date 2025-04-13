@@ -7,11 +7,13 @@ import wind3 from './imgs/wind3.svg'
 import wind4 from './imgs/wind4.svg'
 import wind5 from './imgs/wind5.svg'
 import { WeatherData } from './Weather';
+import { Airport } from './AirportsInfo';
 
 interface WindCardProps{
   weather: WeatherData | null;
+  Airport: Airport | null;
 }
-const WindCard: React.FC<WindCardProps> = ({weather}) => {
+const WindCard: React.FC<WindCardProps> = ({weather, Airport}) => {
   const [ImgWind, setImgWind] = useState<any>(wind0)
   const imgWait: string = 'https://www.svgrepo.com/show/429915/not-found-error-alert.svg'
 
@@ -89,7 +91,9 @@ const WindCard: React.FC<WindCardProps> = ({weather}) => {
     </span>
     <p className="job">
       {
-        !weather?.wind_speed ? 'No Data' : `${(weather.wind_speed * 3.6).toString().substring(0,5)} km per hour `
+        !weather?.wind_speed ? 'No Data' : 
+        Airport?.country === 'US' ? `${Math.round(weather.wind_speed * 0.621371).toString().substring(0,5)} Miles per hour `
+        : `${(weather.wind_speed * 3.6).toString().substring(0,5)} km per hour `
       }
     </p>    
   </div>
