@@ -11,6 +11,7 @@ const Tasks_Team: React.FC = () => {
     const [openNewTask, setOpenNewTask] = useState<boolean>(false)
     const [taskList, setTaskList] = useState<ITaskInfo[]>([])
     const {teamInfo} = GetTeamHook(false)
+    const [updateTasks, setUpdateTasks] = useState<boolean>(false);
 
     const HandleGetTasks = async(): Promise<void> =>{
         const url: string = 'https://localhost:7010/api/TaskUser'
@@ -32,12 +33,14 @@ const Tasks_Team: React.FC = () => {
         } catch(e:any){
             alert(e)
         }
+        finally{
+            setUpdateTasks(prev => !prev);
+        }
     }
 
     useEffect(() =>{
         HandleGetTasks()
-        console.log(taskList)
-    },[])
+    },[updateTasks])
 
     const HaveATeamCheck = (): void =>{
         if(!teamInfo?.id){
@@ -52,17 +55,22 @@ const Tasks_Team: React.FC = () => {
             <Link to="ScrollFind" className='LinkDashboard'>
                 <button style={{border: 'none'}}>Find people</button>
             </Link>
-            <button>Open Chats</button>
+            {/* <button>Open Chats</button> */}
             {
                 userInfo?.position === 'admin' && <button onClick={HaveATeamCheck}>{openNewTask ? 'Close' : "Assign tasks"}</button>
             }
             
         </div>
         <div className='DisplayTasks'>
-            <CreateNewTask open={openNewTask} setOpen={setOpenNewTask}/>
+            <CreateNewTask 
+                open={openNewTask} 
+                setOpen={setOpenNewTask}
+                update={updateTasks}
+                setUpdate={setUpdateTasks}
+                />
             
             <div className='DisplayTasksHeader'>
-            <p>Your tasks</p>
+            <p>Your tasks <b>{taskList.filter(t => t.owner === userInfo?.username).length === 0? "" : `(${taskList.filter(t => t.owner === userInfo?.username).length})`}</b></p>
             </div>
             <article className='DisplayTasksContainer'>
             {

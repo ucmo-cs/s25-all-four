@@ -56,7 +56,7 @@ const Weather: React.FC<WeatherProps> = ({
   useEffect(() =>{
     if(weatherChange === true){ 
       GetTheWeather();
-      alert("Weather data fetched successfully!");
+      // alert("Weather data fetched successfully!");
     }
   },[weatherChange])
 

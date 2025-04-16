@@ -26,11 +26,13 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
   projects,
   setCloseProjectPopUp,
   setUpdateProjects,
-  updateProject
+  updateProject,
+  
 }) => {
 
   const removeTeamId = useRef<HTMLSelectElement>(null);
   const removeProjectId = useRef<HTMLSelectElement>(null);
+  const joinProjectId = useRef<HTMLSelectElement>(null)
 
   async function deleteTeamById(): Promise<void> {
     const teamId: string = removeTeamId.current?.value ?? "";
@@ -42,10 +44,9 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
     } catch (e) {
       alert('Failed to remove team: ' + e);
     } finally {
-      window.location.reload();
+      window.location.reload()
     }
   }
-
   const DeleteProjectByID = async (): Promise<void> => {
     const projectID: string = removeProjectId.current?.value ?? ""
     if(projectID === "" || projectID === null) return;
@@ -65,7 +66,32 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
 
   const HandleJoinProject = async(): Promise<void> => {
 
+    const url: string = "https://localhost:7010/api/Project";
+    var selectedProject: Project | undefined = projects.find(SP => SP.id === joinProjectId.current?.value)
+    var allSelectedProejct: Project[] | undefined = projects.filter(p => p.id === joinProjectId.current?.value)
+    var alreadyInProject: Project | undefined = projects.find(SP => SP.ownerID === allSelectedProejct?.find(p => p.id === SP.ownerID)?.ownerID)
+
+    if(alreadyInProject){
+      alert("You're already part of this project")
+      return;
+    }
+    if(!selectedProject) return
+    try{
+      const response = await fetch(url,{
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...selectedProject,
+          ownerID: userInfo?.id 
+        })
+      })
+      if(!response.ok) throw "Something went wrong"
+      setUpdateProjects(!updateProject);
+    }catch(e){
+      alert(e + "\nWe were not able to join you in that group")
+    }
   }
+
   return (
     <div className='AddProjectsTeam'>
       {userInfo?.position === 'admin' && (
@@ -90,7 +116,7 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
           <select style={{ border: '2px solid black' }} ref={removeProjectId}>
             <option value=''>Select project to remove</option>
             {
-              projects.filter(p => p.teamID === teamInfo?.id && p.creatorID === userInfo.id).map((project, index) => (
+              projects.filter(p => p.teamID === teamInfo?.id && p.creatorID === userInfo.id &&  p.ownerID === "" ).map((project, index) => (
                 <option 
                   key={index} 
                   value={project.id}>                
@@ -105,10 +131,10 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
         </>
       )}
 
-      <select style={{ border: '2px solid gray' }}>
+      <select style={{ border: '2px solid gray' }} ref={joinProjectId}>
         <option value=''>No project selected</option>
         {
-          projects.filter(p => p.teamID === teamInfo?.id).map((project, index) => (
+          projects.filter(p => p.teamID === teamInfo?.id && p.ownerID === "").map((project, index) => (
             <option 
               key={index} 
               value={project.id}>                
@@ -119,7 +145,7 @@ const AddProjectsTeam: React.FC<IAddProjectsTeamProps> = ({
           ))
         }       
       </select>
-      <button style={{ border: '2px solid gray' }}>Add project</button>
+      <button style={{ border: '2px solid gray' }} onClick={HandleJoinProject}>Add project</button>
     </div>
   );
 };

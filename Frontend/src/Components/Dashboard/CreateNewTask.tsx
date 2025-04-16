@@ -8,6 +8,9 @@ import GetUserHook from '../../Shared/GetUserHook';
 interface IOpenTask {
     open: boolean;
     setOpen: (close: boolean) => void;
+    update: boolean;
+    setUpdate: (value: boolean) => void;
+    
 }
 export interface ITaskInfo {
     id?: string;
@@ -18,7 +21,11 @@ export interface ITaskInfo {
     teamID: string;
     createdBy: string;
 }
-const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
+const CreateNewTask: React.FC<IOpenTask> = ({
+    open, 
+    update,
+    setUpdate,
+    setOpen}) => {
 
     const {usersInfo} = GetAllUsersHook()
     const {teamInfo} = GetTeamHook(false)
@@ -74,6 +81,7 @@ const CreateNewTask: React.FC<IOpenTask> = ({open, setOpen}) => {
         } catch (error) {
           alert(error);
         } finally {
+          setUpdate(!update)                   
           setTimeout(() => {
             setUserList([]);
             setOpen(!open);

@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BasicInformation from './BasicInformation';
 import AllInformation from './AllInformation';
 import GetUserHook from '../../Shared/GetUserHook';
+import { Element, scroller } from 'react-scroll';
+import { duration } from 'html2canvas/dist/types/css/property-descriptors/duration';
 
 const ProfileMenu: React.FC = () => {
 
@@ -56,9 +58,16 @@ const ProfileMenu: React.FC = () => {
     }
   }
   
-
+  useEffect(()=>{
+    scroller.scrollTo('scrollProfile',{
+      duration: 0,
+      delay: 0,
+      smooth: false
+    })
+  },[])
   return (
     <section className='ProfileMenu' ref={profileContainer}>
+      <Element name="scrollProfile"></Element>
         <span ref={span}></span>
          <BasicInformation 
             SendChangesToDB={SendChangesToDB} 

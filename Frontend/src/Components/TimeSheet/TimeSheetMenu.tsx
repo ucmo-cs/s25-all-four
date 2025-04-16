@@ -5,6 +5,9 @@ import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Project } from '../Profile/NewProject';
+import { Element, scroller } from 'react-scroll';
+// import UserInformation from '../../Pages/UserInformation';
 // import { Team } from '../Profile/NewTeam';
 
 interface ITimeSheet{
@@ -19,21 +22,27 @@ interface ITimeEntry{
   hoursWorked: number;
   month: string;
   userId: string;
+  projectName: string;
 }
 
 const TimeSheetMenu: React.FC = () => {
   
   const {userInfo} = GetUserHook(false);
+  const {teamInfo} = GetTeamHook(false)
+  const {usersInfo, load} = GetAllUsersHook();
+
+  const printRef = useRef<HTMLDivElement>(null)
+  const projectValue = useRef<HTMLSelectElement>(null)
+
   const [month, setMonth] = useState<string>('January');
   const [monthId, setMonthId] = useState<number>(0);
-  const {usersInfo, load} = GetAllUsersHook();
-  const {teamInfo} = GetTeamHook(false)
   const [editUser, setEditUser] = useState<string>(localStorage.getItem('UserId')?? "")
   const [timeEntries, setTimeEntries] = useState<{[key: number]: number}>({})
+  const [projectName ,setProjectName] = useState<string>('')
   const [timeEntry, setTimeEntry] = useState<ITimeEntry[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)  
   const [timeSheet, setTimeSheet] = useState<ITimeSheet[]>([])
-  const printRef = useRef<HTMLDivElement>(null)
+  const [projects, setProjects] = useState<Project[]>([])
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 31 },
     { "id": 2, "name": "February", "days": 28 },
@@ -48,12 +57,30 @@ const TimeSheetMenu: React.FC = () => {
     { "id": 11, "name": "November", "days": 30 },
     { "id": 12, "name": "December", "days": 31 }
   ]  
-
+  
   useEffect(()=>{
-    console.log(GetTimeEntries())
+    scroller.scrollTo("scrollTimeSheet",{
+      smooth: false
+    })
   },[])
 
-  //Assign the month id to the month selected
+  useEffect(()=>{
+    HandleGetProjects()
+    GetTimeEntries()
+  },[])
+
+    const HandleGetProjects = async(): Promise<void> =>{
+      const url: string = "https://localhost:7010/api/Project"
+      try{
+        const response = await fetch(url)
+        if(!response.ok) throw "This is not working"
+        const projectData: Project[] = await response.json();
+        setProjects(projectData)
+      }catch(e){
+        alert(e)
+      }
+    }
+
   useEffect(() =>{
     const AssignMonthId = () =>{
       for (let index = 0; index < calendarMonths.length; index++) {
@@ -64,6 +91,7 @@ const TimeSheetMenu: React.FC = () => {
     }    
     AssignMonthId();
   },[month])
+
   async function GetTimeEntries(): Promise<void> {
     const url: string = 'https://localhost:7010/api/TimeEntry'    
     try{
@@ -99,7 +127,8 @@ const TimeSheetMenu: React.FC = () => {
               day: Number(key),
               hoursWorked: timeEntries[Number(key)],
               month: month,
-              userId: editUser
+              userId: editUser,
+              projectName: projectValue.current?.value
             })
             })
       }catch(e){
@@ -178,14 +207,16 @@ const TimeSheetMenu: React.FC = () => {
 
     const pageWidth = pdf.internal.pageSize.getWidth();
 
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const imgWidth = pageWidth + 73;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width + 45;
   
-    pdf.addImage(data, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.addImage(data, 'PNG', -70, -24, imgWidth, imgHeight);
     pdf.save('TimeSheet.pdf');
   }
 
   return (
+    <>
+    <Element name='scrollTimeSheet'></Element>
     <section className='TimeSheetMenu' ref={printRef}>
       <div className='Time'>
 
@@ -218,6 +249,19 @@ const TimeSheetMenu: React.FC = () => {
                   }
                   </select>
                 </div>
+                <div className='SelectTS'>
+                  <h4>Select Project</h4>
+                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>
+                  <option value="" >No project selected</option>
+                  {                        
+                    projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).map((project, index) => (
+                      <option key={index} value={project.name}>
+                        {project.name}
+                      </option>
+                    ))                       
+                  }
+                  </select>
+                </div>
                 <div className='ExportEditSave'>
                     <button onClick={HandleDownloadPDF}>Export PDF</button>
                     <button onClick={() => {setIsEditable(!isEditable); CheckToPost();}}>{isEditable === true ? 'Stop editing' : 'Edit'}</button>
@@ -228,12 +272,29 @@ const TimeSheetMenu: React.FC = () => {
               </div>
             ) : (<div className='AdminTSOptions'>
               <div className='SelectTS'>
+                  <h4>Current User</h4>
+                  <p>{userInfo?.username}</p>
+                </div>
+              <div className='SelectTS'>
                   <h4>Select month</h4>
                   <select name="" id="" onChange={(e) => setMonth(e.target.value)}>
                   {                        
                     calendarMonths.map((month, index) => (
                       <option key={index} value={month.name}>
                         {month.name}
+                      </option>
+                    ))                       
+                  }
+                  </select>
+                </div>
+                <div className='SelectTS'>
+                  <h4>Select Project</h4>
+                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>
+                  <option value="">No project selected</option>
+                  {                        
+                    projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).map((project, index) => (
+                      <option key={index} value={project.name}>
+                        {project.name}
                       </option>
                     ))                       
                   }
@@ -249,7 +310,7 @@ const TimeSheetMenu: React.FC = () => {
             </div>)
           }
           <div className='CalendarTSContainer'>
-            <h1>{month}</h1>
+            <h1>{month} - {projectName !== "" ? projectName : "No project selected"}</h1>
             <div className='CalendarTS'>
               <div className='DaysofMonthContainer'>
                   <div className='DaysofMonth' style={{minWidth: '10%'}}>
@@ -263,37 +324,46 @@ const TimeSheetMenu: React.FC = () => {
               </div>
               <div className='MemebersTimes'>
               {
-                teamInfo === null ? <p>No team selected</p> :
-                load === true ? <p>Loading users</p> :
-                usersInfo?.filter(u => u.team === teamInfo?.id).map((member, index)=>(
-                  <div className='BCTMTS'>
-                    <div className='TeamMemberTS' key={index}><p className='TeamMemberTSName'>{member.username.substring(0,40)}</p></div>
-                    <div className='DaysOfMember'>
-                      {/* This is where the hours worked are displayed */}
-                    {
-                      Array.from({ length: calendarMonths[monthId].days }).map((_, index) => (
-                        <div className='DaysofMonth' key={index}>
-                        {
-                          (isEditable === true && member.id === editUser) 
-                          ? 
-                          <input key={index} type="number" className='noarrows' placeholder='#' value={timeEntries[index + 1]} onChange={(e) => HandleChanges(index, Number(e.target.value))}/> 
-                          :  
-                          <p key={index}>                            
-                            {
-                              timeEntry.find(te => te.day === index + 1 && te.userId === member.id && te.month === month)?.hoursWorked ?? <b style={{fontFamily: 'monospace'}}>0</b>                              
-                                // .map((te, i) => (
-                                //   <span key={i}>{te.hoursWorked}</span>
-                                // ))
-                            }
-                          </p>
-                        }
-                        </div>
-                        
-                      ))
-                    }   
+                !teamInfo ? (
+                  <p>No team selected</p>
+                ) : projects.filter(p => p.teamID === teamInfo?.id && p.ownerID === '').length === 0 || !projectValue.current?.value ? (
+                  <p>No projects selected</p>
+                ) : load ? (
+                  <p>Loading users</p>
+                ) : (
+                  usersInfo?.filter(u => u.team === teamInfo.id).map((member, idx) => (
+                    <div className="BCTMTS" key={member.id ?? idx}>
+                      <div className="TeamMemberTS">
+                        <p className="TeamMemberTSName">{member.username.substring(0, 40)}</p>
+                      </div>
+                      <div className="DaysOfMember">
+                        {Array.from({ length: calendarMonths[monthId].days }).map((_, d) => (
+                          <div className="DaysofMonth" key={d}>
+                            {isEditable && member.id === editUser ? (
+                              <input
+                                type="number"
+                                className="noarrows"
+                                placeholder="#"
+                                value={timeEntries[d + 1] ?? ''}
+                                onChange={e => HandleChanges(d, Number(e.target.value))}
+                              />
+                            ) : (
+                              <p style={{color:'green'}}>
+                                {timeEntry.find(
+                                  te =>
+                                    te.day === d + 1 &&
+                                    te.userId === member.id &&
+                                    te.month === month &&
+                                    te.projectName === projectValue.current?.value
+                                )?.hoursWorked ?? <b style={{ fontFamily: 'monospace', color: 'black' }}>0</b>}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))
+                )
               }
               </div>
             </div>
@@ -317,6 +387,7 @@ const TimeSheetMenu: React.FC = () => {
 
       </div>
     </section>
+    </>
   );
 }
 

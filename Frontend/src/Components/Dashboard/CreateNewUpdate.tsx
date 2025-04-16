@@ -14,10 +14,13 @@ export interface IUpdate {
 interface ICloseUpdate {
     close: boolean;
     setClose: (close: boolean) => void;
-    GetData: () => void;
+    GetData: () => void;    
 }
 
-const CreateNewUpdate: React.FC<ICloseUpdate> = ({close, setClose, GetData}) => {
+const CreateNewUpdate: React.FC<ICloseUpdate> = ({
+    close, 
+    setClose, 
+    GetData}) => {
     
     const [userChange] = useState<boolean>(false)
     const divRef = useRef<HTMLElement>(null)
@@ -48,7 +51,7 @@ const CreateNewUpdate: React.FC<ICloseUpdate> = ({close, setClose, GetData}) => 
             });
         } catch(e){
             alert(e)
-        } finally{            
+        } finally{     
             GetData()
             setTimeout(() => {
                 setClose(!close)

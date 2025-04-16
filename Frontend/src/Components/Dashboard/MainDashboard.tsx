@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Updates_Team from './Updates_Team';
 import Tasks_Team from './Tasks_Team';
 import './css/MainDashboard.css'
 import GetUserHook from '../../Shared/GetUserHook'
+import { Element, scroller } from 'react-scroll';
 
 const MainDashboard: React.FC = () => {
      
   const {userInfo, loading} = GetUserHook(false);
-  
+  useEffect(() => {
+    scroller.scrollTo('scrollDashboard', {
+      duration: 0,
+      delay: 0,
+      smooth: false      
+    });
+  }, []);
 
   return (
+    <>
+    <Element name="scrollDashboard"></Element>
     <section className='MainDashboard'>
         <div className='DashboardContainer'>
           <div className='HeaderName'>
@@ -28,6 +37,7 @@ const MainDashboard: React.FC = () => {
           </div>
         </div>
     </section>
+    </>
   );
 }
 

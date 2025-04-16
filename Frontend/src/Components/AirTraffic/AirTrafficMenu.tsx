@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/AirTrafficMenu.css'
 import UpperSectionAir from './UpperSectionAir';
 import LowerSectionAir from './LowerSectionAir';
 import { Airport } from './AirportsInfo';
 import MapPopUp from './MapPopUp';
-
+import { Element, scroller } from 'react-scroll';
 const AirTrafficMenu: React.FC = () => {
 
   const [departureAirport, setDepartureAirport] = useState<Airport>(
@@ -33,8 +33,16 @@ const AirTrafficMenu: React.FC = () => {
     const [loadingWeather, setLoadingWeather] = useState<boolean>(false);
     const [isDepartureEx, setIsDepartureEx] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false)
+
+    useEffect(()=>{
+      scroller.scrollTo("scrollAir",{
+        smooth: false
+      })
+    },[])
     
   return (
+    <>
+    <Element name='scrollAir'></Element>
     <section className='AirTrafficMenu'>      
         <MapPopUp 
           close={close} 
@@ -71,6 +79,7 @@ const AirTrafficMenu: React.FC = () => {
           <hr />
         </div>
     </section>
+    </>
   );
 }
 

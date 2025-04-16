@@ -62,8 +62,8 @@ const Notmas: React.FC<AirportsInfoProps> = ({
 
     try{
       const Airport: Airport = isDepartureEx ? departureAirport : destinationAirport;
-      // const url: string = `https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=973dab72-fdca-464a-b3fc-59d368737b0a&format=json&criticality=ALL&locations=${Airport.icao}`;
-      const url: string = ''
+      const url: string = `https://applications.icao.int/dataservices/api/notams-realtime-list?api_key=973dab72-fdca-464a-b3fc-59d368737b0a&format=json&criticality=ALL&locations=${Airport.icao}`;
+      // const url: string = ''
       const response = await fetch(url);
       const data: Notam[] = await response.json();
       
@@ -113,7 +113,7 @@ const Notmas: React.FC<AirportsInfoProps> = ({
     if(departureAirport.icao === '') return;
     if(weatherChange === true){     
       HandleNotams()
-      alert('Fetching NOTAMS for departure airport...');     
+      // alert('Fetching NOTAMS for departure airport...');     
     }
   }, [weatherChange]);
 

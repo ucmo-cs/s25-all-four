@@ -16,6 +16,7 @@ interface IModifyMoreBottom {
 }
 
 const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
+
   const [closeTeamPopUp, setCloseTeamPopUp] = useState<boolean>(true);
   const [closeProjectPopUp, setCloseProjectPopUp] = useState<boolean>(true);
   const [teamIndex, setTeamIndex] = useState<number>(0);  
@@ -30,6 +31,7 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
 
   const SelectTeam = async (teamID_: string | null, join: boolean) => {
     await ChangeTeam(teamID_, join);
+    GetAllTeamsHook()
   };
 
   const ChangeTeam = async (teamId: string | null, join: boolean) => {
@@ -81,7 +83,6 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
 
       <div className='ProjectSelectionContainer'>
         <ChangeTeamComponent
-
           usersInfo={usersInfo}
           teamsInfo={teamsInfo}
           teamInfo={teamInfo}
@@ -111,18 +112,28 @@ const AllInforBottom: React.FC<IModifyMoreBottom> = ({ userInfo }) => {
             <div className='ProjectListHeader'>
               <h3>Projects</h3>
             </div>
-            <div className='ProjectListBody'>
-              {projects.filter(p => p.teamID === teamInfo?.id).length === 0 ? (
-                <div className='ProjectItem'>
+            <div className='ProjectListBody'>          
+            {projects.filter(p => p.teamID === teamInfo?.id && p.ownerID === userInfo?.id).length === 0 ? (
+              <div className='ProjectItem'>
                 <h3>No projects available</h3>
               </div>
-              ) :
-              projects.filter(p => p.teamID === teamInfo?.id).map((project, key) => (
-                <div className='ProjectItem' key={key} onClick={() => navigate(`/application/project/${project.id}`)}>
-                  <h3>{project.name.substring(0,26)}</h3>
-                  <img src='https://www.svgrepo.com/show/500599/info-filled.svg' alt='info' />
-                </div>
-              ))}
+            ) : (
+              projects
+                .filter(p => p.teamID === teamInfo?.id && p.ownerID === userInfo?.id)
+                .map((project, key) => (
+                  <div
+                    className='ProjectItem'
+                    key={key}
+                    onClick={() => navigate(`/application/project/${project.id}`)}
+                  >
+                    <h3>{project.name.substring(0, 26)}</h3>
+                    <img
+                      src='https://www.svgrepo.com/show/500599/info-filled.svg'
+                      alt='info'
+                    />
+                  </div>
+                ))
+            )}
             </div>
           </article>
         </div>

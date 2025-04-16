@@ -54,6 +54,17 @@
     justify-content: center;
     width: 20%;
 }
+.SelectTS p{
+    margin: 0;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.2em;
+    width: 75%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .SelectTS select{
     background-color: white;
     border: 1px solid black;

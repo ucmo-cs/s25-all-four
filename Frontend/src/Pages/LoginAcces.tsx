@@ -7,15 +7,21 @@ interface IAccess {
 }
 
 const LoginAccess: React.FC<IAccess> = ({ Dashboard: DashboardComponent }) => {
-  const [code] = useState<string>(localStorage.getItem('UserAC') ?? "");
+  // const [code] = useState<string>(localStorage.getItem('UserAC') ?? "");
   const [verified, setVerified] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  async function GetAccessCode(): Promise<boolean> {        
-    const response = await fetch(`https://localhost:7010/api/UserInformation/${localStorage.getItem('UserId')}`);
-    const data: UserInformaion = await response.json();
-    return data.loggedIn === true && code === data.securityCode;
+  async function GetAccessCode(): Promise<boolean> { 
+    try{
+      const response = await fetch(`https://localhost:7010/api/UserInformation/${localStorage.getItem('UserId')}`);
+      const data: UserInformaion = await response.json();
+      console.log(data);
+      return data.loggedIn === true;
+    } catch(e){
+      alert("We coudlnt log in")
+      return false
+    }
   }
 
   useEffect(() => {

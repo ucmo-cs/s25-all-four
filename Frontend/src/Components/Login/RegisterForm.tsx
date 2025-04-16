@@ -76,7 +76,7 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
       }, 2000);
       return
     }
-    if(isAdmin.current?.value === 'admin' && adminCode !== 12451){
+    if(admin  === 'admin' && adminCode !== 12451){
       setErrorMessage('Provided correct administrator code')
       errorSpan.current!.style.display = 'block';
       setTimeout(() => {            
@@ -189,7 +189,7 @@ const RegisterForm = forwardRef<HTMLDivElement, Url>((props, ref) => {
                 <input className="yep" ref={isAdmin} onClick={() => setAdmin(isAdmin.current?.checked ? "admin" : "user")} id="check-apple" type="checkbox" />
                 <label htmlFor="check-apple" /> 
             </div>
-            <input type="number" value={admin} onChange={(e) => setAdminCode(Number(e.target.value))} style={{height:'35%'}} placeholder='Are you an admin?'/>
+            <input type="number" value={adminCode} onChange={(e) => setAdminCode(Number(e.target.value))} style={{height:'35%'}} placeholder='Are you an admin?'/>
           </div>
           <button style={{cursor: 'pointer'}} onClick={CheckInputs} type='submit'>Create account!</button>          
           <p style={{cursor: 'pointer'}} onClick={() => navigate('/')}>Go back to menu</p>

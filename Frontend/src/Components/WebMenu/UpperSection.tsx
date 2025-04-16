@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './css/UpperSection.css';
-
+import { scroller, Element } from 'react-scroll';
 
 const UpperSection: React.FC = () => {
 
@@ -8,22 +8,30 @@ const UpperSection: React.FC = () => {
     
   // }
 
+  useEffect(() =>{
+    scroller.scrollTo('scrollMainWeb',{
+      smooth: false
+    })
+  },[])
   return (
-    <section className='UpperSection' id='UpperSection'>   
-    <div className='TitleDivWM'>
-      <h1>Pablo's Project SE 4920</h1>
-    </div> 
-    <span id='SecondSection'></span>
-    <div className='GradientBackgroundWM'>
-    </div>
-    <div className='SelectionDivWM'>
-      <ul >
-        <li>About us</li>
-        <li>FAQ</li>
-        <li>Meet our team</li>
-      </ul>
-    </div>
-    </section>
+    <>
+      <Element name='scrollMainWeb'></Element>
+      <section className='UpperSection' id='UpperSection'>   
+      <div className='TitleDivWM'>
+        <h1>Pablo's Project SE 4920</h1>
+      </div> 
+      <span id='SecondSection'></span>
+      <div className='GradientBackgroundWM'>
+      </div>
+      <div className='SelectionDivWM'>
+        <ul >
+          <li>About us</li>
+          <li>FAQ</li>
+          <li>Meet our team</li>
+        </ul>
+      </div>
+      </section>
+    </>
   );
 }
 

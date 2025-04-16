@@ -15,11 +15,23 @@ const NewTeam: React.FC<IClose> = ({close, setClose}) => {
   const [url] = useState<string>('https://localhost:7010/api/Team')
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
-  const [teamSize, setTeamSize] = useState<number>()
+  const [teamSize, setTeamSize] = useState<number>(0)
   const teamContainer = useRef<HTMLDivElement>(null)
   const userInfo = GetUserHook(false)
 
   async function CreateNewTeam(): Promise<void> {
+    if(name === ''){
+      alert("Please provide a name")
+      return
+    }
+    else if(description === ''){
+      alert('Please provide a description')
+      return
+    }
+    else if(teamSize === 0){
+      alert('Please provide the size of the team')
+      return
+    }
       try{
         await fetch(url, {
           method: 'POST',
