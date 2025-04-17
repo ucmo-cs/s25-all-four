@@ -1,0 +1,62 @@
+[
+  {
+    "name": "New Year's Day",
+    "month": "January",
+    "day": 1
+  },
+  {
+    "name": "Martin Luther King Jr. Day",
+    "month": "January",
+    "day": 20
+  },
+  {
+    "name": "Pablo's birthday",
+    "month": "February",
+    "day": 14
+  },
+  {
+    "name": "Washington's Birthday",
+    "month": "February",
+    "day": 17
+  },
+  {
+    "name": "Memorial Day",
+    "month": "May",
+    "day": 26
+  },
+  {
+    "name": "Juneteenth National Independence Day",
+    "month": "June",
+    "day": 19
+  },
+  {
+    "name": "Independence Day",
+    "month": "July",
+    "day": 4
+  },
+  {
+    "name": "Labor Day",
+    "month": "September",
+    "day": 1
+  },
+  {
+    "name": "Columbus Day",
+    "month": "October",
+    "day": 13
+  },
+  {
+    "name": "Veterans Day",
+    "month": "November",
+    "day": 11
+  },
+  {
+    "name": "Thanksgiving Day",
+    "month": "November",
+    "day": 27
+  },
+  {
+    "name": "Christmas Day",
+    "month": "December",
+    "day": 25
+  }
+]

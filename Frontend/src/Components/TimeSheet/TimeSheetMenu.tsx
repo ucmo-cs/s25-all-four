@@ -7,6 +7,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Project } from '../Profile/NewProject';
 import { Element, scroller } from 'react-scroll';
+import holidays from './us_holidays_2025.json'
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
 // import UserInformation from '../../Pages/UserInformation';
 // import { Team } from '../Profile/NewTeam';
 
@@ -213,7 +215,11 @@ const TimeSheetMenu: React.FC = () => {
     pdf.addImage(data, 'PNG', -70, -24, imgWidth, imgHeight);
     pdf.save('TimeSheet.pdf');
   }
-
+  const DisplayHolidayInformation = (d: number): void =>{
+    const displayMessage: string = holidays.find(h => h.month === month && h.day - 1 === d)?.name ?? ""
+    alert(`
+      National holiday: ${displayMessage}`)
+  }
   return (
     <>
     <Element name='scrollTimeSheet'></Element>
@@ -251,9 +257,9 @@ const TimeSheetMenu: React.FC = () => {
                 </div>
                 <div className='SelectTS'>
                   <h4>Select Project</h4>
-                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>
-                  <option value="" >No project selected</option>
-                  {                        
+                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>                  
+                  {   
+                    projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).length === 0 ? <option value="">No projects available</option> :
                     projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).map((project, index) => (
                       <option key={index} value={project.name}>
                         {project.name}
@@ -289,9 +295,9 @@ const TimeSheetMenu: React.FC = () => {
                 </div>
                 <div className='SelectTS'>
                   <h4>Select Project</h4>
-                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>
-                  <option value="">No project selected</option>
-                  {                        
+                  <select name="" id="" ref={projectValue} onChange={(e) => setProjectName(e.target.value)}>                  
+                  {                      
+                    projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).length === 0 ? <option value="">No projects available</option> :  
                     projects.filter(p => p.ownerID === userInfo?.id &&  p.teamID === userInfo?.team).map((project, index) => (
                       <option key={index} value={project.name}>
                         {project.name}
@@ -339,23 +345,21 @@ const TimeSheetMenu: React.FC = () => {
                       <div className="DaysOfMember">
                         {Array.from({ length: calendarMonths[monthId].days }).map((_, d) => (
                           <div className="DaysofMonth" key={d}>
-                            {isEditable && member.id === editUser ? (
-                              <input
-                                type="number"
-                                className="noarrows"
-                                placeholder="#"
-                                value={timeEntries[d + 1] ?? ''}
-                                onChange={e => HandleChanges(d, Number(e.target.value))}
-                              />
-                            ) : (
-                              <p style={{color:'green'}}>
-                                {timeEntry.find(
-                                  te =>
-                                    te.day === d + 1 &&
-                                    te.userId === member.id &&
-                                    te.month === month &&
-                                    te.projectName === projectValue.current?.value
-                                )?.hoursWorked ?? <b style={{ fontFamily: 'monospace', color: 'black' }}>0</b>}
+                            {                            
+                            isEditable && member.id === editUser && !holidays.find(h => h.month === month && h.day - 1 === d)? 
+                            (<input type="number" className="noarrows" placeholder="#" value={timeEntries[d + 1] ?? ''} onChange={e => HandleChanges(d, Number(e.target.value))}/>) 
+                            : (<p style={{color:'green'}}>
+                              {timeEntry.find(
+                                te =>
+                                  te.day === d + 1 &&
+                                  te.userId === member.id &&
+                                  te.month === month &&
+                                  te.projectName === projectValue.current?.value
+                              )?.hoursWorked ?? <b style={{ fontFamily: 'monospace', color: 'black' }}>
+                                {
+                                  holidays.find(h => h.month === month && h.day - 1 === d) ? <b style={{color: 'red', cursor: 'pointer'}} onClick={() => DisplayHolidayInformation(d)}>0</b> : <b>0</b>
+                                }
+                                </b>}
                               </p>
                             )}
                           </div>
