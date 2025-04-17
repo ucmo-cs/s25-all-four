@@ -3,6 +3,8 @@ import { Project } from '../Components/Profile/NewProject';
 import GetUserHook from '../Shared/GetUserHook';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../Shared/NavBar';
+import './Css/ProjectnfoPage.css'
+import GetAllUsersHook from '../Shared/GetAllUsersHook';
 
 interface ProjectProp {
   ProjectInformation: Project;
@@ -10,8 +12,27 @@ interface ProjectProp {
 
 const ProjectnfoPage: React.FC<ProjectProp> = ({ ProjectInformation }) => {
   const navigate = useNavigate();
-  const { userInfo } = GetUserHook(false);  // Removed changeUser parameter
+  const { userInfo } = GetUserHook(false); 
+  const { usersInfo} = GetAllUsersHook()
+  
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [projects, setProjects] = useState<Project[]>([])
+
+  const HandleGetProjects = async(): Promise<void> =>{
+    const url: string = "https://localhost:7010/api/Project"
+    try{
+      const response = await fetch(url)
+      if(!response.ok) throw "This is not working"
+      const projectData: Project[] = await response.json();
+      setProjects(projectData)
+    }catch(e){
+      alert(e)
+    }
+  }
+  
+  useEffect(() =>{
+    HandleGetProjects()
+  },[])
 
   useEffect(() => {
     if (userInfo) {
@@ -29,6 +50,18 @@ const ProjectnfoPage: React.FC<ProjectProp> = ({ ProjectInformation }) => {
     }
   }, [userInfo, ProjectInformation, navigate]);
 
+  const HandleLeaveProject = async(): Promise<void> =>{
+    const url: string = `https://localhost:7010/api/Project/${ProjectInformation.id}`
+    try{
+      const response = await fetch(url,{method: "DELETE"})
+      if(!response.ok) throw new Error("This is not working")
+    }catch(e){
+      alert(e);
+    } finally{
+      navigate('/application/profile');          
+    }
+  }
+
   return (
     <>
       {!isValid ? (
@@ -37,11 +70,27 @@ const ProjectnfoPage: React.FC<ProjectProp> = ({ ProjectInformation }) => {
         </main>
       ) : (
         <main className="ProjectnfoPage">
-          {/* <NavBar/> */}
-          <section>
-            <h1>{ProjectInformation.name}</h1>
-            <h3>Created by: {ProjectInformation.creatorID}</h3>
-            <h3>{ProjectInformation.description}</h3>
+          <NavBar/>
+          <section className='ProjectContainer'>
+            <div className='ProjectBox'>
+              <h1>{ProjectInformation.name}</h1>
+              <h3>Created by: {usersInfo?.find(u => u.id === ProjectInformation.creatorID)?.username}</h3>
+              <div className='ProjectDescriptionAndMembers'>
+                <p className='ProjectTextDescription'>{ProjectInformation.description}</p>
+                <div className='ProjectMembers'>
+                  <h3>Project Members</h3>
+                  <ul>
+                  {
+                    usersInfo?.filter(u => u.id === projects.find(p => p.ownerID === u.id)?.ownerID)
+                    .map((user,index) => (
+                        <li key={index}>{user.username}</li>
+                      ))
+                    }
+                  </ul>
+                  <button className='ProjectButton' onClick={HandleLeaveProject}>Leave Project</button>
+                </div>
+              </div>
+            </div>
           </section>
         </main>
       )}

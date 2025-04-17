@@ -46,7 +46,7 @@ const TimeSheetMenu: React.FC = () => {
   const [timeSheet, setTimeSheet] = useState<ITimeSheet[]>([])
   const [projects, setProjects] = useState<Project[]>([])
   const calendarMonths = [
-    { "id": 1, "name": "January", "days": 31 },
+    { "id": 1, "name": "January", "days": 32 },
     { "id": 2, "name": "February", "days": 28 },
     { "id": 3, "name": "March", "days": 31 },
     { "id": 4, "name": "April", "days": 30 },

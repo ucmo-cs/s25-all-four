@@ -1,0 +1,53 @@
+.ProjectnfoPage{
+    /* background-color: red; */
+    height: 100vh;
+    width: auto;
+    max-width: 100vw;    
+    
+}
+.ProjectContainer h1{
+    color: black;
+    font-size: 3rem;
+    margin: 0.3em;
+}
+.ProjectContainer{
+    height: 100%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+    margin-left: 5%;
+}
+.ProjectBox{
+    background-color: white;
+    border-radius: 1em;
+    height: 70%;
+    width: 60%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.ProjectButton{
+    margin-top: 33%;
+    background-color: red;
+    color: white;
+    height: 20%;
+    width: 100%;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+.ProjectDescriptionAndMembers{
+    display: flex;
+    justify-content: space-between;    
+    width: 60%;
+    height: 45%;
+}
+.ProjectTextDescription{
+    border: 2px solid gray;
+    width: 60%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
