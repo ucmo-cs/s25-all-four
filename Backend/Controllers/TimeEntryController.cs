@@ -51,6 +51,7 @@ namespace Backend.Controllers
             existingTimeEntry.HoursWorked = timeEntry.HoursWorked;
             existingTimeEntry.Month = timeEntry.Month;
             existingTimeEntry.UserId = timeEntry.UserId;
+            existingTimeEntry.ProjectName = timeEntry.ProjectName;
             _dbContext.SaveChanges();
             return Ok(existingTimeEntry);
         }

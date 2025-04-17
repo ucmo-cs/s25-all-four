@@ -14,5 +14,6 @@ namespace Backend.Data
         public DbSet<Timesheet> timesheets { get; set; }
         public DbSet<TimeEntry> timeEntries { get; set; }
         public DbSet<TaskUser> taskUsers { get; set; }
+        public DbSet<Project> projects { get; set; }
     }
 }

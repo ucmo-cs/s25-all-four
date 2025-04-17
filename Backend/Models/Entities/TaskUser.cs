@@ -7,6 +7,7 @@
         public DateTime DueDate { get; set; }
         public string CreatedBy { get; set; }
         public string Owner { get; set; }
+        public string TeamID { get; set; }
         public string Information { get; set; }
     }
 }

@@ -7,5 +7,6 @@
         public int HoursWorked { get; set; }      
         public string Month { get; set; }
         public string UserId { get; set; }
+        public string ProjectName { get; set; }
     }
 }
