@@ -18,7 +18,7 @@ const NavbarWM: React.FC = () => {
         <div className='NavbarUpperDiv'>                      
             <img src={logo} alt="fox-logo" id='FoxLogo'/>                          
             <div className='searchNavbar'>
-                <input type="text" placeholder='hola'/>  
+                <input type="text" placeholder=''/>  
                 <img src="https://www.svgrepo.com/show/507417/search-circle.svg" alt="search-icon" />       
             </div>          
         </div>
