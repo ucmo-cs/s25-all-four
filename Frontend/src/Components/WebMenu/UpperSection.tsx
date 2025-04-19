@@ -21,6 +21,7 @@ const UpperSection: React.FC = () => {
         <h1>Pablo's Project SE 4920</h1>
       </div> 
       <span id='SecondSection'></span>
+      <Element name='AboutUsSection'></Element> 
       <div className='GradientBackgroundWM'>
       </div>
       <div className='SelectionDivWM'>

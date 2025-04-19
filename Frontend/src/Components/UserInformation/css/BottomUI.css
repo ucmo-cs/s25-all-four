@@ -1,0 +1,59 @@
+.BottomUI{
+    margin-top: 2%;
+    width: 70%;
+    height: 55%;
+    background-color: white;
+    display: flex;
+    border-radius: 1em;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.BirthdayPosition{
+    color: white;
+    height: 10%;
+    width: 100%;
+    background-color: black;
+    border-bottom: 2px solid white;
+    border-top-right-radius: 1em;
+    border-top-left-radius: 1em;
+    display: flex;
+    align-items: center
+}
+.BPComponent{
+    height: 100%;
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.UserDescriptionPorjects{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.UserDescription{
+    width: 50%;   
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.UserDescription p{
+    border-radius: 0.5em;
+    height: 30vh;
+    padding: 1em;
+    width: 50%;
+    margin: 0;
+    border: 2px solid gray;
+}
+.UserProjects{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

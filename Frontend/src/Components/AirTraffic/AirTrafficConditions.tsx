@@ -71,12 +71,7 @@ const AirTrafficConditions: React.FC<AirTrafficConditionsProps> = ({
   }
 
   useEffect(() =>{
-    if(DestinationAirport.icao !== '' && DepartureAirport.icao !== '') setCanSeeMap(true)
-    if(canSeeMap){
-      seeMapButton.current!.style.backgroundColor = 'rgb(43, 108, 151)'
-    } else{
-      seeMapButton.current!.style.backgroundColor = 'gray'
-    }
+    if(DestinationAirport.icao !== '' && DepartureAirport.icao !== '') setCanSeeMap(true)    
   },[DestinationAirport.icao || DepartureAirport.icao])
 
   return (

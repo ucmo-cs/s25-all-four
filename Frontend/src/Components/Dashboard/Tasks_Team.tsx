@@ -4,6 +4,8 @@ import GetUserHook from '../../Shared/GetUserHook'
 import { Link } from 'react-scroll';
 import CreateNewTask, { ITaskInfo } from './CreateNewTask';
 import GetTeamHook from '../../Shared/GetTeamHook';
+import { useNavigate } from 'react-router-dom';
+// import Weather from '../AirTraffic/Weather';
 
 const Tasks_Team: React.FC = () => {
 
@@ -12,7 +14,7 @@ const Tasks_Team: React.FC = () => {
     const [taskList, setTaskList] = useState<ITaskInfo[]>([])
     const {teamInfo} = GetTeamHook(false)
     const [updateTasks, setUpdateTasks] = useState<boolean>(false);
-
+    const navigate = useNavigate()
     const HandleGetTasks = async(): Promise<void> =>{
         const url: string = 'https://localhost:7010/api/TaskUser'
         try{
@@ -54,8 +56,9 @@ const Tasks_Team: React.FC = () => {
         <div className='TaskButtons'>
             <Link to="ScrollFind" className='LinkDashboard'>
                 <button style={{border: 'none'}}>Find people</button>
+
             </Link>
-            {/* <button>Open Chats</button> */}
+            <button onClick={() => navigate('/application/airtraffic')}>Go to weather</button>
             {
                 userInfo?.position === 'admin' && <button onClick={HaveATeamCheck}>{openNewTask ? 'Close' : "Assign tasks"}</button>
             }

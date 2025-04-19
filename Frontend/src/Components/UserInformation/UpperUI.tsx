@@ -45,13 +45,13 @@ const UpperUI: React.FC<IUserInformationProps> = ({userInformation}) => {
         </div>
         <div className='ButtonUIContainer'>
             <div className='ButtonUI'>
-                <button>Add friend</button>
+                {/* <button>Add friend</button> */}
                 <img
                     src="https://www.svgrepo.com/show/447863/add-friend.svg" 
                     alt="add firend" />
             </div>
             <div className='ButtonUI'>
-                <button >send message</button>
+                {/* <button >send message</button> */}
                 <img
                     src="https://www.svgrepo.com/show/522607/message-text.svg" 
                     alt="send message"/>

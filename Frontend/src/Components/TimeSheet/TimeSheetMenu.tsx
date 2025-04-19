@@ -5,10 +5,9 @@ import GetAllUsersHook from '../../Shared/GetAllUsersHook';
 import GetTeamHook from '../../Shared/GetTeamHook';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Project } from '../Profile/NewProject';
 import { Element, scroller } from 'react-scroll';
 import holidays from './us_holidays_2025.json'
-import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import GetAllProjects from '../../Shared/GetAllProjects';
 // import UserInformation from '../../Pages/UserInformation';
 // import { Team } from '../Profile/NewTeam';
 
@@ -31,6 +30,7 @@ const TimeSheetMenu: React.FC = () => {
   
   const {userInfo} = GetUserHook(false);
   const {teamInfo} = GetTeamHook(false)
+  const {projects} = GetAllProjects(false)
   const {usersInfo, load} = GetAllUsersHook();
 
   const printRef = useRef<HTMLDivElement>(null)
@@ -44,7 +44,6 @@ const TimeSheetMenu: React.FC = () => {
   const [timeEntry, setTimeEntry] = useState<ITimeEntry[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)  
   const [timeSheet, setTimeSheet] = useState<ITimeSheet[]>([])
-  const [projects, setProjects] = useState<Project[]>([])
   const calendarMonths = [
     { "id": 1, "name": "January", "days": 32 },
     { "id": 2, "name": "February", "days": 28 },
@@ -67,21 +66,9 @@ const TimeSheetMenu: React.FC = () => {
   },[])
 
   useEffect(()=>{
-    HandleGetProjects()
+
     GetTimeEntries()
   },[])
-
-    const HandleGetProjects = async(): Promise<void> =>{
-      const url: string = "https://localhost:7010/api/Project"
-      try{
-        const response = await fetch(url)
-        if(!response.ok) throw "This is not working"
-        const projectData: Project[] = await response.json();
-        setProjects(projectData)
-      }catch(e){
-        alert(e)
-      }
-    }
 
   useEffect(() =>{
     const AssignMonthId = () =>{

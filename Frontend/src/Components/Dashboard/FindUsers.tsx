@@ -42,7 +42,7 @@ const FindUsers: React.FC = () => {
             )
           }
           {
-            ((usersInfo || []).length)  > 1 && usersInfo?.filter(user => user.id !== userinfo.userInfo?.id).map((user, index) => (
+            ((usersInfo || []).length)  > 1 && usersInfo?.filter(user => user.id !== userinfo.userInfo?.id && user.username.includes(userInput)).map((user, index) => (
                 <div key={index} className='UserItem'>
                   <img 
                     style={{cursor: 'pointer'}}

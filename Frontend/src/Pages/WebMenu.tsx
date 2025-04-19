@@ -5,6 +5,7 @@ import UpperSection from '../Components/WebMenu/UpperSection';
 import OurMission from '../Components/WebMenu/OurMission';
 import WhatWeOffer from '../Components/WebMenu/WhatWeOffer';
 import MeetTeam from '../Components/WebMenu/MeetTeam';
+import Footer from '../Components/WebMenu/Footer';
 
 const WebMenu: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const WebMenu: React.FC = () => {
         <OurMission />
         <WhatWeOffer />
         <MeetTeam />
+        <Footer />
     </main>
   );
 }

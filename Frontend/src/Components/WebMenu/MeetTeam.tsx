@@ -37,6 +37,7 @@ const MeetTeam: React.FC = () => {
         <div className='Responsability' style={{backgroundColor: '#00AAAA', bottom: '10%', right: '50%' }}>Designer</div>
       </div>
       </div>   
+      
     </section>
   );
 }
